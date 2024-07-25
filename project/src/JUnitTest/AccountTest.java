@@ -1,9 +1,11 @@
-package model;
+package JUnitTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import model.Account;
 
 class AccountTest {
 	private Account a;
