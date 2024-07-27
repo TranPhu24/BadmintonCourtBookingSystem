@@ -1,3 +1,5 @@
+# Giới thiệu
+## Yêu cầu
 Guest: 
 - Tìm kiếm thông tin sân dựa trên vị trí, giờ hoạt động, giờ có thể vào chơi.
 - Đăng ký tài khoản, Customer.
@@ -17,3 +19,5 @@ System Admin:
 - Quản lý thông tin tài khoản.
 - Quản lý thông tin Sân cầu lông.
 - Đăng ký thông tin sân mới.
+## Link Diagram
+### https://drive.google.com/file/d/1OxL-GjbnVwJyHTB_itPmXL2QoanxfAXO/view?usp=sharing
