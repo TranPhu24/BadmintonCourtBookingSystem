@@ -1,10 +1,11 @@
 package group6.pojo;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -29,14 +30,14 @@ public class Customer {
     private String phone;
     
     @OneToOne
-    @JoinColumn(name = "AccountID", unique = true)
-    private Account account;
-
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Set<Booking> bookings;
+    @JoinColumn(name = "UserId", unique = true)
+    private User user;
     
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Set<Payment> payments;
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Booking> bookings= new HashSet<Booking>();
+    
+
+    
     
     public Customer() {
         super();
@@ -49,7 +50,25 @@ public class Customer {
         this.phone = phone;
     }
 
-    public String getCustomerId() {
+    
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	public String getCustomerId() {
         return customerId;
     }
 

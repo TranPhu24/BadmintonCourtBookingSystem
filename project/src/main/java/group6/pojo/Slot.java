@@ -2,14 +2,16 @@ package group6.pojo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Time;
+import java.util.Set;
 
 @Entity
 @Table(name = "SLOT")
@@ -27,9 +29,21 @@ public class Slot {
     @Column(name = "endTime")
     private Time endTime;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CourtID")
-    private Court court;
+    @ManyToOne
+    @JoinColumn(name = "StaffId")
+    private Staff staff;
+    
+    @ManyToOne
+    @JoinColumn(name = "ManagerId")
+    private Manager manager;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "SLOT_COURT",
+        joinColumns = @JoinColumn(name = "slot_id"),
+        inverseJoinColumns = @JoinColumn(name = "court_id")
+    )
+    private Set<Court> courts;
 
     public Slot() {
         super();
@@ -41,8 +55,34 @@ public class Slot {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+    
+    
 
-    public Long getSlotId() {
+    public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
+	public Set<Court> getCourts() {
+		return courts;
+	}
+
+	public void setCourts(Set<Court> courts) {
+		this.courts = courts;
+	}
+
+	public Long getSlotId() {
         return slotId;
     }
 

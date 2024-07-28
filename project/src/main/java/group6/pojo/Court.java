@@ -1,16 +1,16 @@
 package group6.pojo;
 
-import java.util.HashSet;
+
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne; 
 import javax.persistence.Table;
 
 @Entity
@@ -31,14 +31,24 @@ public class Court {
     @Column(name = "price")
     private String price;
     
-    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Slot> slots = new HashSet<>();
-
-    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Booking> bookings = new HashSet<>();
-
-    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Manager> Managers = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "AdminId")
+    private Admin admin;
+    
+    @ManyToOne
+    @JoinColumn(name = "BookingId")
+    private Booking booking;
+    
+    @ManyToOne
+    @JoinColumn(name = "PaymentId")
+    private Payment payment;
+    
+    @ManyToOne
+    @JoinColumn(name = "ManagerId")
+    private Manager manager;
+    
+    @ManyToMany(mappedBy = "courts")
+    private Set<Slot> slots;
     
     public Court() {
         super();
@@ -51,7 +61,49 @@ public class Court {
         this.price = price;
     }
 
-    public Long getCourtId() {
+    
+    
+    public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public Booking getBooking() {
+		return booking;
+	}
+
+	public void setBooking(Booking booking) {
+		this.booking = booking;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
+	public Set<Slot> getSlots() {
+		return slots;
+	}
+
+	public void setSlots(Set<Slot> slots) {
+		this.slots = slots;
+	}
+
+	public Long getCourtId() {
         return courtId; 
     }
 

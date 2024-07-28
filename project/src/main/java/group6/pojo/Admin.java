@@ -20,7 +20,10 @@ public class Admin {
 	private String adminName;
 
 	@OneToMany(mappedBy = "admin",cascade = CascadeType.ALL,orphanRemoval = true)
-	private Set<Account> accounts=new HashSet<Account>();
+	private Set<User> users=new HashSet<User>();
+	
+	@OneToMany(mappedBy = "admin",cascade = CascadeType.ALL,orphanRemoval = true)
+	private Set<Court> Court=new HashSet<Court>();
 	public Admin() {
 		super();
 	}
@@ -30,10 +33,29 @@ public class Admin {
 		AdminID = adminId;
 		this.adminName = adminName;
 	}
+	
+	public String getAdminID() {
+		return AdminID;
+	}
 
-	@Override
-	public String toString() {
-		return "\nAdminId=" + AdminID + "\nadminName=" + adminName;
+	public void setAdminID(String adminID) {
+		AdminID = adminID;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public Set<Court> getCourt() {
+		return Court;
+	}
+
+	public void setCourt(Set<Court> court) {
+		Court = court;
 	}
 
 	public String getAdminId() {

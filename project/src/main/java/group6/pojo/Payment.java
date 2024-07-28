@@ -1,5 +1,9 @@
 package group6.pojo;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +35,9 @@ public class Payment {
     @JoinColumn(name = "CustomerID")
     private Customer customer;
     
+    @OneToMany(mappedBy = "payment",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Court> courts=new HashSet<Court>();
+    
     public Payment() {
         super();
     }
@@ -40,8 +48,26 @@ public class Payment {
         this.amount = amount;
         this.status = status;
     }
+    
+    
 
-    public Long getPaymentId() {
+    public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Set<Court> getCourts() {
+		return courts;
+	}
+
+	public void setCourts(Set<Court> courts) {
+		this.courts = courts;
+	}
+
+	public Long getPaymentId() {
         return paymentId;
     }
 

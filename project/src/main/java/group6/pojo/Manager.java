@@ -1,16 +1,16 @@
 package group6.pojo;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,12 +24,15 @@ public class Manager {
     @Column(name = "ManagerName")
     private String managerName;
 
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Account> accounts = new HashSet<>();
+    @OneToOne
+    @JoinColumn(name = "UserId", unique = true)
+    private User user;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CourtID")
-    private Court court;
+    @OneToMany(mappedBy = "manager",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Court> courts = new HashSet<Court>();
+    
+    @OneToMany (mappedBy = "manager",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Slot>slots= new HashSet<Slot>();
     
     public Manager() {
         super();
@@ -40,8 +43,34 @@ public class Manager {
         this.managerId = managerId;
         this.managerName = managerName;
     }
+    
+    
 
-    public String getManagerId() {
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Set<Court> getCourts() {
+		return courts;
+	}
+
+	public void setCourts(Set<Court> courts) {
+		this.courts = courts;
+	}
+
+	public Set<Slot> getSlots() {
+		return slots;
+	}
+
+	public void setSlots(Set<Slot> slots) {
+		this.slots = slots;
+	}
+
+	public String getManagerId() {
         return managerId;
     }
 

@@ -2,15 +2,18 @@ package group6.pojo;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,14 +33,13 @@ public class Booking {
     @Column(name = "bookingTime")
     private Time bookingTime;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CustomerID")
+    @ManyToOne
+    @JoinColumn(name = "CustomerId")
     private Customer customer;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CourtID")
-    private Court court;
     
+    @OneToMany(mappedBy = "booking",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Court> courts = new HashSet<Court>();
+   	
     public Booking() {
         super();
     }
@@ -49,7 +51,26 @@ public class Booking {
         this.bookingTime = bookingTime;
     }
 
-    public Long getBookingId() {
+    
+    
+
+    public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Set<Court> getCourts() {
+		return courts;
+	}
+
+	public void setCourts(Set<Court> courts) {
+		this.courts = courts;
+	}
+
+	public Long getBookingId() {
         return bookingId;
     }
 

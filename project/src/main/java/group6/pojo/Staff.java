@@ -1,5 +1,6 @@
 package group6.pojo;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,8 +24,13 @@ public class Staff {
     @Column(name = "staffName")
     private String staffName;
 
+    @OneToOne
+    @JoinColumn(name = "UserId", unique = true)
+    private User user;
+    
     @OneToMany(mappedBy = "staff",cascade = CascadeType.ALL,orphanRemoval = true)
-    private Set<Account> accounts = new HashSet<>();
+    private Set<Slot> slots=new HashSet<Slot>();
+    
     public Staff() {
         super();
     }
@@ -32,8 +40,25 @@ public class Staff {
         this.staffId = staffId;
         this.staffName = staffName;
     }
+    
 
-    public String getStaffId() {
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Set<Slot> getSlots() {
+		return slots;
+	}
+
+	public void setSlots(Set<Slot> slots) {
+		this.slots = slots;
+	}
+
+	public String getStaffId() {
         return staffId;
     }
 

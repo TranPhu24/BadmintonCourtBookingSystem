@@ -10,11 +10,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ACCOUNT")
-public class Account {
+@Table(name = "USERS")
+public class User {
 	@Id
 	@Column(name = "id")
-	private String AccountID;
+	private String UserId;
 	@Column(name="userName")
 	private String UserName;
 	@Column(name="passWord")
@@ -22,36 +22,69 @@ public class Account {
 	@Column(name = "role")
 	private String role;
 	
-	@OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Customer customer;
-	@ManyToOne
-    @JoinColumn(name = "ManagerID")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Manager manager;
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Staff staff;
+	
 	@ManyToOne
 	@JoinColumn(name = "AdminId")
 	private Admin admin;
-	@ManyToOne
-    @JoinColumn(name = "StaffId")
-    private Staff staff;
 	
-	public Account() {
+	
+	public User() {
 		super();
 	}
 
-	public Account(String AccountID,String userName, String password, String role) {
+	public User(String UserID,String userName, String password, String role) {
 		super();
-		this.AccountID=AccountID;
+		this.UserId=UserID;
 		UserName = userName;
 		this.password = password;
 		this.role = role;
 	}
 
-	public String getAccountId() {
-		return AccountID;
+	
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setAccountId(String accountId) {
-		AccountID = accountId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public String getUserID() {
+		return UserId;
+	}
+
+	public void setUserID(String accountId) {
+		UserId = accountId;
 	}
 
 	public String getUserName() {
