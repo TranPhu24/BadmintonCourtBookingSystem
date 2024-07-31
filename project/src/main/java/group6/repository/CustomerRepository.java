@@ -32,15 +32,15 @@ public class CustomerRepository implements ICustomerRepository {
 	}
 
 	@Override
-	public Customer findById(String costomerID) {
+	public Customer findById(String customerID) {
 		// TODO Auto-generated method stub
-		return customerDAO.findById(costomerID);
+		return customerDAO.findById(customerID);
 	}
 
 	@Override
-	public void update(Customer costomer) {
+	public void update(Customer customer) {
 		// TODO Auto-generated method stub
-		customerDAO.update(costomer);
+		customerDAO.update(customer);
 		
 	}
 

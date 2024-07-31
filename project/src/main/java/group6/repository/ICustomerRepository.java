@@ -11,7 +11,7 @@ public interface ICustomerRepository {
     
     void delete(String customerID);
     
-    Customer findById(String costomerID);
+    Customer findById(String customerID);
     
-    void update(Customer costomer);
+    void update(Customer customer);
 }

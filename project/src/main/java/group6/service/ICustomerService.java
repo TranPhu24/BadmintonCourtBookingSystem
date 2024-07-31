@@ -1,7 +1,6 @@
 package group6.service;
 
 import java.util.List;
-
 import group6.pojo.Customer;
 
 public interface ICustomerService {
@@ -11,7 +10,7 @@ List<Customer> findAll();
     
     void delete(String customerID);
     
-    Customer findById(String costomerID);
+    Customer findById(String customerID);
     
-    void update(Customer costomer);
+    void update(Customer customer);
 }

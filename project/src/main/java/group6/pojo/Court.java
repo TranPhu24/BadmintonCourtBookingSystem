@@ -1,6 +1,5 @@
 package group6.pojo;
 
-
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -29,7 +28,7 @@ public class Court {
     private String operatingHours; 
 
     @Column(name = "price")
-    private String price;
+    private double price;
     
     @ManyToOne
     @JoinColumn(name = "AdminId")
@@ -54,7 +53,7 @@ public class Court {
         super();
     }
 
-    public Court(String location, String operatingHours, String price) {
+    public Court(String location, String operatingHours, double price) {
         super();
         this.location = location;
         this.operatingHours = operatingHours; 
@@ -127,11 +126,11 @@ public class Court {
         this.operatingHours = operatingHours;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

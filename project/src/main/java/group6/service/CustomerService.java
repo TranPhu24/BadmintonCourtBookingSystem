@@ -1,6 +1,7 @@
 package group6.service;
 
 import java.util.List;
+
 import group6.pojo.Customer;
 import group6.repository.CustomerRepository;
 import group6.repository.ICustomerRepository;
@@ -31,15 +32,15 @@ public class CustomerService implements ICustomerService{
 	}
 
 	@Override
-	public Customer findById(String costomerID) {
+	public Customer findById(String customerID) {
 		// TODO Auto-generated method stub
-		return iRepository.findById(costomerID);
+		return iRepository.findById(customerID);
 	}
 
 	@Override
-	public void update(Customer costomer) {
+	public void update(Customer customer) {
 		// TODO Auto-generated method stub
-		iRepository.update(costomer);
+		iRepository.update(customer);
 		
 	}
 }

@@ -3,6 +3,8 @@ package group6.pojo;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,9 +14,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "USERS")
 public class User {
-	@Id
-	@Column(name = "id")
-	private String UserId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long userId;
+	
 	@Column(name="userName")
 	private String UserName;
 	@Column(name="passWord")
@@ -24,7 +28,7 @@ public class User {
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Customer customer;
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
     private Manager manager;
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Staff staff;
@@ -38,9 +42,9 @@ public class User {
 		super();
 	}
 
-	public User(String UserID,String userName, String password, String role) {
+	public User(Long UserID,String userName, String password, String role) {
 		super();
-		this.UserId=UserID;
+		this.userId=UserID;
 		UserName = userName;
 		this.password = password;
 		this.role = role;
@@ -79,12 +83,12 @@ public class User {
 		this.admin = admin;
 	}
 
-	public String getUserID() {
-		return UserId;
+	public Long getUserID() {
+		return userId;
 	}
 
-	public void setUserID(String accountId) {
-		UserId = accountId;
+	public void setUserID(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {

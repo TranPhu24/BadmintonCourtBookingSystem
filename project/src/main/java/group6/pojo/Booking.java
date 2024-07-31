@@ -37,6 +37,10 @@ public class Booking {
     @JoinColumn(name = "CustomerId")
     private Customer customer;
     
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private Manager manager;
+    
     @OneToMany(mappedBy = "booking",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Court> courts = new HashSet<Court>();
    	
