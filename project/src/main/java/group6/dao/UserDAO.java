@@ -5,23 +5,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import group6.pojo.Customer;
+import group6.pojo.User;
 
-public class CustomerDAO {
+public class UserDAO {
 
-    private static EntityManager em;
     private static EntityManagerFactory emf;
 
-    public CustomerDAO(String persistenceUnitName) {
+    public UserDAO(String persistenceUnitName) {
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
     }
 
-    public void save(Customer customer) {
+    public void save(User user) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            em.persist(customer);
+            em.persist(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
@@ -33,61 +32,69 @@ public class CustomerDAO {
         }
     }
 
-    public List<Customer> getCustomers() {
+    public List<User> getUsers() {
         EntityManager em = emf.createEntityManager();
-        List<Customer> customers = null;
+        List<User> users = null;
         try {
-            customers = em.createQuery("from Customer", Customer.class).getResultList();
+            users = em.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
             em.close();
         }
-        return customers;
+        return users;
     }
 
-    public void delete(String customerId) {
-    	try {
-        	em = emf.createEntityManager();
-        	em.getTransaction().begin();
-        	Customer s=em.find(Customer.class, customerId);
-        	em.remove(s);
-        	em.getTransaction().commit();
-        } catch (Exception e) { 
-            System.out.println("Error"+e.getMessage());
-        }finally {
-        	em.close();
+    public void delete(String userId) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            User user = em.find(User.class, userId);
+            em.remove(user);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            em.close();
         }
     }
 
-    public Customer findById(String customerId) {
+    public User findById(String userId) {
         EntityManager em = emf.createEntityManager();
-        Customer customer = null;
+        User user = null;
         try {
-            customer = em.find(Customer.class, customerId);
+            user = em.find(User.class, userId);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
             em.close();
         }
-        return customer;
+        return user;
     }
 
-    public void update(Customer customer) {
-    	try {
-        	em = emf.createEntityManager();
-        	em.getTransaction().begin();
-        	Customer s=em.find(Customer.class, customer.getCustomerId());
-        	if(s!=null) {
-        		s.setCustomerName(customer.getCustomerName());
-        		s.setEmail(customer.getEmail());
-        		s.setPhone(customer.getPhone());
-        		em.getTransaction().commit();
-        	}
-        } catch (Exception e) { 
-            System.out.println("Error"+e.getMessage());
-        }finally {
-        	em.close();
+    public void update(User user) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            User existingUser = em.find(User.class, user.getUserID());
+            if (existingUser != null) {
+                existingUser.setUserName(user.getUserName());
+                existingUser.setPassword(user.getPassword());
+                existingUser.setRole(user.getRole());
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            em.close();
         }
     }
 }
