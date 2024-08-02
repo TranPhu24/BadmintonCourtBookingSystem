@@ -43,5 +43,3 @@ public class CustomerTest {
         assertEquals(null, customer.getPhone());
     }
 }
-
-
