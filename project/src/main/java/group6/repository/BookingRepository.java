@@ -4,7 +4,6 @@ import java.util.List;
 
 import group6.dao.BookingDAO;
 import group6.pojo.Booking;
-import group6.pojo.Customer;
 
 public class BookingRepository implements IBookingRepository {
 
@@ -16,7 +15,7 @@ public class BookingRepository implements IBookingRepository {
 
     @Override
     public List<Booking> findAll() {
-        return bookingDAO.getAllBookings();
+        return bookingDAO.getBookings();
     }
 
     @Override
@@ -39,7 +38,4 @@ public class BookingRepository implements IBookingRepository {
         bookingDAO.updateBooking(booking);
     }
 
-    public List<Booking> findByCustomer(Customer customer) {
-        return bookingDAO.getBookingsByCustomer(customer);
-    }
 }
