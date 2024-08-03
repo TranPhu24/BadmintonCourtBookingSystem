@@ -8,19 +8,20 @@ import javax.persistence.Persistence;
 import group6.pojo.Court;
 
 public class CourtDAO {
+
     private static EntityManagerFactory emf;
 
     public CourtDAO(String persistenceUnitName) {
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
     }
 
-    public void registerCourt(Court Court) {
+    public void createCourt(Court court) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
             em.persist(court);
-            transaction.commit
+            transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -31,20 +32,22 @@ public class CourtDAO {
         }
     }
 
-    public List<Court> getCourt() {
+    public List<Court> getCourtsByLocation(String location) {
         EntityManager em = emf.createEntityManager();
         List<Court> courts = null;
         try {
-            courts = em.createQuery("from Court", Court.class).getResultList();
+            courts = em.createQuery("from Court where location = :location", Court.class)
+                          .setParameter("location", location)
+                          .getResultList();
         } catch (Exception e) {
-            System.out.println("Error: " e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         } finally {
             em.close();
         }
         return courts;
     }
 
-     public Court findById(String courtId) {
+    public Court findById(Long courtId) {
         EntityManager em = emf.createEntityManager();
         Court court = null;
         try {
@@ -66,7 +69,32 @@ public class CourtDAO {
             if (existingCourt != null) {
                 existingCourt.setLocation(court.getLocation());
                 existingCourt.setOperatingHours(court.getOperatingHours());
-                existingCourt.setAvailableTimes(court.getAvailableTimes());
+                existingCourt.setPrice(court.getPrice());
+                existingCourt.setAdmin(court.getAdmin());
+                existingCourt.setBooking(court.getBooking());
+                existingCourt.setPayment(court.getPayment());
+                existingCourt.setManager(court.getManager());
+                existingCourt.setSlots(court.getSlots());
+                transaction.commit();
+            }
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    public void deleteCourt(Long courtId) {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            Court court = em.find(Court.class, courtId);
+            if (court != null) {
+                em.remove(court);
                 transaction.commit();
             }
         } catch (Exception e) {
