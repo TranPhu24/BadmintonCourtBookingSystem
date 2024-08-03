@@ -6,7 +6,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import group6.pojo.Booking;
-import group6.pojo.Customer;
 
 public class BookingDAO {
 
@@ -33,20 +32,7 @@ public class BookingDAO {
         }
     }
 
-    public List<Booking> getBookingsByCustomer(Customer customer) {
-        EntityManager em = emf.createEntityManager();
-        List<Booking> bookings = null;
-        try {
-            bookings = em.createQuery("from Booking where customer = :customer", Booking.class)
-                          .setParameter("customer", customer)
-                          .getResultList();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        } finally {
-            em.close();
-        }
-        return bookings;
-    }
+ 
 
     public Booking findById(Long bookingId) {
         EntityManager em = emf.createEntityManager();
@@ -59,6 +45,19 @@ public class BookingDAO {
             em.close();
         }
         return booking;
+    }
+    
+    public List<Booking> getBookings() {
+    	EntityManager em = emf.createEntityManager();
+        List<Booking> bookings = null;
+        try {
+            bookings = em.createQuery("from Booking", Booking.class).getResultList();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+        return bookings;
     }
 
     public void updateBooking(Booking booking) {
