@@ -48,7 +48,7 @@ public class BookingDAO {
         return bookings;
     }
 
-    public Booking findById(String bookingId) {
+    public Booking findById(Long bookingId) {
         EntityManager em = emf.createEntityManager();
         Booking booking = null;
         try {
@@ -68,9 +68,11 @@ public class BookingDAO {
             transaction.begin();
             Booking existingBooking = em.find(Booking.class, booking.getBookingId());
             if (existingBooking != null) {
-                existingBooking.setDateTime(booking.getDateTime());
-                existingBooking.setCourt(booking.getCourt());
-                existingBooking.setType(booking.getType());
+                existingBooking.setBookingType(booking.getBookingType());
+                existingBooking.setBookingDate(booking.getBookingDate());
+                existingBooking.setBookingTime(booking.getBookingTime());
+                existingBooking.setCustomer(booking.getCustomer());
+                existingBooking.setCourts(booking.getCourts());
                 transaction.commit();
             }
         } catch (Exception e) {
@@ -83,7 +85,7 @@ public class BookingDAO {
         }
     }
 
-    public void deleteBooking(String bookingId) {
+    public void deleteBooking(Long bookingId) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
