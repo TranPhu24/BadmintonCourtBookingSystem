@@ -32,13 +32,13 @@ public class CourtDAO {
         }
     }
 
-    public List<Court> getCourtsByLocation(String location) {
-        EntityManager em = emf.createEntityManager();
+
+    
+    public List<Court> getCourts() {
+    	EntityManager em = emf.createEntityManager();
         List<Court> courts = null;
         try {
-            courts = em.createQuery("from Court where location = :location", Court.class)
-                          .setParameter("location", location)
-                          .getResultList();
+            courts = em.createQuery("from Customer", Court.class).getResultList();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
