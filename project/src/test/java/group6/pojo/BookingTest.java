@@ -26,7 +26,7 @@ public class BookingTest {
 
         booking = new Booking();
         booking.setBookingId(1L);
-        booking.setBookingType("Tennis");
+        booking.setBookingType("Badminton");
         booking.setBookingDate(Date.valueOf("2023-08-01"));
         booking.setBookingTime(Time.valueOf("10:00:00"));
         booking.setCustomer(customer);
@@ -37,7 +37,7 @@ public class BookingTest {
     public void testBookingInitialization() {
         assertNotNull(booking);
         assertEquals(1L, booking.getBookingId());
-        assertEquals("Tennis", booking.getBookingType());
+        assertEquals("Badminton", booking.getBookingType());
         assertEquals(Date.valueOf("2023-08-01"), booking.getBookingDate());
         assertEquals(Time.valueOf("10:00:00"), booking.getBookingTime());
         assertEquals(customer, booking.getCustomer());
