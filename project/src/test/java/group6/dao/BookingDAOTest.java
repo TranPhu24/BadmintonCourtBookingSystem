@@ -27,48 +27,48 @@ public class BookingDAOTest {
     @Test
     public void testCreateBooking() {
         Booking booking = new Booking();
-        booking.setBookingType("Tennis");
+        booking.setBookingType("Badminton");
         booking.setBookingDate(Date.valueOf("2024-08-16"));
         booking.setBookingTime(Time.valueOf("10:00:00"));
 
         bookingDAO.createBooking(booking);
         Booking savedBooking = bookingDAO.findById(booking.getBookingId());
         assertNotNull(savedBooking);
-        assertEquals("Tennis", savedBooking.getBookingType());
+        assertEquals("Badminton", savedBooking.getBookingType());
     }
 
     @Test
     public void testFindById() {
         Booking booking = new Booking();
-        booking.setBookingType("Tennis");
+        booking.setBookingType("Badminton");
         booking.setBookingDate(Date.valueOf("2024-08-16"));
         booking.setBookingTime(Time.valueOf("10:00:00"));
 
         bookingDAO.createBooking(booking);
         Booking foundBooking = bookingDAO.findById(booking.getBookingId());
         assertNotNull(foundBooking);
-        assertEquals("Tennis", foundBooking.getBookingType());
+        assertEquals("Badminton", foundBooking.getBookingType());
     }
 
     @Test
     public void testUpdateBooking() {
         Booking booking = new Booking();
-        booking.setBookingType("Tennis");
+        booking.setBookingType("Badminton");
         booking.setBookingDate(Date.valueOf("2024-08-16"));
         booking.setBookingTime(Time.valueOf("10:00:00"));
 
         bookingDAO.createBooking(booking);
-        booking.setBookingType("Tennis");
+        booking.setBookingType("Badminton");
         bookingDAO.updateBooking(booking);
         
         Booking updatedBooking = bookingDAO.findById(booking.getBookingId());
-        assertEquals("Tennis", updatedBooking.getBookingType());
+        assertEquals("Badminton", updatedBooking.getBookingType());
     }
 
     @Test
     public void testDeleteBooking() {
         Booking booking = new Booking();
-        booking.setBookingType("Tennis");
+        booking.setBookingType("Badminton");
         booking.setBookingDate(Date.valueOf("2024-08-16"));
         booking.setBookingTime(Time.valueOf("10:00:00"));
 
@@ -83,12 +83,12 @@ public class BookingDAOTest {
     @Test
     public void testGetBookings() {
         Booking booking1 = new Booking();
-        booking1.setBookingType("Tennis");
+        booking1.setBookingType("Badminton");
         booking1.setBookingDate(Date.valueOf("2024-08-16"));
         booking1.setBookingTime(Time.valueOf("10:00:00"));
         
         Booking booking2 = new Booking();
-        booking2.setBookingType("Tennis");
+        booking2.setBookingType("Badminton");
         booking2.setBookingDate(Date.valueOf("2024-08-17"));
         booking2.setBookingTime(Time.valueOf("11:00:00"));
         
