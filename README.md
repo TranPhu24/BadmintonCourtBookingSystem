@@ -25,3 +25,5 @@ System Admin:
 - Đăng ký thông tin sân mới.
 ## Link Diagram
 ### https://drive.google.com/file/d/1OxL-GjbnVwJyHTB_itPmXL2QoanxfAXO/view?usp=sharing
+## Phân công
+### https://docs.google.com/spreadsheets/d/1foZYBD_iqiHqUeMR2wX1skhiW-7mvdEDlz_Ptj-N17s/edit?gid=0#gid=0

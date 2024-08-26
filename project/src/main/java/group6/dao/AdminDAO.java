@@ -5,22 +5,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import group6.pojo.User;
+import group6.pojo.Admin;
 
-public class UserDAO {
+public class AdminDAO {
 
     private static EntityManagerFactory emf;
 
-    public UserDAO(String persistenceUnitName) {
+    public AdminDAO(String persistenceUnitName) {
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
     }
 
-    public void save(User user) {
+    public void save(Admin admin) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            em.persist(user);
+            em.persist(admin);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
@@ -32,27 +32,31 @@ public class UserDAO {
         }
     }
 
-    public List<User> getUsers() {
+    public List<Admin> getAdmins() {
         EntityManager em = emf.createEntityManager();
-        List<User> users = null;
+        List<Admin> admins = null;
         try {
-            users = em.createQuery("from User", User.class).getResultList();
+            admins = em.createQuery("from Admin", Admin.class).getResultList();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
             em.close();
         }
-        return users;
+        return admins;
     }
 
-    public void delete(String userId) {
+    public void delete(String adminId) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            User user = em.find(User.class, userId);
-            em.remove(user);
-            transaction.commit();
+            Admin admin = em.find(Admin.class, adminId);
+            if (admin != null) {
+                em.remove(admin);
+                transaction.commit();
+            } else {
+                System.out.println("Admin not found with ID: " + adminId);
+            }
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -63,30 +67,32 @@ public class UserDAO {
         }
     }
 
-    public User findById(String userId) {
+    public Admin findById(String adminId) {
         EntityManager em = emf.createEntityManager();
-        User user = null;
+        Admin admin = null;
         try {
-            user = em.find(User.class, userId);
+            admin = em.find(Admin.class, adminId);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         } finally {
             em.close();
         }
-        return user;
+        return admin;
     }
 
-    public void update(User user) {
+    public void update(Admin admin) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            User existingUser = em.find(User.class, user.getUserID());
-            if (existingUser != null) {
-                existingUser.setUserName(user.getUserName());
-                existingUser.setPassword(user.getPassword());
-                existingUser.setRole(user.getRole());
+            Admin existingAdmin = em.find(Admin.class, admin.getAdminID());
+            if (existingAdmin != null) {
+                existingAdmin.setAdminName(admin.getAdminName());
+                existingAdmin.setUsers(admin.getUsers());
+                existingAdmin.setCourt(admin.getCourt());
                 em.getTransaction().commit();
+            } else {
+                System.out.println("Admin not found with ID: " + admin.getAdminID());
             }
         } catch (Exception e) {
             if (transaction.isActive()) {
