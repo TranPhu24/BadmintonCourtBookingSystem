@@ -6,16 +6,18 @@ public class CustomerDTO {
     private String email;
     private String phone;
     private String userId;
+    private float timePlay;
     public CustomerDTO() {
     	
     }
     
-	public CustomerDTO(String customerId, String customerName, String email, String phone, String userId) {
+	public CustomerDTO(String customerId, String customerName, String email, String phone,float timePlay, String userId) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
 		this.email = email;
 		this.phone = phone;
+		this.timePlay=timePlay;
 		this.userId = userId;
 	}
 
@@ -48,6 +50,14 @@ public class CustomerDTO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public float getTimePlay() {
+		return timePlay;
+	}
+
+	public void setTimePlay(float timePlay) {
+		this.timePlay = timePlay;
 	}
     
 }

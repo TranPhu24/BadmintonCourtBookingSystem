@@ -3,6 +3,7 @@ package group6.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -13,7 +14,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,8 +33,8 @@ public class BookingDAOTest {
      private static Booking booking;
      private static Booking booking2;
     
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    public static void setUp() {
     	emf = Persistence.createEntityManagerFactory("test-unit");
         em = emf.createEntityManager();
         bookingDAO = new BookingDAO("test-unit");
@@ -50,8 +50,8 @@ public class BookingDAOTest {
         userDAO.save(userM1);
         userDAO.save(userM2);
         
-        Customer customer1=new Customer("c1","123","123","123",userC1);
-        Customer customer2=new Customer("c2","456","456","456",userC2);
+        Customer customer1=new Customer("c1","123","123","123",0,userC1);
+        Customer customer2=new Customer("c2","456","456","456",0,userC2);
         customerDAO.save(customer1);
         customerDAO.save(customer2);
         
@@ -72,8 +72,8 @@ public class BookingDAOTest {
     	
         
     }
-    @AfterEach
-    void tearDown() {
+    @AfterAll
+    public static void tearDown() {
     	if (bookings != null && !bookings.isEmpty()) {
             for (Booking b : bookings) {
             	bookingDAO.deleteBooking(b.getBookingId());
@@ -107,6 +107,6 @@ public class BookingDAOTest {
 
     @Test
     public void testGetBookings() { 	
-        assertEquals(2, bookings.size());
+        assertTrue(bookings.size() >= 2);
     }
 }

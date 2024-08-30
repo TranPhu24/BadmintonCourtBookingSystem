@@ -1,6 +1,7 @@
 package group6.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,22 +22,30 @@ public class SlotRepository implements ISlotRepository {
     }
 
     @Override
-    public void save(Slot slot) {
+    public Slot save(Slot slot) {
         slotDAO.save(slot);
+        return slot;
     }
 
     @Override
-    public void delete(Long slotId) {
-        slotDAO.delete(slotId);
+    public void delete(Long id) {
+        slotDAO.delete(id);
     }
 
     @Override
-    public Slot findById(Long slotId) {
-        return slotDAO.findById(slotId);
+    public Optional<Slot> findById(Long slotId) {
+        return Optional.ofNullable(slotDAO.findById(slotId));
+        
     }
 
     @Override
-    public void update(Slot slot) {
+    public Slot update(Slot slot) {
         slotDAO.update(slot);
+        return slot;
     }
+    
+	public boolean existsById(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

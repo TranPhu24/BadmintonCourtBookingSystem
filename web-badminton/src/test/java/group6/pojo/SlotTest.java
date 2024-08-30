@@ -1,23 +1,22 @@
 package group6.pojo;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import group6.pojo.Slot;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
-
 class SlotTest {
-    private Slot slot;
+	private Slot slot;
 
     @Test
     public void testGettersAndSetters() {
         Slot slot = new Slot();  
 
         Long slotId = 123L;
-        LocalDateTime startTime = LocalDateTime.of(2024, 8, 24, 8, 0);
-        LocalDateTime endTime = LocalDateTime.of(2024, 8, 24, 10, 0);
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("10:00:00");
         Staff staff = new Staff();
         Manager manager = new Manager();
         Set<Court> courts = new HashSet<>();
@@ -40,15 +39,15 @@ class SlotTest {
         assertEquals(manager, slot.getManager());
         assertEquals(courts, slot.getCourts());
     }
-
     @Test
     public void testConstructor() {
-        LocalDateTime startTime = LocalDateTime.of(2024, 8, 24, 8, 0);
-        LocalDateTime endTime = LocalDateTime.of(2024, 8, 24, 10, 0);
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("10:00:00");
 
         slot = new Slot(startTime, endTime);
 
         assertEquals(startTime, slot.getStartTime());
         assertEquals(endTime, slot.getEndTime());
     }
+    
 }

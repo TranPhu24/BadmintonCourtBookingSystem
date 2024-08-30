@@ -1,5 +1,6 @@
 package group6.pojo;
 
+import java.sql.Time;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -24,8 +25,11 @@ public class Court {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "operatinghours")
-    private String operatingHours; 
+    @Column(name = "startTime")
+    private Time startTime;
+
+    @Column(name = "endTime")
+    private Time endTime;
 
     @Column(name = "price")
     private double price;
@@ -53,19 +57,21 @@ public class Court {
         super();
     }
 
-    public Court(String location, String operatingHours, double price) {
+    public Court(String location, Time startTime, Time endTime, double price) {
         super();
         this.location = location;
-        this.operatingHours = operatingHours; 
+        this.startTime = startTime;
+		this.endTime = endTime;
         this.price = price;
     }
 
     
     
-    public Court(String location, String operatingHours, double price,Admin admin ,Booking booking,Manager manager ,Payment payment
+    public Court(String location,Time startTime, Time endTime, double price,Admin admin ,Booking booking,Manager manager ,Payment payment
 			) {
 		this.location = location;
-		this.operatingHours = operatingHours;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.price = price;
 		this.booking = booking;
 		this.payment = payment;
@@ -129,15 +135,25 @@ public class Court {
         this.location = location;
     }
 
-    public String getOperatingHours() {
-        return operatingHours;
-    }
+    
 
-    public void setOperatingHours(String operatingHours) {
-        this.operatingHours = operatingHours;
-    }
+    public Time getStartTime() {
+		return startTime;
+	}
 
-    public double getPrice() {
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+
+	public Time getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
+	}
+
+	public double getPrice() {
         return price;
     }
 

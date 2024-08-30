@@ -1,7 +1,6 @@
 package group6.pojo;
 
 import javax.persistence.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Time;
 import java.util.Set;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "SLOT")
@@ -26,10 +24,10 @@ public class Slot {
 
 
     @Column(name = "startTime")
-    private LocalDateTime startTime;
-    
+    private Time startTime;
+
     @Column(name = "endTime")
-    private LocalDateTime endTime;
+    private Time endTime;
     
     @ManyToOne
     @JoinColumn(name = "StaffId")
@@ -51,14 +49,14 @@ public class Slot {
         super();
     }
 
-    public Slot(LocalDateTime startTime, LocalDateTime endTime) {
+    public Slot(Time startTime, Time endTime) {
         super();
         this.startTime = startTime;
         this.endTime = endTime;
     }
     
 
-    public Slot(LocalDateTime startTime, LocalDateTime endTime, Manager manager, Staff staff) {
+    public Slot(Time startTime, Time endTime, Manager manager, Staff staff) {
 		super();
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -98,19 +96,19 @@ public class Slot {
         this.slotId = slotId;
     }
 
-    public LocalDateTime getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 

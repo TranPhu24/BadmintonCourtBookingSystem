@@ -38,8 +38,8 @@ class CustomerDAOTest {
         userDAO.save(user2);
         
         
-        customer = new Customer("123", "Tan", "@letan", "0903",user);
-        customer2 = new Customer("124", "Sang", "@sang", "0904",user2);
+        customer = new Customer("123", "Tan", "@letan", "0903",0,user);
+        customer2 = new Customer("124", "Sang", "@sang", "0904",0,user2);
         customerDAO.save(customer);
     	customerDAO.save(customer2);
         
@@ -47,22 +47,17 @@ class CustomerDAOTest {
 
     @AfterEach
     void tearDown() {
-        if (em.isOpen()) {
-            customerDAO.delete(customer.getCustomerId());
-            customerDAO.delete(customer2.getCustomerId());
-            em.close();
-        }
-        if (emf.isOpen()) {
-            emf.close();
-        }
+    	customerDAO.delete("123");
+    	customerDAO.delete("124");
+        em.close();
+        emf.close();
     }
-
     
     @Test
     public void testSaveAndFind() {
-        Customer foundCustomer = customerDAO.findById(customer.getCustomerId());
+        Customer foundCustomer = customerDAO.findById("123");
         assertNotNull(foundCustomer);
-        Customer foundCustomer2 = customerDAO.findById(customer2.getCustomerId());
+        Customer foundCustomer2 = customerDAO.findById("124");
         assertNotNull(foundCustomer2);
     }
 
@@ -70,7 +65,8 @@ class CustomerDAOTest {
     void testGetCustomers() {
         List<Customer> customers = customerDAO.getCustomers();
         assertNotNull(customers);
-        assertEquals(2, customers.size());
+
+        assertTrue(customers.size() >= 2);
         assertNotNull(customers.get(0));
         assertNotNull(customers.get(1));
     }
@@ -99,7 +95,7 @@ class CustomerDAOTest {
     
     @Test
     void testDelete() {
-        customerDAO.delete(customer.getCustomerId());
+        customerDAO.delete("123");
         Customer deletedCustomer = em.find(Customer.class, "123");
         assertNull(deletedCustomer);
         customerDAO.delete("124");

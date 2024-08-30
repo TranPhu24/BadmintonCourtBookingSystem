@@ -68,7 +68,8 @@ public class CourtDAO {
             Court existingCourt = em.find(Court.class, court.getCourtId());
             if (existingCourt != null) {
                 existingCourt.setLocation(court.getLocation());
-                existingCourt.setOperatingHours(court.getOperatingHours());
+                existingCourt.setStartTime(court.getStartTime());
+                existingCourt.setEndTime(court.getEndTime());
                 existingCourt.setPrice(court.getPrice());
                 existingCourt.setAdmin(court.getAdmin());
                 existingCourt.setBooking(court.getBooking());

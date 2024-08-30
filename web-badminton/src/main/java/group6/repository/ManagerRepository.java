@@ -1,6 +1,7 @@
 package group6.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -20,9 +21,10 @@ public class ManagerRepository implements IManagerRepository {
 	}
 
 	@Override
-	public void save(Manager manager) {
+	public Manager save(Manager manager) {
 		// TODO Auto-generated method stub
 		managerDAO.save(manager);
+		return manager;
 		
 	}
 
@@ -34,16 +36,21 @@ public class ManagerRepository implements IManagerRepository {
 	}
 
 	@Override
-	public Manager findById(String managerId) {
+	public Optional<Manager> findById(String managerId) {
 		// TODO Auto-generated method stub
-		return managerDAO.findById(managerId);
+		return Optional.ofNullable(managerDAO.findById(managerId));
 	}
 
 	@Override
-	public void update(Manager manager) {
+	public Manager update(Manager manager) {
 		// TODO Auto-generated method stub
 		managerDAO.update(manager);
+		return manager;
 		
+	}
+	public boolean existsById(String id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

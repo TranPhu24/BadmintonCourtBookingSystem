@@ -18,7 +18,11 @@
     
 	<dependencies>
 	<!-- them -->
-	
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	</dependency>
 
 	<!-- them -->
 		<!-- Spring core & mvc -->
@@ -129,6 +133,11 @@
 	    <version>1.14.19</version>
 	</dependency>
 <!-- Copy đến đây -->
+		<dependency>
+			<groupId>form</groupId>
+			<artifactId>Infomation</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

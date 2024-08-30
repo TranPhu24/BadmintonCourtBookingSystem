@@ -1,5 +1,9 @@
 package group6.pojo;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +31,12 @@ public class Payment {
 
     @Column(name = "amount")
     private float amount;
+    
+    @Column(name = "paymentDate")
+    private LocalDate paymentDate;
+
+    @Column(name = "paymentTime")
+    private LocalTime paymentTime;
 
     @Column(name = "status")
     private String status;
@@ -41,14 +51,18 @@ public class Payment {
     public Payment() {
         super();
     }
-    public Payment(float amount, String status, Customer customer) {
+    public Payment(float amount, String status,LocalDate paymentDate,LocalTime paymentTime, Customer customer) {
 		super();
+		this.paymentTime = paymentTime;
+		this.paymentDate = paymentDate;
 		this.amount = amount;
 		this.status = status;
 		this.customer = customer;
 	}
-	public Payment(Long paymentId, float amount, String status, Customer customer) {
+	public Payment(Long paymentId, float amount, String status,LocalDate paymentDate,LocalTime paymentTime, Customer customer) {
 		this.paymentId = paymentId;
+		this.paymentTime = paymentTime;
+		this.paymentDate = paymentDate;
 		this.amount = amount;
 		this.status = status;
 		this.customer = customer;
@@ -94,5 +108,17 @@ public class Payment {
     public void setStatus(String status) {
         this.status = status;
     }
+	public LocalDate getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(LocalDate localDate) {
+		this.paymentDate = localDate;
+	}
+	public LocalTime getPaymentTime() {
+		return paymentTime;
+	}
+	public void setPaymentTime(LocalTime localTime) {
+		this.paymentTime = localTime;
+	}
 
 }

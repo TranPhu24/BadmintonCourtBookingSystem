@@ -1,0 +1,113 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+header, footer {
+    flex: 0 0 auto;
+}
+
+main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column; /* Arrange elements vertically */
+    align-items: center;
+    background-color: #f5f5f5;
+    padding-top: 50px; /* Adjusted for a better layout */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f0f0;
+}
+.calendar-container {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px; /* Space between calendar and tables */
+}
+
+.calendar-controls {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9); /* Nền trong suốt */
+    display: flex;
+    gap: 20px;
+}
+
+.calendar-controls label {
+    font-size: 18px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.calendar-controls select {
+    font-size: 18px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px; /* Đặt độ rộng cho các dropdown */
+}
+
+.calendar-table {
+    width: 1000px;
+    border-collapse: collapse;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.9); 
+    margin: 0 auto;
+}
+
+.calendar-table th,
+.calendar-table td {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.calendar-table th {
+    background-color: #4CAF50; 
+    color: white;
+    font-weight: bold;
+}
+
+.calendar-table td {
+    background-color: #e8f5e9;
+}
+
+.calendar-table tr td:nth-child(1) {
+    color: #d32f2f;
+}
+
+.calendar-table tr td:nth-child(7) {
+    color: #d32f2f;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

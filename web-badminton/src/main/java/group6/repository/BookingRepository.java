@@ -1,6 +1,7 @@
 package group6.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,9 @@ public class BookingRepository implements IBookingRepository {
     }
 
     @Override
-    public void save(Booking booking) {
+    public Booking save(Booking booking) {
         bookingDAO.createBooking(booking);
+		return booking;
     }
 
     @Override
@@ -31,8 +33,8 @@ public class BookingRepository implements IBookingRepository {
     }
 
     @Override
-    public Booking findById(Long bookingId) {
-        return bookingDAO.findById(bookingId);
+    public Optional<Booking> findById(Long bookingId) {
+        return Optional.ofNullable(bookingDAO.findById(bookingId));
     }
 
     @Override

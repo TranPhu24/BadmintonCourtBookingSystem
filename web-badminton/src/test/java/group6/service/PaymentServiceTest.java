@@ -13,6 +13,8 @@ import org.mockito.Mockito;
 
 import java.util.Optional;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,12 +44,16 @@ class PaymentServiceTest {
         payment.setPaymentId(1L);
         payment.setAmount(100.0f);
         payment.setStatus("Paid");
+        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentTime(LocalTime.now());
         payment.setCustomer(customer);
 
         paymentDTO = new PaymentDTO();
         paymentDTO.setPaymentId(1L);
         paymentDTO.setAmount(100.0f);
         paymentDTO.setStatus("Paid");
+        paymentDTO.setPaymentDate(LocalDate.now());
+        paymentDTO.setPaymentTime(LocalTime.now());
         paymentDTO.setCustomerId("1");
     }
 

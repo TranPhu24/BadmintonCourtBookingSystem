@@ -1,16 +1,18 @@
 package group6.repository;
 
 import java.util.List;
+import java.util.Optional;
+
 import group6.pojo.Slot;
 
 public interface ISlotRepository {
     List<Slot> findAll();
     
-    void save(Slot slot);
+    Slot save(Slot slot);
     
     void delete(Long slotId);
     
-    Slot findById(Long slotId);
+    Optional<Slot> findById(Long slotId);
     
-    void update(Slot slot);
+    Slot update(Slot slot);
 }

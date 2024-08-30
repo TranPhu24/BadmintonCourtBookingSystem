@@ -1,22 +1,25 @@
 package group6.dto;
 
+import java.sql.Time;
 import java.util.Set;
 
 public class CourtDTO {
     private Long courtId;
     private String location;
-    private String operatingHours;
+    private Time startTime;
+    private Time endTime;
     private double price;
     private Long paymentId;
     private String managerId;
     
     public CourtDTO() {}
     
-	public CourtDTO(Long courtId, String location, String operatingHours, double price,Long paymentId, String managerId) {
+	public CourtDTO(Long courtId, String location, Time startTime, Time endTime, double price,Long paymentId, String managerId) {
 		super();
 		this.courtId = courtId;
 		this.location = location;
-		this.operatingHours = operatingHours;
+		this.startTime = startTime;
+        this.endTime = endTime;
 		this.price = price;
 		this.paymentId = paymentId;
 		this.managerId = managerId;
@@ -33,12 +36,7 @@ public class CourtDTO {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getOperatingHours() {
-		return operatingHours;
-	}
-	public void setOperatingHours(String operatingHours) {
-		this.operatingHours = operatingHours;
-	}
+	
 	public double getPrice() {
 		return price;
 	}
@@ -56,6 +54,22 @@ public class CourtDTO {
 	}
 	public void setManagerId(String managerId) {
 		this.managerId = managerId;
+	}
+
+	public Time getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+
+	public Time getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
 	}
 
     

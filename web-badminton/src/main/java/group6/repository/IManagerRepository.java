@@ -1,14 +1,15 @@
 package group6.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import group6.pojo.Manager;
 
 public interface IManagerRepository {
 	List<Manager> findAll();
-	void save(Manager manager);
+	Manager save(Manager manager);
 	void delete(String managerId);
-	Manager findById(String managerId);
-	void update(Manager manager);
+	Optional<Manager> findById(String managerId);
+	Manager update(Manager manager);
 
 }

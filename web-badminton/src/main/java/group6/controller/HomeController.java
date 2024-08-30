@@ -14,11 +14,14 @@ import group6.repository.UserRepository;
 public class HomeController {
 	private IUserRepository iUserRepository;
 	
+	
 	public HomeController() {
 		iUserRepository = new UserRepository();
 	}
 	@RequestMapping(value="/")
 	public ModelAndView test(HttpServletResponse response) throws IOException{
-		return new ModelAndView("home");
+		return new ModelAndView("index");
 	}
+	
+	
 }

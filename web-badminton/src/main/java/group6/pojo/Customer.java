@@ -29,6 +29,9 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
     
+    @Column(name = "timeplay")
+    private float timeplay;
+    
     @OneToOne
     @JoinColumn(name = "UserId", unique = true)
     private User user;
@@ -43,19 +46,21 @@ public class Customer {
     	super();
     }
 
-    public Customer(String customerId, String customerName, String email, String phone) {
+    public Customer(String customerId, String customerName, String email, String phone,float timeplay) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.email = email;
         this.phone = phone;
+        this.timeplay = timeplay;
     }
    
-    public Customer(String customerId, String customerName, String email, String phone, User user) {
+    public Customer(String customerId, String customerName, String email, String phone,float timeplay, User user) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
 		this.email = email;
 		this.phone = phone;
+        this.timeplay = timeplay;
 		this.user = user;
 	}
 
@@ -106,6 +111,14 @@ public class Customer {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+	public float getTimeplay() {
+		return timeplay;
+	}
+
+	public void setTimeplay(float timeplay) {
+		this.timeplay = timeplay;
+	}
     
 
 

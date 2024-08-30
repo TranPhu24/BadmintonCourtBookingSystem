@@ -94,6 +94,8 @@ public class PaymentDAO {
         		Pay.setCourts(payment.getCourts());
         		Pay.setAmount(payment.getAmount());
         		Pay.setStatus(payment.getStatus());
+        		Pay.setPaymentDate(payment.getPaymentDate());
+        		Pay.setPaymentTime(payment.getPaymentTime());
         		em.getTransaction().commit();
         	}
     	} catch (Exception e) {

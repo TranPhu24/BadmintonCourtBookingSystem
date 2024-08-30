@@ -10,7 +10,8 @@ import group6.pojo.User;
 
 public class CustomerDAO {
 
-    private EntityManagerFactory emf;
+    private static EntityManager em;
+    private static EntityManagerFactory emf;
 
     public CustomerDAO(String persistenceUnitName) {
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
@@ -52,13 +53,13 @@ public class CustomerDAO {
         try {
             transaction.begin();
             Customer customer = em.find(Customer.class, customerId);
+            User user = customer.getUser();
+       	    UserDAO userDAO = new UserDAO("test-unit") ;
+       	    userDAO.delete(user.getUserID());
             if (customer != null) {
-                User user = customer.getUser();
-                UserDAO userDAO = new UserDAO("test-unit");
-                userDAO.delete(user.getUserID());
                 em.remove(customer);
-                transaction.commit();
             }
+            transaction.commit();
         } catch (Exception e) { 
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -68,6 +69,7 @@ public class CustomerDAO {
             em.close();
         }
     }
+
 
     public Customer findById(String customerId) {
         EntityManager em = emf.createEntityManager();
@@ -83,25 +85,22 @@ public class CustomerDAO {
     }
 
     public void update(Customer customer) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        try {
-            transaction.begin();
-            Customer existingCustomer = em.find(Customer.class, customer.getCustomerId());
-            if (existingCustomer != null) {
-                existingCustomer.setCustomerName(customer.getCustomerName());
-                existingCustomer.setEmail(customer.getEmail());
-                existingCustomer.setPhone(customer.getPhone());
-                existingCustomer.setUser(customer.getUser());
-                transaction.commit();
-            }
+    	try {
+        	em = emf.createEntityManager();
+        	em.getTransaction().begin();
+        	Customer s = em.find(Customer.class, customer.getCustomerId());
+        	if(s!=null) {
+        		s.setCustomerName(customer.getCustomerName());
+        		s.setEmail(customer.getEmail());
+        		s.setPhone(customer.getPhone());
+        		s.setUser(customer.getUser());
+        		s.setTimeplay(customer.getTimeplay());
+        		em.getTransaction().commit();
+        	}
         } catch (Exception e) { 
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            System.out.println("Error: " + e.getMessage());
-        } finally {
-            em.close();
+            System.out.println("Error"+e.getMessage());
+        }finally {
+        	em.close();
         }
     }
 }

@@ -3,6 +3,7 @@ package group6.pojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class CourtTest {
 
     @BeforeEach
     public void setUp() {
-        court = new Court("Location A", "08:00 - 20:00", 100.0);
+        court = new Court("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"), 100.0);
     }
 
     @Test
@@ -32,12 +33,12 @@ public class CourtTest {
         assertEquals(location, court.getLocation());
     }
 
-    @Test
-    public void testGetAndSetOperatingHours() {
-        String operatingHours = "09:00 - 21:00";
-        court.setOperatingHours(operatingHours);
-        assertEquals(operatingHours, court.getOperatingHours());
-    }
+//    @Test
+//    public void testGetAndSetOperatingHours() {
+//        String operatingHours = "09:00 - 21:00";
+//        court.setOperatingHours(operatingHours);
+//        assertEquals(operatingHours, court.getOperatingHours());
+//    }
 
     @Test
     public void testGetAndSetPrice() {
@@ -90,15 +91,13 @@ public class CourtTest {
     public void testDefaultConstructor() {
         Court newCourt = new Court();
         assertNull(newCourt.getLocation());
-        assertNull(newCourt.getOperatingHours());
         assertEquals(0.0, newCourt.getPrice());
     }
 
     @Test
     public void testConstructorWithParameters() {
-        Court newCourt = new Court("Location C", "10:00 - 22:00", 150.0);
+        Court newCourt = new Court("Location C",Time.valueOf("10:00:00"),Time.valueOf("23:00:00"), 150.0);
         assertEquals("Location C", newCourt.getLocation());
-        assertEquals("10:00 - 22:00", newCourt.getOperatingHours());
         assertEquals(150.0, newCourt.getPrice());
     }
 }

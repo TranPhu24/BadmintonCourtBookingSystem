@@ -36,6 +36,8 @@ public class PaymentService implements IPaymentService {
             paymentDTO.getPaymentId(),
             paymentDTO.getAmount(),
             paymentDTO.getStatus(),
+            paymentDTO.getPaymentDate(),
+            paymentDTO.getPaymentTime(),
             existingCustomers
         );
         

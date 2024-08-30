@@ -10,7 +10,7 @@ public class CustomerTest {
     @Test
     void testGettersAndSetters() {
     	User user=new User("1","","","");
-        Customer customer = new Customer("123", "Tan", "@letan", "0903",user);
+        Customer customer = new Customer("123", "Tan", "@letan", "0903",0,user);
         assertEquals("123", customer.getCustomerId());
         assertEquals("Tan", customer.getCustomerName());
         assertEquals("@letan", customer.getEmail());
@@ -37,7 +37,7 @@ public class CustomerTest {
     @Test
     void testConstructor() {
     	User user=new User("1","","","");
-    	Customer customer = new Customer("123", "Tan", "@letan", "0903",user);
+    	Customer customer = new Customer("123", "Tan", "@letan", "0903",0,user);
         assertEquals("123", customer.getCustomerId());
         assertEquals("Tan", customer.getCustomerName());
         assertEquals("@letan", customer.getEmail());

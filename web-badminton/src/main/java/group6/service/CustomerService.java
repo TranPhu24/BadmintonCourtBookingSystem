@@ -35,6 +35,7 @@ public class CustomerService implements ICustomerService {
         	    customerDTO.getCustomerName(),    
         	    customerDTO.getEmail(),           
         	    customerDTO.getPhone(),           
+        	    customerDTO.getTimePlay(),           
         	    existingUser                      
         	);
         
