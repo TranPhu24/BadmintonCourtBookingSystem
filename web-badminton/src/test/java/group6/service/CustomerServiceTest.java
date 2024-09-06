@@ -84,7 +84,7 @@ class CustomerServiceTest {
     void updateCustomer() throws DataNotFoundException {
         when(customerRepository.findById("1")).thenReturn(Optional.of(customer));
         when(userRepository.findById("1")).thenReturn(Optional.of(user));
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+        when(customerRepository.update(any(Customer.class))).thenReturn(customer);
 
         Customer updatedCustomer = customerService.updateCustomer("1", customerDTO);
 
@@ -93,7 +93,7 @@ class CustomerServiceTest {
 
         verify(customerRepository, times(1)).findById("1");
         verify(userRepository, times(1)).findById("1");
-        verify(customerRepository, times(1)).save(any(Customer.class));
+        verify(customerRepository, times(1)).update(any(Customer.class));
     }
 
     @Test

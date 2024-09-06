@@ -1,37 +1,42 @@
 package group6.dto;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Set;
 
 public class PaymentDTO {
+
     private Long paymentId;
     private float amount;
-    private String status;
     private LocalDate paymentDate;
     private LocalTime paymentTime;
+    private String status;
     private String customerId;
-
-
-    public PaymentDTO() {
-    }
-
-    public PaymentDTO(Long paymentId, float amount, String status,LocalDate paymentDate,LocalTime paymentTime, String customer) {
-        this.paymentId = paymentId;
-        this.amount = amount;
-        this.status = status;
-        this.paymentDate=paymentDate;
-        this.paymentTime=paymentTime;
-        this.customerId = customer;
-    }
+    private Long bookingId; 
 
     public Long getPaymentId() {
         return paymentId;
     }
+    
+    
 
-    public void setPaymentId(Long paymentId) {
+    public PaymentDTO() {
+		super();
+	}
+
+
+
+	public PaymentDTO(float amount, LocalDate paymentDate, LocalTime paymentTime, String status, String customerId) {
+		super();
+		this.amount = amount;
+		this.paymentDate = paymentDate;
+		this.paymentTime = paymentTime;
+		this.status = status;
+		this.customerId = customerId;
+	}
+
+
+
+	public void setPaymentId(Long paymentId) {
         this.paymentId = paymentId;
     }
 
@@ -41,6 +46,22 @@ public class PaymentDTO {
 
     public void setAmount(float amount) {
         this.amount = amount;
+    }
+
+    public LocalDate getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(LocalDate paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public LocalTime getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(LocalTime paymentTime) {
+        this.paymentTime = paymentTime;
     }
 
     public String getStatus() {
@@ -55,24 +76,15 @@ public class PaymentDTO {
         return customerId;
     }
 
-    public void setCustomerId(String customer) {
-        this.customerId = customer;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
-	public LocalDate getPaymentDate() {
-		return paymentDate;
-	}
+    public Long getBookingId() {
+        return bookingId;
+    }
 
-	public void setPaymentDate(LocalDate localDate) {
-		this.paymentDate = localDate;
-	}
-
-	public LocalTime getPaymentTime() {
-		return paymentTime;
-	}
-
-	public void setPaymentTime(LocalTime paymentTime) {
-		this.paymentTime = paymentTime;
-	}
-    
+    public void setBookingId(Long bookingId) {
+        this.bookingId = bookingId;
+    }
 }

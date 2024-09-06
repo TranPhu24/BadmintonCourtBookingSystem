@@ -1,8 +1,10 @@
 package group6.pojo;
 
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne; 
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,112 +35,63 @@ public class Court {
     private Time endTime;
 
     @Column(name = "price")
-    private double price;
-    
+    private float price;
+
+    @OneToMany(mappedBy = "court",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Booking> bookings= new HashSet<Booking>();
+
     @ManyToOne
     @JoinColumn(name = "AdminId")
     private Admin admin;
     
     @ManyToOne
-    @JoinColumn(name = "BookingId")
-    private Booking booking;
-    
-    @ManyToOne
-    @JoinColumn(name = "PaymentId")
-    private Payment payment;
-    
-    @ManyToOne
     @JoinColumn(name = "ManagerId")
     private Manager manager;
     
-    @ManyToMany(mappedBy = "courts")
-    private Set<Slot> slots;
-    
-    public Court() {
-        super();
-    }
+	public Court() {
+		super();
+	}
 
-    public Court(String location, Time startTime, Time endTime, double price) {
-        super();
-        this.location = location;
-        this.startTime = startTime;
-		this.endTime = endTime;
-        this.price = price;
-    }
 
-    
-    
-    public Court(String location,Time startTime, Time endTime, double price,Admin admin ,Booking booking,Manager manager ,Payment payment
-			) {
+	public Court(String location, Time startTime, Time endTime, float price,Admin admin, Manager manager) {
+		super();
 		this.location = location;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.price = price;
-		this.booking = booking;
-		this.payment = payment;
 		this.manager = manager;
-		this.admin =admin;
-	}
 
-	public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
 		this.admin = admin;
 	}
 
-	public Booking getBooking() {
-		return booking;
-	}
 
-	public void setBooking(Booking booking) {
-		this.booking = booking;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
-	}
-
-	public Manager getManager() {
-		return manager;
-	}
-
-	public void setManager(Manager manager) {
+	public Court(Long courtId, String location, Time startTime, Time endTime, float price,
+			Admin admin, Manager manager) {
+		super();
+		this.courtId = courtId;
+		this.location = location;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.price = price;
+		this.admin = admin;
 		this.manager = manager;
 	}
 
-	public Set<Slot> getSlots() {
-		return slots;
-	}
-
-	public void setSlots(Set<Slot> slots) {
-		this.slots = slots;
-	}
 
 	public Long getCourtId() {
-        return courtId; 
-    }
+		return courtId;
+	}
+	
 
-    public void setCourtId(Long courtId) {
-        this.courtId = courtId;
-    }
+	public String getLocation() {
+		return location;
+	}
 
-    public String getLocation() {
-        return location;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    
-
-    public Time getStartTime() {
+	public Time getStartTime() {
 		return startTime;
 	}
 
@@ -153,11 +107,44 @@ public class Court {
 		this.endTime = endTime;
 	}
 
-	public double getPrice() {
-        return price;
-    }
+	public float getPrice() {
+		return price;
+	}
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
+	public void setCourtId(Long courtId) {
+		this.courtId = courtId;
+	}
+
+	
+
+    
 }
+

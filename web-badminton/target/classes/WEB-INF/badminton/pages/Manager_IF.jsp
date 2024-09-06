@@ -10,6 +10,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <link rel="stylesheet" href="resources/css/thongtin.css">
   </head>
   <body>
+  <form action="${pageContext.request.contextPath}/formLoginManager" method="post">
     <div class="container">
       <header>
         <div class="header-container">
@@ -18,9 +19,12 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       </div>
       <nav>
         <ul class="menu">
-          <li><a href="<c:url value='/Manager_IF' />">Thông tin cá nhân</a></li>
+          <li><a href="<c:url value='/Manager_IF' />">Thông tin cá nhân</a></li>        
           <li><a href="<c:url value='/dang-ky-san' />">Đăng kí sân</a></li>
+	              <li><a href="<c:url value='/dang-ky-slot' />">Đăng kí slot</a></li>
           <li><a href="<c:url value='/quan-ly-chung' />">Quản lí sân</a></li>
+          <li><a href="<c:url value='/Admin_add' />">Thêm sân mới</a></li>
+          
           <li><a href="<c:url value='/index' />">Trang chủ</a></li>
         </ul>
       </nav>
@@ -29,12 +33,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <main>
     <div class="container">
         <img class="profile-pic" src="manager.jpg" alt="Hình ảnh quản lý">
-        <div class="info"><strong>Tên:</strong> Trần Thị B</div>
-        <div class="info"><strong>UID:</strong> MN67890</div>
-        <div class="info"><strong>Ngày sinh:</strong> 05/05/1985</div>
-        <div class="info"><strong>Gmail:</strong> manager.email@example.com</div>
-        <div class="info"><strong>Số CCCD:</strong> 987654321098</div>
-        <div class="position">Chức vụ: Quản lý Manager</div>
+        <div class="info"><strong>UID:</strong> ${id}</div>
+        <div class="info"><strong>Số CCCD:</strong> ${cccd}</div>
+        <div class="info"><strong>Tên:</strong> ${name}</div>
+        <div class="position">Chức vụ: ${role}</div>
     </div>
 </main>
 <footer>
@@ -59,5 +61,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
   </div>
 </footer> 
     <script src="resources/js/Manager.js"></script> 
+    </form>
 </body>
 </html>

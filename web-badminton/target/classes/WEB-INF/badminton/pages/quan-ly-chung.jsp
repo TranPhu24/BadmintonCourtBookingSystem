@@ -23,9 +23,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                 <a href="<c:url value='/Manager_IF' />">Thông tin cá nhân</a>
               </li>
               <li><a href="<c:url value='/dang-ky-san' />">Đăng kí sân</a></li>
+              
+              <li><a href="<c:url value='/dang-ky-slot' />">Đăng kí slot</a></li>
               <li>
                 <a href="<c:url value='/quan-ly-chung' />">Quản lí sân</a>
               </li>
+              
+          <li><a href="<c:url value='/Admin_add' />">Thêm sân mới</a></li>
               <li>
                 <a href="<c:url value='/index' />">Trang chủ</a>
               </li>
@@ -39,32 +43,32 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
           <h1>Quản lý sân</h1>
           <div class="slider-1-content">
             <div class="form-group">
-              <label>Danh sách tất cả tài khoản khách hàng</label>
+              <label>Danh sách tất cả khách hàng</label>
               <table>
                 <thead>
                   <tr>
-                    <th>Mã khách hàng</th>
-                    <th>Tên</th>
                     <th>CCCD</th>
+                    <th>Tên</th>
+                    <th>Email</th>
                     <th>Số điện thoại</th>
-                    <th>Tài khoản</th>
+                    <th>TimePlay</th>
+                    <th>Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Nguyễn Văn A</td>
-                    <td>123</td>
-                    <td>0123456789</td>
-                    <td>nva</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Trần Thị B</td>
-                    <td>456</td>
-                    <td>0987654321</td>
-                    <td>ttb</td>
-                  </tr>
+				  <c:forEach var="cusomter" items="${customerList}">
+				    <tr>
+				      <td>${cusomter.customerId}</td>
+				      <td>${cusomter.customerName}</td>
+				      <td>${cusomter.email}</td>
+				      <td>${cusomter.phone}</td>
+				      <td>${cusomter.timeplay}</td>
+				      <td>
+				        <a href="${pageContext.request.contextPath}/deleteCustomer?id=${cusomter.customerId}" onclick="return confirm('Bạn có chắc chắn muốn xóa sân này?');">Xóa</a>
+				      </td>
+				    </tr>
+				  </c:forEach>
+               
                 </tbody>
               </table>
             </div>
@@ -80,24 +84,21 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                     <th>Giờ chơi</th>
                     <th>Giá</th>
                   </tr>
+                  
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>01</td>
-                    <td>001</td>
-                    <td>Khu vực 1</td>
-                    <td>06:00 - 22:00</td>
-                    <td>100,000 VND/giờ</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>02</td>
-                    <td>002</td>
-                    <td>Khu vực 2</td>
-                    <td>07:00 - 21:00</td>
-                    <td>120,000 VND/giờ</td>
-                  </tr>
+                <c:forEach var="booking" items="${bookingList}">
+				    <tr>
+				      <td>${booking.court.courtId}</td>
+				      <td>${booking.bookingId}</td>
+				      <td>${booking.payment.paymentId}</td>
+				      <td>${booking.bookingDate}</td>
+				      <td>${booking.slot.startTime}h - ${booking.slot.endTime}h</td>
+				      <td>${booking.court.price}VND</td>
+				    </tr>
+				  </c:forEach>
+				  
+                  
                 </tbody>
               </table>
             </div>

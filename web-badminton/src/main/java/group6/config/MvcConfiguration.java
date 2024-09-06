@@ -17,7 +17,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 	@Bean
     public ViewResolver getViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/badminton/");
+        resolver.setPrefix("/WEB-INF/badminton/pages/");
         resolver.setSuffix(".jsp");
         return resolver;
     }

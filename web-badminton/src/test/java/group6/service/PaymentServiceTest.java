@@ -11,11 +11,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.Optional;
-import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +34,7 @@ class PaymentServiceTest {
     void setUp() {
         paymentRepository = Mockito.mock(PaymentRepository.class);
         customerRepository = Mockito.mock(CustomerRepository.class);
-        paymentService = new PaymentService(paymentRepository,customerRepository);
+        paymentService = new PaymentService(paymentRepository, customerRepository);
 
         customer = new Customer();
         customer.setCustomerId("1");
@@ -65,7 +65,11 @@ class PaymentServiceTest {
         Payment createdPayment = paymentService.createPayment(paymentDTO);
 
         assertNotNull(createdPayment);
-        assertEquals(payment, createdPayment);
+        assertEquals(payment.getAmount(), createdPayment.getAmount());
+        assertEquals(payment.getStatus(), createdPayment.getStatus());
+        assertEquals(payment.getPaymentDate(), createdPayment.getPaymentDate());
+        assertEquals(payment.getPaymentTime(), createdPayment.getPaymentTime());
+        assertEquals(payment.getCustomer(), createdPayment.getCustomer());
 
         verify(customerRepository, times(1)).findById("1");
         verify(paymentRepository, times(1)).save(any(Payment.class));
@@ -85,16 +89,20 @@ class PaymentServiceTest {
     void updatePayment() throws DataNotFoundException {
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
         when(customerRepository.findById("1")).thenReturn(Optional.of(customer));
-        when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
+        when(paymentRepository.update(any(Payment.class))).thenReturn(payment);
 
         Payment updatedPayment = paymentService.updatePayment(1L, paymentDTO);
 
         assertNotNull(updatedPayment);
-        assertEquals(payment, updatedPayment);
+        assertEquals(paymentDTO.getAmount(), updatedPayment.getAmount());
+        assertEquals(paymentDTO.getStatus(), updatedPayment.getStatus());
+        assertEquals(paymentDTO.getPaymentDate(), updatedPayment.getPaymentDate());
+        assertEquals(paymentDTO.getPaymentTime(), updatedPayment.getPaymentTime());
+        assertEquals(customer, updatedPayment.getCustomer());
 
         verify(paymentRepository, times(1)).findById(1L);
         verify(customerRepository, times(1)).findById("1");
-        verify(paymentRepository, times(1)).save(any(Payment.class));
+        verify(paymentRepository, times(1)).update(any(Payment.class));
     }
 
     @Test
@@ -116,7 +124,11 @@ class PaymentServiceTest {
 
         assertNotNull(payments);
         assertEquals(1, payments.size());
-        assertEquals(payment, payments.get(0));
+        assertEquals(payment.getAmount(), payments.get(0).getAmount());
+        assertEquals(payment.getStatus(), payments.get(0).getStatus());
+        assertEquals(payment.getPaymentDate(), payments.get(0).getPaymentDate());
+        assertEquals(payment.getPaymentTime(), payments.get(0).getPaymentTime());
+        assertEquals(payment.getCustomer(), payments.get(0).getCustomer());
 
         verify(paymentRepository, times(1)).findAll();
     }
@@ -128,7 +140,11 @@ class PaymentServiceTest {
         Payment retrievedPayment = paymentService.getPayment(1L);
 
         assertNotNull(retrievedPayment);
-        assertEquals(payment, retrievedPayment);
+        assertEquals(payment.getAmount(), retrievedPayment.getAmount());
+        assertEquals(payment.getStatus(), retrievedPayment.getStatus());
+        assertEquals(payment.getPaymentDate(), retrievedPayment.getPaymentDate());
+        assertEquals(payment.getPaymentTime(), retrievedPayment.getPaymentTime());
+        assertEquals(payment.getCustomer(), retrievedPayment.getCustomer());
 
         verify(paymentRepository, times(1)).findById(1L);
     }

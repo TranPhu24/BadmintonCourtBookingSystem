@@ -22,48 +22,93 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "BookingID")
-    private Long bookingId; 
+    private Long bookingId;
 
     @Column(name = "bookingType")
     private String bookingType;
 
+    @Column(name = "bookingDay")
+    private String bookingDay;
+    
     @Column(name = "bookingDate")
     private Date bookingDate;
 
-    @Column(name = "bookingTime")
-    private Time bookingTime;
-    
     @ManyToOne
-    @JoinColumn(name = "CustomerId")
+    @JoinColumn(name = "customerId")
     private Customer customer;
     
     @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private Manager manager;
+    @JoinColumn(name = "courtId")
+    private Court court;
     
-    @OneToMany(mappedBy = "booking",cascade = CascadeType.ALL,orphanRemoval = true)
-    private Set<Court> courts = new HashSet<Court>();
-   	
-    public Booking() {
-        super();
-    }
+    @ManyToOne
+    @JoinColumn(name = "slotId")
+    private Slot slot;
+    
+    @ManyToOne
+    @JoinColumn(name = "paymentId")
+    private Payment payment;
 
-    public Booking(String bookingType, Date bookingDate, Time bookingTime) {
-        super();
-        this.bookingType = bookingType;
-        this.bookingDate = bookingDate;
-        this.bookingTime = bookingTime;
-    }
-
-
-    public Booking(String bookingType, Date bookingDate, Time bookingTime, Customer customer,
-			Manager manager) {
+    
+    
+    
+	public Booking() {
+		super();
+	}
+	public Booking(String bookingType, String bookingDay, Date bookingDate, Customer customer,
+			Court court, Slot slot, Payment payment) {
 		super();
 		this.bookingType = bookingType;
+		this.bookingDay = bookingDay;
 		this.bookingDate = bookingDate;
-		this.bookingTime = bookingTime;
 		this.customer = customer;
-		this.manager = manager;
+		this.court = court;
+		this.slot = slot;
+		this.payment = payment;
+	}
+	public Booking(Long bookingId, String bookingType, String bookingDay, Date bookingDate, Customer customer,
+			Court court, Slot slot, Payment payment) {
+		super();
+		this.bookingId = bookingId;
+		this.bookingType = bookingType;
+		this.bookingDay = bookingDay;
+		this.bookingDate = bookingDate;
+		this.customer = customer;
+		this.court = court;
+		this.slot = slot;
+		this.payment = payment;
+	}
+
+	public Long getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(Long bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public String getBookingType() {
+		return bookingType;
+	}
+
+	public void setBookingType(String bookingType) {
+		this.bookingType = bookingType;
+	}
+
+	public String getBookingDay() {
+		return bookingDay;
+	}
+
+	public void setBookingDay(String bookingDay) {
+		this.bookingDay = bookingDay;
+	}
+
+	public Date getBookingDate() {
+		return bookingDate;
+	}
+
+	public void setBookingDate(Date bookingDate) {
+		this.bookingDate = bookingDate;
 	}
 
 	public Customer getCustomer() {
@@ -74,54 +119,32 @@ public class Booking {
 		this.customer = customer;
 	}
 
-	public Set<Court> getCourts() {
-		return courts;
+	public Court getCourt() {
+		return court;
 	}
 
-	public void setCourts(Set<Court> courts) {
-		this.courts = courts;
+	public void setCourt(Court court) {
+		this.court = court;
 	}
 
-	public Long getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(Long bookingId) {
-        this.bookingId = bookingId;
-    }
-
-   
-
-    public String getBookingType() {
-        return bookingType;
-    }
-
-    public void setBookingType(String bookingType) {
-        this.bookingType = bookingType;
-    }
-
-    public Date getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(Date bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public Time getBookingTime() {
-        return bookingTime;
-    }
-
-    public void setBookingTime(Time bookingTime) {
-        this.bookingTime = bookingTime;
-    }
-
-	public Manager getManager() {
-		return manager;
+	public Slot getSlot() {
+		return slot;
 	}
 
-	public void setManager(Manager manager) {
-		this.manager = manager;
+	public void setSlot(Slot slot) {
+		this.slot = slot;
 	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	
+
     
 }
+

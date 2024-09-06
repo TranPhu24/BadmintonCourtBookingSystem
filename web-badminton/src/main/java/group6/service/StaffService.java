@@ -51,7 +51,7 @@ public class StaffService implements IStaffService {
         existingStaff.setStaffName(staffDTO.getStaffName());
         existingStaff.setUser(existingUser);
         
-        return staffRepository.save(existingStaff);
+        return staffRepository.update(existingStaff);
     }
 
     @Override

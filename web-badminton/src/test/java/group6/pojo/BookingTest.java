@@ -15,22 +15,26 @@ public class BookingTest {
 
     private Booking booking;
     private Customer customer;
-    private Manager manager;
-    private Set<Court> courts;
+    private Court court;
+    private Slot slot;
+    private Payment payment;
 
     @BeforeEach
     public void setUp() {
-        customer = new Customer();
-        manager = new Manager();
-        courts = new HashSet<>();
+        customer = new Customer(); 
+        court = new Court("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"), 100.0f, new Admin(), new Manager());
+        slot = new Slot(); 
+        payment = new Payment();
 
         booking = new Booking();
         booking.setBookingId(1L);
         booking.setBookingType("Badminton");
+        booking.setBookingDay("Monday");
         booking.setBookingDate(Date.valueOf("2023-08-01"));
-        booking.setBookingTime(Time.valueOf("10:00:00"));
         booking.setCustomer(customer);
-        booking.setCourts(courts);
+        booking.setCourt(court);
+        booking.setSlot(slot);
+        booking.setPayment(payment);
     }
 
     @Test
@@ -38,10 +42,12 @@ public class BookingTest {
         assertNotNull(booking);
         assertEquals(1L, booking.getBookingId());
         assertEquals("Badminton", booking.getBookingType());
+        assertEquals("Monday", booking.getBookingDay());
         assertEquals(Date.valueOf("2023-08-01"), booking.getBookingDate());
-        assertEquals(Time.valueOf("10:00:00"), booking.getBookingTime());
         assertEquals(customer, booking.getCustomer());
-        assertEquals(courts, booking.getCourts());
+        assertEquals(court, booking.getCourt());
+        assertEquals(slot, booking.getSlot());
+        assertEquals(payment, booking.getPayment());
     }
 
     @Test
@@ -52,17 +58,23 @@ public class BookingTest {
     }
 
     @Test
-    public void testSetCourts() {
-        Set<Court> newCourts = new HashSet<>();
-        booking.setCourts(newCourts);
-        assertEquals(newCourts, booking.getCourts());
+    public void testSetCourt() {
+        Court newCourt = new Court("Location B", Time.valueOf("09:00:00"), Time.valueOf("21:00:00"), 120.0f, new Admin(), new Manager());
+        booking.setCourt(newCourt);
+        assertEquals(newCourt, booking.getCourt());
     }
     
     @Test
-    public void testAddCourt() {
-        Court court = new Court();
-        courts.add(court);
-        booking.setCourts(courts);
-        assertEquals(1, booking.getCourts().size());
+    public void testSetSlot() {
+        Slot newSlot = new Slot(); 
+        booking.setSlot(newSlot);
+        assertEquals(newSlot, booking.getSlot());
+    }
+    
+    @Test
+    public void testSetPayment() {
+        Payment newPayment = new Payment(); 
+        booking.setPayment(newPayment);
+        assertEquals(newPayment, booking.getPayment());
     }
 }

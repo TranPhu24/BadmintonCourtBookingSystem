@@ -7,18 +7,27 @@ public class SlotDTO {
     private Long slotId;
     private Time startTime;
     private Time endTime;
-    private String staffId;
-    private String managerId;
+    private String managerId; 
+    private String staffId;  
 
     public SlotDTO() {
+        super();
     }
 
-    public SlotDTO(Long slotId, Time startTime, Time endTime, String staff, String manager) {
+    public SlotDTO(Long slotId, Time startTime, Time endTime, String managerId, String staffId) {
+        super();
         this.slotId = slotId;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.staffId = staff;
-        this.managerId = manager;
+        this.managerId = managerId;
+        this.staffId = staffId;
+    }
+    public SlotDTO(Time startTime, Time endTime, String managerId, String staffId) {
+    	super();
+    	this.startTime = startTime;
+    	this.endTime = endTime;
+    	this.managerId = managerId;
+    	this.staffId = staffId;
     }
 
     public Long getSlotId() {
@@ -45,13 +54,19 @@ public class SlotDTO {
         this.endTime = endTime;
     }
 
-    public String getStaff() {
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
+    public String getStaffId() {
         return staffId;
     }
 
-    public void setStaff(String staff) {
-        this.staffId = staff;
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
     }
-
-    
 }

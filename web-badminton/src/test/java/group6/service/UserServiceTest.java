@@ -80,7 +80,7 @@ class UserServiceTest {
     void updateUser() throws DataNotFoundException {
         when(userRepository.findById("1")).thenReturn(Optional.of(user));
         when(adminRepository.findById("1")).thenReturn(Optional.of(admin));
-        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(userRepository.update(any(User.class))).thenReturn(user);
 
         User updatedUser = userService.updateUser("1", userDTO);
 
@@ -89,7 +89,7 @@ class UserServiceTest {
 
         verify(userRepository, times(1)).findById("1");
         verify(adminRepository, times(1)).findById("1");
-        verify(userRepository, times(1)).save(any(User.class));
+        verify(userRepository, times(1)).update(any(User.class));
     }
 
     @Test

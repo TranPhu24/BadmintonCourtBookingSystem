@@ -35,8 +35,6 @@ public class Manager {
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Slot> slots = new HashSet<Slot>();
 
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Booking> booking = new HashSet<Booking>();
 
     public Manager() {
         super();
@@ -57,13 +55,6 @@ public class Manager {
 		this.user = user;
 	}
 
-	public Set<Booking> getBooking() {
-        return booking;
-    }
-
-    public void setBooking(Set<Booking> booking) {
-        this.booking = booking;
-    }
 
     public User getUser() {
         return user;

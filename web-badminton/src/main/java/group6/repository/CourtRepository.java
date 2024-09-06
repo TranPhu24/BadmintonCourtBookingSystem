@@ -1,11 +1,13 @@
 package group6.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
 import group6.dao.CourtDAO;
 import group6.pojo.Court;
+import group6.pojo.Slot;
 @Repository
 public class CourtRepository implements ICourtRepository {
 
@@ -21,8 +23,9 @@ public class CourtRepository implements ICourtRepository {
     }
 
     @Override
-    public void save(Court court) {
+    public Court save(Court court) {
         courtDAO.createCourt(court);
+        return court;
     }
 
     @Override
@@ -31,12 +34,13 @@ public class CourtRepository implements ICourtRepository {
     }
 
     @Override
-    public Court findById(Long courtId) {
-        return courtDAO.findById(courtId);
+    public Optional<Court> findById(Long courtId) {
+        return Optional.ofNullable(courtDAO.findById(courtId));
     }
 
     @Override
-    public void update(Court court) {
+    public Court update(Court court) {
         courtDAO.updateCourt(court);
+        return court;
     }
 }

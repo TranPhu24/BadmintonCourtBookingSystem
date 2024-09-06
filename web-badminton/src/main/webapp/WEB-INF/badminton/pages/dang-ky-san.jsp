@@ -22,18 +22,24 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
               <li>
                 <a href="<c:url value='/Manager_IF' />">Thông tin cá nhân</a>
               </li>
-              <li><a href="<c:url value='/dang-ky-san' />">Đăng kí sân</a></li>
+	              <li><a href="<c:url value='/dang-ky-san' />">Đăng kí sân</a></li>
+	              <li><a href="<c:url value='/dang-ky-slot' />">Đăng kí slot</a></li>
               <li>
                 <a href="<c:url value='/quan-ly-chung' />">Quản lí sân</a>
               </li>
+              
+          <li><a href="<c:url value='/Admin_add' />">Thêm sân mới</a></li>
               <li><a href="<c:url value='/index' />">Trang chủ</a></li>
             </ul>
           </nav>
         </div>
       </header>
       <!-- slider 1 -->
+      
+      <form action="${pageContext.request.contextPath}/dangkiManager" method="post">
       <div class="slider-1">
         <div class="slider-1-container">
+        
           <h1>Đăng kí sân</h1>
           <div class="slider-1-content">
             <div class="form-group">
@@ -72,8 +78,8 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                 required
               />
             </div>
-
-            <button href="#" type="submit">Đăng ký</button>
+            <button type="submit" name="btndangki" value="dangki">Đăng ký</button>
+            
             <div class="form-group">
               <label>Danh sách tất cả sân cầu lông</label>
               <table>
@@ -87,26 +93,29 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Khu vực 1</td>
-                    <td>06:00 - 22:00</td>
-                    <td>100,000Đ/h</td>
-                    <td>Xóa Sửa</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Khu vực 2</td>
-                    <td>07:00 - 21:00</td>
-                    <td>120,000Đ/h</td>
-                    <td>Xóa Sửa</td>
-                  </tr>
-                </tbody>
+                
+                <c:if test="${empty courtList}">
+					    <p>Không có dữ liệu để hiển thị.</p>
+					</c:if>
+				  <c:forEach var="court" items="${courtList}">
+				    <tr>
+				      <td>${court.courtId}</td>
+				      <td>${court.location}</td>
+				      <td>${court.startTime} - ${court.endTime}</td>
+				      <td>${court.price}VND</td>
+				      <td>
+				        <a href="${pageContext.request.contextPath}/editCourt?id=${court.courtId}">Sửa</a> | 
+				        <a href="${pageContext.request.contextPath}/deleteCourt?id=${court.courtId}" onclick="return confirm('Bạn có chắc chắn muốn xóa sân này?');">Xóa</a>
+				      </td>
+				    </tr>
+				  </c:forEach>
+				</tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+      </form>
       <!-- slider 2 -->
       <section class="slider-2">
         <div class="slider-2-container">

@@ -90,7 +90,6 @@ public class ManagerDAO {
             Manager m = em.find(Manager.class, manager.getManagerId());
             if (m != null) {
                 m.setManagerName(manager.getManagerName());
-                m.setBooking(manager.getBooking());
                 m.setCourts(manager.getCourts());
                 m.setSlots(manager.getSlots());
                 m.setUser(manager.getUser());

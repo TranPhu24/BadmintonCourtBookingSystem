@@ -2,17 +2,16 @@ package group6.service;
 
 import group6.dto.BookingDTO;
 import group6.exceptions.DataNotFoundException;
-import group6.pojo.Booking;
-import group6.pojo.Customer;
-import group6.repository.BookingRepository;
-import group6.repository.CustomerRepository;
+import group6.pojo.*;
+import group6.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.sql.Time;
+import java.sql.Date;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,100 +21,169 @@ import static org.mockito.Mockito.*;
 
 class BookingServiceTest {
 
+    @InjectMocks
     private BookingService bookingService;
+
+    @Mock
     private BookingRepository bookingRepository;
+
+    @Mock
     private CustomerRepository customerRepository;
+
+    @Mock
+    private CourtRepository courtRepository;
+
+    @Mock
+    private SlotRepository slotRepository;
+
+    @Mock
+    private PaymentRepository paymentRepository;
+
     private Booking booking;
     private BookingDTO bookingDTO;
     private Customer customer;
+    private Court court;
+    private Slot slot;
+    private Payment payment;
 
     @BeforeEach
     void setUp() {
-        bookingRepository = Mockito.mock(BookingRepository.class);
-        customerRepository = Mockito.mock(CustomerRepository.class);
-        bookingService = new BookingService(bookingRepository, customerRepository);
-
+        MockitoAnnotations.openMocks(this);  
+        
         customer = new Customer();
-        customer.setCustomerId("1");
+        customer.setCustomerId("C001");
+
+        court = new Court();
+        court.setCourtId(1L);
+
+        slot = new Slot();
+        slot.setSlotId(1L);
+
+        payment = new Payment();
+        payment.setPaymentId(1L);
 
         booking = new Booking();
         booking.setBookingId(1L);
-        booking.setBookingType("Type 1");
-        booking.setBookingDate(new Date()); // Use java.util.Date
-        booking.setBookingTime(new Time(System.currentTimeMillis())); // Use java.sql.Time
         booking.setCustomer(customer);
-        booking.setManagerId("1L");
+        booking.setCourt(court);
+        booking.setSlot(slot);
+        booking.setPayment(payment);
 
         bookingDTO = new BookingDTO();
-        bookingDTO.setBookingId(1L);
-        bookingDTO.setBookingType("Type 1");
-        bookingDTO.setBookingDate(new Date()); // Use java.util.Date
-        bookingDTO.setBookingTime(new Time(System.currentTimeMillis())); // Use java.sql.Time
-        bookingDTO.setCustomerId("1L");
-        bookingDTO.setManagerId("1");
+        bookingDTO.setBookingType("Type1");
+        bookingDTO.setBookingDay("Monday");
+        bookingDTO.setBookingDate(Date.valueOf("2024-09-01"));
+        bookingDTO.setCustomerId("C001");
+        bookingDTO.setCourtId(1L);
+        bookingDTO.setSlotId(1L);
+        bookingDTO.setPaymentId(1L);
     }
 
     @Test
-    void createBooking() throws DataNotFoundException {
-        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
+    void createBooking_success() throws DataNotFoundException {
+        when(customerRepository.findById("C001")).thenReturn(Optional.of(customer));
+        when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
+        when(slotRepository.findById(1L)).thenReturn(Optional.of(slot));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
 
-        bookingService.createBooking(bookingDTO);
+        Booking createdBooking = bookingService.createBooking(bookingDTO);
 
-        verify(customerRepository, times(1)).findById(1L);
+        assertNotNull(createdBooking);
+        assertEquals(booking, createdBooking);
+
+        verify(customerRepository, times(1)).findById("C001");
+        verify(courtRepository, times(1)).findById(1L);
+        verify(slotRepository, times(1)).findById(1L);
+        verify(paymentRepository, times(1)).findById(1L);
         verify(bookingRepository, times(1)).save(any(Booking.class));
     }
 
     @Test
     void createBooking_customerNotFound() {
-        when(customerRepository.findById(1L)).thenReturn(Optional.empty());
+        when(customerRepository.findById("C001")).thenReturn(Optional.empty());
 
-        assertThrows(DataNotFoundException.class, () -> bookingService.createBooking(bookingDTO));
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class, 
+            () -> bookingService.createBooking(bookingDTO));
 
-        verify(customerRepository, times(1)).findById(1L);
+
+        verify(customerRepository, times(1)).findById("C001");
+        verify(courtRepository, never()).findById(anyLong());
+        verify(slotRepository, never()).findById(anyLong());
+        verify(paymentRepository, never()).findById(anyLong());
         verify(bookingRepository, never()).save(any(Booking.class));
+    }
+    
+    @Test
+    void createBooking_courtNotFound() {
+        when(customerRepository.findById("C001")).thenReturn(Optional.of(customer));
+        when(courtRepository.findById(1L)).thenReturn(Optional.empty());  // Court not found
+
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class,
+                () -> bookingService.createBooking(bookingDTO));
+        
+        verify(customerRepository, times(1)).findById("C001");
+        verify(courtRepository, times(1)).findById(1L);
+        verify(slotRepository, never()).findById(any());  
+        verify(paymentRepository, never()).findById(any());  
+        verify(bookingRepository, never()).save(any(Booking.class));  
+    }
+
+
+    @Test
+    void createBooking_slotNotFound() {
+        when(customerRepository.findById("C001")).thenReturn(Optional.of(customer));
+        when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
+        when(slotRepository.findById(1L)).thenReturn(Optional.empty());  // Slot not found
+
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class,
+                () -> bookingService.createBooking(bookingDTO));
+        
+        verify(customerRepository, times(1)).findById("C001");
+        verify(courtRepository, times(1)).findById(1L);
+        verify(slotRepository, times(1)).findById(1L);
+        verify(paymentRepository, never()).findById(any());  // Payment check should not be reached
+        verify(bookingRepository, never()).save(any(Booking.class));  // No save should happen
     }
 
     @Test
-    void updateBooking() throws DataNotFoundException {
-        when(bookingRepository.findById("1L")).thenReturn(Optional.of(booking));
-        when(customerRepository.findById("1L")).thenReturn(Optional.of(customer));
-        when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
+    void createBooking_paymentNotFound() {
+        when(customerRepository.findById("C001")).thenReturn(Optional.of(customer));
+        when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
+        when(slotRepository.findById(1L)).thenReturn(Optional.of(slot));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.empty());  
+
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class, 
+                () -> bookingService.createBooking(bookingDTO));
+        
+        verify(customerRepository, times(1)).findById("C001");
+        verify(courtRepository, times(1)).findById(1L);
+        verify(slotRepository, times(1)).findById(1L);
+        verify(paymentRepository, times(1)).findById(1L);
+        verify(bookingRepository, never()).save(any(Booking.class));
+    }
+
+
+    @Test
+    void updateBooking_success() throws DataNotFoundException {
+        when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
+        when(customerRepository.findById("C001")).thenReturn(Optional.of(customer));
+        when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
+        when(slotRepository.findById(1L)).thenReturn(Optional.of(slot));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
+        when(bookingRepository.update(any(Booking.class))).thenReturn(booking);
 
         Booking updatedBooking = bookingService.updateBooking(1L, bookingDTO);
 
         assertNotNull(updatedBooking);
-        assertEquals(bookingDTO.getBookingType(), updatedBooking.getBookingType());
-        assertEquals(bookingDTO.getBookingDate(), updatedBooking.getBookingDate());
-        assertEquals(bookingDTO.getBookingTime(), updatedBooking.getBookingTime());
-        assertEquals(customer, updatedBooking.getCustomer());
+        assertEquals(booking, updatedBooking);
 
         verify(bookingRepository, times(1)).findById(1L);
-        verify(customerRepository, times(1)).findById("1L");
-        verify(bookingRepository, times(1)).save(any(Booking.class));
-    }
-
-    @Test
-    void updateBooking_notFound() {
-        when(bookingRepository.findById("1L")).thenReturn(Optional.empty());
-
-        assertThrows(DataNotFoundException.class, () -> bookingService.updateBooking(1L, bookingDTO));
-
-        verify(bookingRepository, times(1)).findById(1L);
-        verify(customerRepository, never()).findById(anyLong());
-        verify(bookingRepository, never()).save(any(Booking.class));
-    }
-
-    @Test
-    void updateBooking_customerNotFound() {
-        when(bookingRepository.findById("1L")).thenReturn(Optional.of(booking));
-        when(customerRepository.findById("1L")).thenReturn(Optional.empty());
-
-        assertThrows(DataNotFoundException.class, () -> bookingService.updateBooking(1L, bookingDTO));
-
-        verify(bookingRepository, times(1)).findById(1L);
-        verify(customerRepository, times(1)).findById(1L);
-        verify(bookingRepository, never()).save(any(Booking.class));
+        verify(customerRepository, times(1)).findById("C001");
+        verify(courtRepository, times(1)).findById(1L);
+        verify(slotRepository, times(1)).findById(1L);
+        verify(paymentRepository, times(1)).findById(1L);
+        verify(bookingRepository, times(1)).update(any(Booking.class));
     }
 
     @Test
@@ -132,7 +200,7 @@ class BookingServiceTest {
     }
 
     @Test
-    void getBooking() throws DataNotFoundException {
+    void getBooking_success() throws DataNotFoundException {
         when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
 
         Booking retrievedBooking = bookingService.getBooking(1L);
@@ -147,8 +215,30 @@ class BookingServiceTest {
     void getBooking_notFound() {
         when(bookingRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(DataNotFoundException.class, () -> bookingService.getBooking(1L));
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class, 
+            () -> bookingService.getBooking(1L));
+
+//        assertEquals("Booking not found", exception.getMessage());
 
         verify(bookingRepository, times(1)).findById(1L);
     }
+
+    @Test
+    void updateBooking_notFound() {
+        when(bookingRepository.findById(1L)).thenReturn(Optional.empty());
+
+        DataNotFoundException exception = assertThrows(DataNotFoundException.class, 
+            () -> bookingService.updateBooking(1L, bookingDTO));
+
+//        assertEquals("Booking not found", exception.getMessage());
+
+        verify(bookingRepository, times(1)).findById(1L);
+        verify(customerRepository, never()).findById(anyString());
+        verify(courtRepository, never()).findById(anyLong());
+        verify(slotRepository, never()).findById(anyLong());
+        verify(paymentRepository, never()).findById(anyLong());
+        verify(bookingRepository, never()).save(any(Booking.class));
+    }
+
+
 }

@@ -70,29 +70,7 @@ public class AdminDAOTest {
         adminDAO.delete("132");
     }
 
-//    @Test
-//    void testAdminWithCourts() {
-//        // Tạo Admin
-//        Admin admin = new Admin("135", "Hong");
-//
-//        Court court1 = new Court("Quan 1", "08:00-18:00", 100.0);
-//        Court court2 = new Court("Quan 2", "09:00-17:00", 150.0);
-//
-//        court1.setAdmin(admin);
-//        court2.setAdmin(admin);
-//
-//        admin.getCourts().add(court1);
-//        admin.getCourts().add(court2);
-//
-//        adminDAO.save(admin);
-//
-//        Admin savedAdmin = adminDAO.findById("135");
-//        assertNotNull(savedAdmin);
-//        assertEquals(2, savedAdmin.getCourts().size());
-//
-//        assertTrue(savedAdmin.getCourts().stream().anyMatch(c -> c.getLocation().equals("Quan 1")));
-//        assertTrue(savedAdmin.getCourts().stream().anyMatch(c -> c.getLocation().equals("Quan 2")));
-//    }
+
 	    
 	
 }

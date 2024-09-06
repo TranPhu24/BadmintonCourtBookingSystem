@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import group6.pojo.Booking;
+import group6.pojo.Court;
 import group6.pojo.Customer;
 import group6.pojo.Manager;
 import group6.pojo.User;
@@ -47,27 +48,19 @@ public class BookingDAOTest {
         UserDAO userDAO=new UserDAO("test-unit");
         userDAO.save(userC1);
         userDAO.save(userC2);
-        userDAO.save(userM1);
-        userDAO.save(userM2);
         
         Customer customer1=new Customer("c1","123","123","123",0,userC1);
         Customer customer2=new Customer("c2","456","456","456",0,userC2);
         customerDAO.save(customer1);
         customerDAO.save(customer2);
         
-        Manager manager1=new Manager("m1","hi",userM1);
-        Manager manager2=new Manager("m2","hihi",userM2);
-        managerDAO.save(manager1);
-        managerDAO.save(manager2);
         
-        
-        booking = new Booking("Badminton",Date.valueOf("2024-01-01"),Time.valueOf("10:00:00"),customer1,manager1);
-        booking2 = new Booking("Badminton2",Date.valueOf("2024-02-02"),Time.valueOf("20:00:00"),customer2,manager2);
+        booking = new Booking("Badminton","2",Date.valueOf("2024-01-01"),customer1,null,null,null);
+        booking2 = new Booking("Badminton2","2",Date.valueOf("2024-02-02"),customer2,null,null,null);
 
-        /*testcreate*/
     	bookingDAO.createBooking(booking);
     	bookingDAO.createBooking(booking2);
-    	/*textget*/
+    	
         bookings = bookingDAO.getBookings();
     	
         
@@ -90,17 +83,17 @@ public class BookingDAOTest {
     }
 
     @Test
-    public void testUpdateBooking() {
+   public void testUpdateBooking() {
         booking.setBookingType("Badminton123456");
-        bookingDAO.updateBooking(booking);
-        
-        Booking updatedBooking = bookingDAO.findById(booking.getBookingId());
-        assertEquals("Badminton123456", updatedBooking.getBookingType());
-    }
+       bookingDAO.updateBooking(booking);
+       
+       Booking updatedBooking = bookingDAO.findById(booking.getBookingId());
+       assertEquals("Badminton123456", updatedBooking.getBookingType());
+   }
 
-    @Test
-    public void testDeleteBooking() {
-        bookingDAO.deleteBooking(booking.getBookingId());
+   @Test
+   public void testDeleteBooking() {
+       bookingDAO.deleteBooking(booking.getBookingId());
         Booking deletedBooking = bookingDAO.findById(booking.getBookingId());
         assertNull(deletedBooking);
     }

@@ -1,16 +1,19 @@
 package group6.repository;
 
 import java.util.List;
+import java.util.Optional;
+
+import group6.pojo.Booking;
 import group6.pojo.Court;
 
 public interface ICourtRepository {
     List<Court> findAll();
     
-    void save(Court court);
+    Court save(Court booking);
     
-    void delete(Long courtId);
+    void delete(Long bookingId);
     
-    Court findById(Long courtId);
+    Optional<Court> findById(Long bookingId);
     
-    void update(Court court);
+    Court update(Court booking);
 }

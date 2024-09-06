@@ -59,7 +59,7 @@ public class ManagerService implements IManagerService {
         existingManager.setManagerName(managerDTO.getManagerName());
         existingManager.setUser(existingUser);
         
-        return managerRepository.save(existingManager);
+        return managerRepository.update(existingManager);
     }
 
     @Override

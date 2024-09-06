@@ -36,17 +36,5 @@ public class AdminTest {
         assertNull(admin.getAdminName());
     }
 
-//    @Test
-//    void testAdminWithCourts() {
-//        Admin admin = new Admin("129", "Tuan");
-//        Court court1 = new Court("Quan 1", "08:00-18:00", 100.0);
-//        Court court2 = new Court("Quan 2", "09:00-17:00", 150.0);
-//
-//        admin.getCourts().add(court1);
-//        admin.getCourts().add(court2);
-//
-//        assertEquals(2, admin.getCourts().size());
-//        assertTrue(admin.getCourts().contains(court1));
-//        assertTrue(admin.getCourts().contains(court2));
-//    }
+
 }

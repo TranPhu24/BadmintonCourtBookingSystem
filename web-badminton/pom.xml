@@ -133,11 +133,7 @@
 	    <version>1.14.19</version>
 	</dependency>
 <!-- Copy đến đây -->
-		<dependency>
-			<groupId>form</groupId>
-			<artifactId>Infomation</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 	</dependencies>
 
 	<repositories>

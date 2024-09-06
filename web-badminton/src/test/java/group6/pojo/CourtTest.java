@@ -16,7 +16,9 @@ public class CourtTest {
 
     @BeforeEach
     public void setUp() {
-        court = new Court("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"), 100.0);
+        Admin admin = new Admin("1", "admin");
+        Manager manager = new Manager("m1", "Manager1", null);
+        court = new Court("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"), 100.0f, admin, manager);
     }
 
     @Test
@@ -33,58 +35,51 @@ public class CourtTest {
         assertEquals(location, court.getLocation());
     }
 
-//    @Test
-//    public void testGetAndSetOperatingHours() {
-//        String operatingHours = "09:00 - 21:00";
-//        court.setOperatingHours(operatingHours);
-//        assertEquals(operatingHours, court.getOperatingHours());
-//    }
+    @Test
+    public void testGetAndSetStartTime() {
+        Time startTime = Time.valueOf("09:00:00");
+        court.setStartTime(startTime);
+        assertEquals(startTime, court.getStartTime());
+    }
+
+    @Test
+    public void testGetAndSetEndTime() {
+        Time endTime = Time.valueOf("21:00:00");
+        court.setEndTime(endTime);
+        assertEquals(endTime, court.getEndTime());
+    }
 
     @Test
     public void testGetAndSetPrice() {
-        double price = 120.0;
+        float price = 120.0f;
         court.setPrice(price);
         assertEquals(price, court.getPrice());
     }
 
     @Test
     public void testGetAndSetAdmin() {
-        Admin admin = new Admin();
+        Admin admin = new Admin("2", "admin2");
         court.setAdmin(admin);
         assertEquals(admin, court.getAdmin());
     }
 
     @Test
-    public void testGetAndSetBooking() {
-        Booking booking = new Booking();
-        court.setBooking(booking);
-        assertEquals(booking, court.getBooking());
-    }
-
-    @Test
-    public void testGetAndSetPayment() {
-        Payment payment = new Payment();
-        court.setPayment(payment);
-        assertEquals(payment, court.getPayment());
-    }
-
-    @Test
     public void testGetAndSetManager() {
-        Manager manager = new Manager();
+        Manager manager = new Manager("m2", "Manager2", null);
         court.setManager(manager);
         assertEquals(manager, court.getManager());
     }
 
     @Test
-    public void testGetAndSetSlots() {
-        Set<Slot> slots = new HashSet<>();
-        Slot slot1 = new Slot();
-        Slot slot2 = new Slot();
-        slots.add(slot1);
-        slots.add(slot2);
+    public void testGetAndSetBookings() {
+        Booking booking1 = new Booking();
+        Booking booking2 = new Booking();
+        Set<Booking> bookings = new HashSet<>();
+        bookings.add(booking1);
+        bookings.add(booking2);
 
-        court.setSlots(slots);
-        assertEquals(slots, court.getSlots());
+        court.setBookings(bookings);
+        assertEquals(bookings, court.getBookings());
     }
 
     @Test
@@ -96,8 +91,14 @@ public class CourtTest {
 
     @Test
     public void testConstructorWithParameters() {
-        Court newCourt = new Court("Location C",Time.valueOf("10:00:00"),Time.valueOf("23:00:00"), 150.0);
+        Admin admin = new Admin("3", "admin3");
+        Manager manager = new Manager("m3", "Manager3", null);
+        Court newCourt = new Court("Location C", Time.valueOf("10:00:00"), Time.valueOf("23:00:00"), 150.0f, admin, manager);
         assertEquals("Location C", newCourt.getLocation());
+        assertEquals(Time.valueOf("10:00:00"), newCourt.getStartTime());
+        assertEquals(Time.valueOf("23:00:00"), newCourt.getEndTime());
         assertEquals(150.0, newCourt.getPrice());
+        assertEquals(admin, newCourt.getAdmin());
+        assertEquals(manager, newCourt.getManager());
     }
 }

@@ -16,7 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,7 +27,6 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PaymentID")
     private Long paymentId;
-
 
     @Column(name = "amount")
     private float amount;
@@ -42,32 +41,78 @@ public class Payment {
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CustomerID")
+    @JoinColumn(name = "customerId")
     private Customer customer;
     
-    @OneToMany(mappedBy = "payment",cascade = CascadeType.ALL,orphanRemoval = true)
-    private Set<Court> courts=new HashSet<Court>();
+    @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Booking booking;
+
     
-    public Payment() {
-        super();
-    }
-    public Payment(float amount, String status,LocalDate paymentDate,LocalTime paymentTime, Customer customer) {
+    
+    
+	public Payment() {
 		super();
-		this.paymentTime = paymentTime;
-		this.paymentDate = paymentDate;
-		this.amount = amount;
-		this.status = status;
-		this.customer = customer;
 	}
-	public Payment(Long paymentId, float amount, String status,LocalDate paymentDate,LocalTime paymentTime, Customer customer) {
+	public Payment(Long paymentId, float amount,String status, LocalDate paymentDate, LocalTime paymentTime, 
+			Customer customer) {
+		super();
 		this.paymentId = paymentId;
-		this.paymentTime = paymentTime;
-		this.paymentDate = paymentDate;
 		this.amount = amount;
+		this.paymentDate = paymentDate;
+		this.paymentTime = paymentTime;
 		this.status = status;
 		this.customer = customer;
 	}
-	
+	public Payment(float amount, String status, LocalDate paymentDate, LocalTime paymentTime,
+			Customer customer) {
+		super();
+		this.amount = amount;
+		this.paymentDate = paymentDate;
+		this.paymentTime = paymentTime;
+		this.status = status;
+		this.customer = customer;
+	}
+
+	public Long getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(Long paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
+	public LocalDate getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(LocalDate paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+
+	public LocalTime getPaymentTime() {
+		return paymentTime;
+	}
+
+	public void setPaymentTime(LocalTime paymentTime) {
+		this.paymentTime = paymentTime;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -76,49 +121,14 @@ public class Payment {
 		this.customer = customer;
 	}
 
-	public Set<Court> getCourts() {
-		return courts;
+	public Booking getBooking() {
+		return booking;
 	}
 
-	public void setCourts(Set<Court> courts) {
-		this.courts = courts;
+	public void setBooking(Booking booking) {
+		this.booking = booking;
 	}
 
-	public Long getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
-    }
-
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-	public LocalDate getPaymentDate() {
-		return paymentDate;
-	}
-	public void setPaymentDate(LocalDate localDate) {
-		this.paymentDate = localDate;
-	}
-	public LocalTime getPaymentTime() {
-		return paymentTime;
-	}
-	public void setPaymentTime(LocalTime localTime) {
-		this.paymentTime = localTime;
-	}
-
+    
 }
+

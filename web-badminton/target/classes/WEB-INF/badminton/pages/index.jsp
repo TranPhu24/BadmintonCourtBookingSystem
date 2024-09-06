@@ -39,7 +39,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       <section class="slider-1">
         <div class="slider-letter">
           <h1>ĐẶT NHANH CHỐT NHANH CÓ NGAY SÂN XỊN !!!</h1>
-          <a href="<c:url value='/dat-san' />" class="btn">Đặt Ngay</a>
+          <a href="<c:url value='/login' />" class="btn">Đặt Ngay</a>
         </div>
         <div class="slider-image">
           <img src="resources/images/home/slider1.png" alt="slider1" />

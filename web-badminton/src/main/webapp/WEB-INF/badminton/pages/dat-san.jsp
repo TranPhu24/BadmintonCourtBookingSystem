@@ -20,16 +20,121 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
           </div>
           <nav>
             <ul class="menu">
-              <li><a href="<c:url value='/index' />">Trang Chủ</a></li>
+              <li><a href="<c:url value='/list-san-customer' />">Danh sách sân</a></li>
               <li><a href="<c:url value='/dat-san' />">Đặt Sân</a></li>
 
               <li><a href="<c:url value='/thanh-toan' />">Thanh toán</a></li>
+              <li><a href="<c:url value='/index' />">Trang Chủ</a></li>
             </ul>
           </nav>
         </div>
       </header>
+      
+      <!-- slider 3 -->
+      <form action="${pageContext.request.contextPath}/datsanCustomer" method="post">
+      <div class="slider-3">
+        <div class="slider-3-container">
+          <h1>V Badminton</h1>
+          <div class="slider-3-content">
+            
+            <div class="form-group">
+              <label for="booking-type">Loại đặt lịch</label>
+              <select id="booking-type" name="booking-type" required>
+                <option value="">--Chọn loại đặt lịch--</option>
+                <option value="fixed">Lịch cố định (>= 1 tháng)</option>
+                <option value="daily">Lịch ngày (1 lần chơi)</option>
+                <option value="flexible">Lịch linh hoạt (số giờ/tháng)</option>
+              </select>
+            </div>
+            <!-- Lịch cố định -->
+            <div class="form-group" name="lichcodinh" value="lichcodinh" id="fixed-options" style="display: none">
+              <label for="fixed-days">Chọn thứ trong tuần</label>
+              <select id="fixed-days" name="fixed-days" required>
+                <option name="day" value="monday">Thứ Hai</option>
+                <option name="day" value="tuesday">Thứ Ba</option>
+                <option name="day" value="wednesday">Thứ Tư</option>
+                <option name="day" value="thursday">Thứ Năm</option>
+                <option name="day" value="friday">Thứ Sáu</option>
+                <option name="day" value="saturday">Thứ Bảy</option>
+                <option name="day" value="sunday">Chủ Nhật</option>
+              </select>
+              <label for="fixed-days">Chọn Slot</label>
+              <select id="fixed-days" name="slotInfo" >
+               
+				<c:forEach var="court" items="${courts}">
+		                <c:forEach var="slot" items="${slots}">		                    
+		                     <option value="${court.courtId}-${slot.slotId}">${court.location}-${slot.startTime} - ${slot.endTime}</option>
+		                </c:forEach>
+		            </c:forEach>
+              </select>              
+            </div>
+            <!-- Đặt lịch ngày -->
+            <div class="form-group" name="lichngay" value="lichngay"  id="daily-options" style="display: none">
+              <label for="daily-date">Ngày đặt</label>
+              <input
+                type="date"
+                id="daily-date"
+                name="daily-date"
+              /><br />
+              <label for="fixed-days">Chọn Slot</label>
+              <select id="fixed-days" name="slotInfo" >
+              <c:forEach var="court" items="${courts}">
+		                <c:forEach var="slot" items="${slots}">		                    
+		                    <option value="${court.courtId}-${slot.slotId}">${court.location}-${slot.startTime} - ${slot.endTime}</option>
+		                </c:forEach>
+		            </c:forEach>
+              </select>
+              
+            </div>
+            <!-- Lịch linh hoạt -->
+            <div class="form-group" name="lichlinhhoat" value="lichlinhhoat" id="flexible-options" style="display: none">
+              <label for="hours">Tổng số giờ trong tháng</label>
+              <input
+                type="number"
+                id="hours"
+                name="hours"
+                placeholder="Nhập tổng số giờ"
+              />
+            </div>
+            <!-- <div class="form-group">
+              <label for="message">Ghi chú</label>
+              <textarea id="message" name="message" required></textarea>
+              <p>
+                <a href="/pages/privacy-policy.html">Chính sách bảo mật</a> của
+                chúng tôi được áp dụng.
+              </p>
+            </div> -->
+            <button type="submit" name="datsan" value="datsan">Đặt sân</button>
+
+            <div class="form-group">
+              <label>Thông tin sân</label>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Vị trí sân</th>
+                    <th>Thời gian sân</th>
+                    <th>Thời gian slot</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <c:forEach var="court" items="${courts}">
+		                <c:forEach var="slot" items="${slots}">
+		                    <tr>
+		                        <td>${court.location}</td>                      
+		                        <td>${court.startTime}-${court.endTime}</td>
+		                        <td>${slot.startTime}-${slot.endTime}</td>
+		                    </tr>
+		                </c:forEach>
+		            </c:forEach>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
       <!-- slider 1 -->
-      <!-- <section class="slider-1">
+       <section class="slider-1">
         <div class="slider-1-container">
           <h2>GIỚI THIỆU VỀ SÂN CẦU LÔNG V BADMINTON</h2>
           <div class="slider-1-content">
@@ -96,147 +201,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
             <p>Liên hệ đặt sân bên dưới.</p>
           </div>
         </div>
-      </section> -->
-      <!-- slider 3 -->
-      <div class="slider-3">
-        <div class="slider-3-container">
-          <h1>V Badminton</h1>
-          <div class="slider-3-content">
-            <div class="form-group">
-              <label for="name">Tên</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Nhập tên"
-                required
-              />
-              <label for="email">CCCD</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Nhập CCCD"
-                required
-              />
-              <label for="phone">Số điện thoại</label>
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                placeholder="Nhập số điện thoại"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="booking-type">Loại đặt lịch</label>
-              <select id="booking-type" name="booking-type" required>
-                <option value="">--Chọn loại đặt lịch--</option>
-                <option value="fixed">Lịch cố định (>= 1 tháng)</option>
-                <option value="daily">Lịch ngày (1 lần chơi)</option>
-                <option value="flexible">Lịch linh hoạt (số giờ/tháng)</option>
-              </select>
-            </div>
-            <!-- Lịch cố định -->
-            <div class="form-group" id="fixed-options" style="display: none">
-              <label for="fixed-days">Chọn thứ trong tuần</label>
-              <select id="fixed-days" name="fixed-days" multiple>
-                <option value="monday">Thứ Hai</option>
-                <option value="tuesday">Thứ Ba</option>
-                <option value="wednesday">Thứ Tư</option>
-                <option value="thursday">Thứ Năm</option>
-                <option value="friday">Thứ Sáu</option>
-                <option value="saturday">Thứ Bảy</option>
-                <option value="sunday">Chủ Nhật</option>
-              </select>
-              <label for="fixed-start-time">Giờ bắt đầu</label>
-              <input
-                type="time"
-                id="fixed-start-time"
-                name="fixed-start-time"
-                required
-              /><br />
-              <label for="fixed-end-time">Giờ kết thúc</label>
-              <input
-                type="time"
-                id="fixed-end-time"
-                name="fixed-end-time"
-                required
-              />
-            </div>
-            <!-- Đặt lịch ngày -->
-            <div class="form-group" id="daily-options" style="display: none">
-              <label for="daily-date">Ngày đặt</label>
-              <input
-                type="date"
-                id="daily-date"
-                name="daily-date"
-                required
-              /><br />
-              <label for="daily-start-time">Giờ bắt đầu</label>
-              <input
-                type="time"
-                id="daily-start-time"
-                name="daily-start-time"
-                required
-              /><br />
-              <label for="daily-end-time">Giờ kết thúc</label>
-              <input
-                type="time"
-                id="daily-end-time"
-                name="daily-end-time"
-                required
-              />
-            </div>
-            <!-- Lịch linh hoạt -->
-            <div class="form-group" id="flexible-options" style="display: none">
-              <label for="hours">Tổng số giờ trong tháng</label>
-              <input
-                type="number"
-                id="hours"
-                name="hours"
-                placeholder="Nhập tổng số giờ"
-              />
-            </div>
-            <!-- <div class="form-group">
-              <label for="message">Ghi chú</label>
-              <textarea id="message" name="message" required></textarea>
-              <p>
-                <a href="/pages/privacy-policy.html">Chính sách bảo mật</a> của
-                chúng tôi được áp dụng.
-              </p>
-            </div> -->
-            <button type="submit">Đặt sân</button>
-            <div class="form-group">
-              <label>Danh sách sân đang chờ duyệt</label>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Vị trí sân</th>
-                    <th>Ngày</th>
-                    <th>Thời gian sân</th>
-                    <th>Thời gian sân đã được đặt</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Khu vực 1</td>
-                    <td>01/01/2024</td>
-                    <td>06:00 - 11:00</td>
-                    <td>08:00 - 09:00</td>
-                  </tr>
-                  <tr>
-                    <td>Khu vực 2</td>
-                    <td>01/02/2024</td>
-                    <td>11:00 - 17:00</td>
-                    <td>02:00 - 04:00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section> 
       <!-- slider 4 -->
       <section class="slider-4">
         <div class="slider-4-container">

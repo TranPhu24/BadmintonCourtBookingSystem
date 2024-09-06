@@ -37,37 +37,70 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
         </div>
       </header>
       <!-- slider 1 -->
+      
+          <form action="${pageContext.request.contextPath}/timkiemGuest" method="post">
       <div class="slider-1">
         <div class="slider-1-container">
           <h1>Khách hàng</h1>
+          
           <div class="slider-1-content">
             <div class="form-group">
-              <label for="location">Chọn sân:</label>
+              <label for="location">Tìm kiếm sân:</label>
               <select id="location" name="location">
-                <option value="">Chọn sân</option>
-                <option value="san_a">Sân A</option>
-                <option value="san_b">Sân B</option>
-                <option value="san_c">Sân C</option>
+              <option value="">Vị trí ------ Giờ hoạt động ------ Giờ có thể vào chơi</option>
+                <c:forEach var="court" items="${listCourt}">
+		                <c:forEach var="slot" items="${listSlot}">		                    
+		                    <option value="${court.courtId}-${slot.slotId}">${court.location}  |  ${court.startTime} - ${court.endTime}  |  ${slot.startTime} - ${slot.endTime}</option>
+		                </c:forEach>
+		            </c:forEach>
               </select>
             </div>
-            <div class="form-group">
+            <!--  <div class="form-group">
               <label for="operating-hours">Giờ hoạt động:</label>
               <select id="operating-hours" name="operating-hours">
                 <option value="">Chọn giờ hoạt động</option>
-                <option value="06:00 - 24:00">06:00 - 24:00</option>
-                <option value="05:00 - 22:00">05:00 - 22:00</option>
-                <option value="08:00 - 20:00">08:00 - 20:00</option>
+                <c:forEach var="court" items="${listCourt}">		                    
+		                     <option value="${court.courtId}">${court.startTime} - ${court.endTime}</option>
+		                </c:forEach>
               </select>
             </div>
             <div class="form-group">
-              <label for="play-time">Nhập giờ vào chơi:</label>
-              <input type="time" id="play-time" name="play-time" />
+              <label for="play-time">Giờ vào chơi:</label>           
+               <select id="play-time" name="play-time">
+                <option value="">Chọn giờ vào chơi</option>
+                <c:forEach var="slot" items="${listSlot}">		                    
+		                     <option value="${slot.slotId}">${slot.startTime} - ${slot.endTime}</option>
+		                </c:forEach>
+              </select>
+            </div>-->
+            <button name="btnkiemtra" value="kiemtra">Kiểm tra</button>
+            
+            <div class="form-group">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Vị trí</th>
+                    <th>Ngày</th>
+                    <th>Thời gian sân</th>
+                    <th>Thời gian slot</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <c:forEach var="booking" items="${listSearch}">
+		              <tr>
+		      			<td>${booking.court.location}</td>
+		      			<td>${booking.bookingDate}</td>
+		      			<td>${booking.court.startTime}-${booking.court.endTime}</td>
+		      			<td>${booking.slot.startTime}-${booking.slot.endTime}</td>
+		             </tr>      
+		           </c:forEach>
+                </tbody>
+              </table>
             </div>
-            <button type="button">Kiểm tra</button>
           </div>
         </div>
       </div>
-
+</form>
       <!-- slider 2 -->
       <section class="slider-2">
         <div class="slider-2-container">

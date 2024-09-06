@@ -59,6 +59,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
           </div>
         </div>
       </section>
+      
       <!-- slider 2 -->
       <section class="slider-2">
         <div class="slider-2-container">

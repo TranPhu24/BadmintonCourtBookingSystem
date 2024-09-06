@@ -1,5 +1,6 @@
 package group6.pojo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,8 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,6 +39,9 @@ public class Slot {
     @ManyToOne
     @JoinColumn(name = "ManagerId")
     private Manager manager;
+    
+    @OneToMany(mappedBy = "court",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Booking> bookings= new HashSet<Booking>();
     
     @ManyToMany
     @JoinTable(
@@ -68,8 +74,28 @@ public class Slot {
 		return staff;
 	}
 
-	public void setStaff(Staff staff) {
-		this.staff = staff;
+	public Long getSlotId() {
+		return slotId;
+	}
+
+	public void setSlotId(Long slotId) {
+		this.slotId = slotId;
+	}
+
+	public Time getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+
+	public Time getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
 	}
 
 	public Manager getManager() {
@@ -80,6 +106,14 @@ public class Slot {
 		this.manager = manager;
 	}
 
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
 	public Set<Court> getCourts() {
 		return courts;
 	}
@@ -88,29 +122,11 @@ public class Slot {
 		this.courts = courts;
 	}
 
-	public Long getSlotId() {
-        return slotId;
-    }
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
 
-    public void setSlotId(Long slotId) {
-        this.slotId = slotId;
-    }
-
-    public Time getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public Time getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
+	
 
   
 }

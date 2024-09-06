@@ -32,10 +32,8 @@ public class CourtDAO {
         }
     }
 
-
-    
     public List<Court> getCourts() {
-    	EntityManager em = emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         List<Court> courts = null;
         try {
             courts = em.createQuery("from Court", Court.class).getResultList();
@@ -72,10 +70,7 @@ public class CourtDAO {
                 existingCourt.setEndTime(court.getEndTime());
                 existingCourt.setPrice(court.getPrice());
                 existingCourt.setAdmin(court.getAdmin());
-                existingCourt.setBooking(court.getBooking());
-                existingCourt.setPayment(court.getPayment());
                 existingCourt.setManager(court.getManager());
-                existingCourt.setSlots(court.getSlots());
                 transaction.commit();
             }
         } catch (Exception e) {
@@ -94,10 +89,9 @@ public class CourtDAO {
         try {
             transaction.begin();
             Court court = em.find(Court.class, courtId);
-            court.setAdmin(null);
-            court.setBooking(null);
-            court.setPayment(null);
             if (court != null) {
+                court.setAdmin(null);
+                court.setManager(null);
                 em.remove(court);
                 transaction.commit();
             }

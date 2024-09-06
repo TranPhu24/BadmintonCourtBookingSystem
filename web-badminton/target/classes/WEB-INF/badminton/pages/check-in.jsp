@@ -31,71 +31,77 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
         </div>
       </header>
       <!-- slider 1 -->
+      <form action="${pageContext.request.contextPath}/checkinStaff" method="post">
       <div class="slider-1">
         <div class="slider-1-container">
-          <h1>Nhân viên</h1>
+          <h1>Check In</h1>
           <div class="slider-1-content">
+            
             <div class="form-group">
-              <label for="customer-id">Mã khách hàng</label>
-              <input
-                type="text"
-                id="customer-id"
-                name="customer-id"
-                placeholder="Nhập mã khách hàng"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="court-id">Mã sân</label>
+              <label for="court-id">Mã đặt</label>
               <input
                 type="text"
                 id="court-id"
-                name="court-id"
-                placeholder="Nhập mã sân"
+                name="booking-id"
+                placeholder="Nhập mã đặt sân"
                 required
               />
             </div>
+            
+            
+            <c:if test="${not empty booking}">
+			    <table>
+			        <thead>
+			            <tr>
+			                <th>Mã đặt</th>
+			                <th>Mã khách</th>
+			                <th>Vị trí</th>
+			                <th>Ngày đặt sân</th>
+			                <th>Giờ đặt</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr>
+			                <td>${booking.bookingId}</td>
+			                <td>${booking.customer.customerId}</td>
+			                <td>${booking.court.location}</td>
+			                <td>${booking.bookingDate}</td>
+			                <td>${booking.slot.startTime}h - ${booking.slot.endTime}h</td>
+			            </tr>
+			        </tbody>
+			    </table>
+			</c:if>
+              
             <button href="#" type="submit">Kiểm tra</button>
             <div class="form-group">
               <label>Danh sách tất cả sân đã đặt</label>
               <table>
                 <thead>
                   <tr>
-                    <th>Mã sân</th>
-                    <th>Mã khách hàng</th>
+                    <th>Mã đặt</th>
+                    <th>Mã khách</th>
                     <th>Vị trí</th>
                     <th>Ngày đặt sân</th>
-                    <th>Giờ sân</th>
                     <th>Giờ đặt</th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>01</td>
-                    <td>Khu vực 1</td>
-                    <td>01/01/2024</td>
-                    <td>06:00 - 22:00</td>
-                    <td>08:00 - 09:00</td>
-                    <td>Xóa</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>02</td>
-                    <td>Khu vực 2</td>
-                    <td>01/02/2024</td>
-                    <td>11:00 - 17:00</td>
-                    <td>02:00 - 04:00</td>
-                    
-                    <td>Xóa</td>
-                  </tr>
+                  <c:forEach var="booking" items="${bookingList}">
+				    <tr>
+				      <td>${booking.bookingId}</td>
+				      <td>${booking.customer.customerId}</td>
+				      <td>${booking.court.location}</td>
+				      <td>${booking.bookingDate}</td>				     
+				      <td>${booking.slot.startTime}h - ${booking.slot.endTime}h</td>
+				    </tr>
+				  </c:forEach>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+      </form>
       <!-- slider 2 -->
       <section class="slider-2">
         <div class="slider-2-container">

@@ -21,7 +21,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
         <ul class="menu">
           <li><a href="<c:url value='/index' />">Trang Chủ</a></li>
           
-          <li><a href="<c:url value='/thanh-toan' />">Thanh toán</a></li>
+          <li><a href="<c:url value='/tim-kiem' />">Tìm kiếm</a></li>
           <li>
             <a href="<c:url value='/ve-chung-toi' />">Về Chúng Tôi</a>
           </li>
@@ -61,7 +61,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                 remember me</label>
                 <a href="#">Forgot Password</a>
             </div>
-            <button type="submit" class="btn" name="btnLogin" value="login"><a href="#"> login</a></button>
+            <button type="submit" class="btn" name="btnLogin" value="login"> login</button>
             <div class="login-register">
                 <p>Are you Manager? <a href="#" class="register-link">Manager</a></p>
             </div>
@@ -92,7 +92,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
             remember me</label>
             <a href="#">Forgot Password</a>
         </div>
-        <button type="submit" class="btn" name="btnLogin" value="login"><a href="#"> login</a></button>
+        <button type="submit" class="btn" name="btnLogin" value="login">login</button>
         <div class="login-register">
             <p>Are you Staff? <a href="#" class="login-link">Staff</a></p>
         </div>

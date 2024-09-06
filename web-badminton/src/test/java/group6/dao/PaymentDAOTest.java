@@ -30,8 +30,7 @@ public class PaymentDAOTest {
         paymentDAO = new PaymentDAO("test-unit");
         customerDAO = new CustomerDAO("test-unit");
         Customer customer1 = new Customer("123", "Customer A", "@customerA", "0903",0);
-        Customer customer2 = new Customer("124", "Customer B", "@customerB", "0904",0);
-
+        Customer customer2 = new Customer("125", "Customer B", "@customerB", "0904",0);
         customerDAO.save(customer1);
         customerDAO.save(customer2);
 
@@ -40,7 +39,7 @@ public class PaymentDAOTest {
         paymentDAO.save(payment);
         paymentDAO.save(payment2);
         
-        payments = paymentDAO.getCPayments();
+        payments = paymentDAO.getPayments();
     }
 
     @AfterAll
@@ -75,10 +74,10 @@ public class PaymentDAOTest {
         assertEquals("paymentUpdate", updatedPayment.getStatus());
     }
     
-//    @Test
-//    void testDelete() {
-//        paymentDAO.delete(payments.get(1).getPaymentId());
-//        Payment deletedPayment2 = em.find(Payment.class, payments.get(1).getPaymentId());
-//        assertNull(deletedPayment2);
-//    }
+    @Test
+    void testDelete() {
+        paymentDAO.delete(payments.get(1).getPaymentId());
+        Payment deletedPayment2 = em.find(Payment.class, payments.get(1).getPaymentId());
+        assertNull(deletedPayment2);
+   }
 }

@@ -53,7 +53,7 @@ public class UserService implements IUserService{
         existingUser.setRole(userDTO.getRole());
         existingUser.setAdmin(existingAdmin);
 
-        return userRepository.save(existingUser);
+        return userRepository.update(existingUser);
     }
 
     public User getUser(String id) throws DataNotFoundException {

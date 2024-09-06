@@ -53,9 +53,10 @@ public class CustomerService implements ICustomerService {
         existingCustomer.setCustomerName(customerDTO.getCustomerName());
         existingCustomer.setEmail(customerDTO.getEmail());
         existingCustomer.setPhone(customerDTO.getPhone());
+        existingCustomer.setTimeplay(customerDTO.getTimePlay());
         existingCustomer.setUser(existingUser);
         
-        return customerRepository.save(existingCustomer);
+        return customerRepository.update(existingCustomer);
     }
     
   

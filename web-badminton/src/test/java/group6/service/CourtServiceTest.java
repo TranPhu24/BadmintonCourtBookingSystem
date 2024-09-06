@@ -1,19 +1,17 @@
 package group6.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 import group6.dto.CourtDTO;
 import group6.exceptions.DataNotFoundException;
 import group6.pojo.Court;
 import group6.pojo.Manager;
 import group6.pojo.Payment;
-import group6.pojo.Admin;
-import group6.pojo.Booking;
 import group6.repository.CourtRepository;
 import group6.repository.ManagerRepository;
 import group6.repository.PaymentRepository;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.sql.Time;
 import java.util.Arrays;
@@ -28,195 +26,130 @@ class CourtServiceTest {
 
     private CourtService courtService;
     private CourtRepository courtRepository;
-    private PaymentRepository paymentRepository;
     private ManagerRepository managerRepository;
+    private PaymentRepository paymentRepository;
     private Court court;
     private CourtDTO courtDTO;
-    private Payment payment;
     private Manager manager;
-    private Admin admin;
-    private Booking booking;
+    private Payment payment;
 
     @BeforeEach
     void setUp() {
         courtRepository = Mockito.mock(CourtRepository.class);
-        paymentRepository = Mockito.mock(PaymentRepository.class);
         managerRepository = Mockito.mock(ManagerRepository.class);
-        courtService = new CourtService(courtRepository, paymentRepository, managerRepository);
-
-        payment = new Payment();
-        payment.setPaymentId(1L); // Update to Long
+        paymentRepository = Mockito.mock(PaymentRepository.class);
+        courtService = new CourtService(courtRepository, managerRepository);  
 
         manager = new Manager();
         manager.setManagerId("1");
+        manager.setManagerName("Manager 1");
 
-        admin = new Admin(); // Mock Admin if needed
-        booking = new Booking(); // Mock Booking if needed
+        payment = new Payment();
+        payment.setPaymentId(1L);
 
-        court = new Court();
-        court.setCourtId(1L);
-        court.setLocation("Location 1");
-        court.setStartTime(Time.valueOf("08:00:00"));
-        court.setEndTime(Time.valueOf("10:00:00"));
-        court.setPrice(100.0);
-        court.setManager(manager);
-        court.setPayment(payment);
-        court.setAdmin(admin); // Mock if needed
-        court.setBooking(booking); // Mock if needed
+        court = new Court("Location", Time.valueOf("09:00:00"), 
+                          Time.valueOf("10:00:00"), 100.0f, null, manager);
 
         courtDTO = new CourtDTO();
-        courtDTO.setLocation("Location 1");
-        courtDTO.setStartTime("08:00:00");
-        courtDTO.setEndTime("10:00:00");
-        courtDTO.setPrice(100.0);
-        courtDTO.setPaymentId(1L); // Update to Long
         courtDTO.setManagerId("1");
+        courtDTO.setLocation("Location");
+        courtDTO.setStartTime(Time.valueOf("09:00:00"));
+        courtDTO.setEndTime(Time.valueOf("10:00:00"));
+        courtDTO.setPrice(100.0f);
+
+        when(managerRepository.findById("1")).thenReturn(Optional.of(manager));
     }
 
     @Test
-    void createCourt() throws DataNotFoundException {
-        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment)); // Update to Long
-        when(managerRepository.findById("1")).thenReturn(manager);
+    void createCourt() {
         when(courtRepository.save(any(Court.class))).thenReturn(court);
 
         Court createdCourt = courtService.createCourt(courtDTO);
 
         assertNotNull(createdCourt);
-        assertEquals(court, createdCourt);
+        assertEquals(court.getLocation(), createdCourt.getLocation());
+        assertEquals(court.getStartTime(), createdCourt.getStartTime());
+        assertEquals(court.getEndTime(), createdCourt.getEndTime());
+        assertEquals(court.getPrice(), createdCourt.getPrice());
 
-        verify(paymentRepository, times(1)).findById(1L); // Update to Long
-        verify(managerRepository, times(1)).findById("1");
         verify(courtRepository, times(1)).save(any(Court.class));
     }
 
     @Test
-    void createCourt_paymentNotFound() {
-        when(paymentRepository.findById(1L)).thenReturn(Optional.empty()); // Update to Long
-
-        assertThrows(DataNotFoundException.class, () -> courtService.createCourt(courtDTO));
-
-        verify(paymentRepository, times(1)).findById(1L); // Update to Long
-        verify(managerRepository, never()).findById(anyString());
-        verify(courtRepository, never()).save(any(Court.class));
-    }
-
-    @Test
-    void createCourt_managerNotFound() {
-        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment)); // Update to Long
-        when(managerRepository.findById("1")).thenReturn(null);
-
-        assertThrows(DataNotFoundException.class, () -> courtService.createCourt(courtDTO));
-
-        verify(paymentRepository, times(1)).findById(1L); // Update to Long
-        verify(managerRepository, times(1)).findById("1");
-        verify(courtRepository, never()).save(any(Court.class));
-    }
-
-    @Test
-    void updateCourt() throws DataNotFoundException {
-        when(courtRepository.findById(1L)).thenReturn(court);
-        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment)); // Update to Long
-        when(managerRepository.findById("1")).thenReturn(manager);
-        when(courtRepository.save(any(Court.class))).thenReturn(court);
-
-        Court updatedCourt = courtService.updateCourt(1L, courtDTO);
-
-        assertNotNull(updatedCourt);
-        assertEquals(court, updatedCourt);
-
-        verify(courtRepository, times(1)).findById(1L);
-        verify(paymentRepository, times(1)).findById(1L); // Update to Long
-        verify(managerRepository, times(1)).findById("1");
-        verify(courtRepository, times(1)).save(any(Court.class));
-    }
-
-    @Test
-    void updateCourt_notFound() {
-        when(courtRepository.findById(1L)).thenReturn(null);
-
-        assertThrows(DataNotFoundException.class, () -> courtService.updateCourt(1L, courtDTO));
-
-        verify(courtRepository, times(1)).findById(1L);
-        verify(paymentRepository, never()).findById(anyLong()); // Update to Long
-        verify(managerRepository, never()).findById(anyString());
-        verify(courtRepository, never()).save(any(Court.class));
-    }
-
-    @Test
-    void updateCourt_paymentNotFound() {
-        when(courtRepository.findById(1L)).thenReturn(court);
-        when(paymentRepository.findById(1L)).thenReturn(Optional.empty()); // Update to Long
-
-        assertThrows(DataNotFoundException.class, () -> courtService.updateCourt(1L, courtDTO));
-
-        verify(courtRepository, times(1)).findById(1L);
-        verify(paymentRepository, times(1)).findById(1L); // Update to Long
-        verify(managerRepository, never()).findById(anyString());
-        verify(courtRepository, never()).save(any(Court.class));
-    }
-
-    @Test
-    void updateCourt_managerNotFound() {
-        when(courtRepository.findById(1L)).thenReturn(court);
-        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment)); // Update to Long
-        when(managerRepository.findById("1")).thenReturn(null);
-
-        assertThrows(DataNotFoundException.class, () -> courtService.updateCourt(1L, courtDTO));
-
-        verify(courtRepository, times(1)).findById(1L);
-        verify(paymentRepository, times(1)).findById(1L); // Update to Long
-        verify(managerRepository, times(1)).findById("1");
-        verify(courtRepository, never()).save(any(Court.class));
-    }
-
-    @Test
-    void getAllCourts() {
+    void getCourts() {
         when(courtRepository.findAll()).thenReturn(Arrays.asList(court));
 
-        List<Court> courts = courtService.getAllCourts();
+        List<Court> courts = courtService.getCourts();
 
         assertNotNull(courts);
         assertEquals(1, courts.size());
-        assertEquals(court, courts.get(0));
+        assertEquals(court.getLocation(), courts.get(0).getLocation());
 
         verify(courtRepository, times(1)).findAll();
     }
 
     @Test
-    void getCourt() throws DataNotFoundException {
-        when(courtRepository.findById(1L)).thenReturn(court);
+    void findById() throws DataNotFoundException {
+        when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
 
-        Court retrievedCourt = courtService.getCourt(1L);
+        Court foundCourt = courtService.findById(1L);
 
-        assertNotNull(retrievedCourt);
-        assertEquals(court, retrievedCourt);
-
-        verify(courtRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void getCourt_notFound() {
-        when(courtRepository.findById(1L)).thenReturn(null);
-
-        assertThrows(DataNotFoundException.class, () -> courtService.getCourt(1L));
+        assertNotNull(foundCourt);
+        assertEquals(court.getLocation(), foundCourt.getLocation());
 
         verify(courtRepository, times(1)).findById(1L);
     }
 
     @Test
-    void checkCourtStatus() throws DataNotFoundException {
-        when(courtRepository.findById(1L)).thenReturn(court);
+    void findById_notFound() {
+        when(courtRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertDoesNotThrow(() -> courtService.checkCourtStatus(1L));
+        assertThrows(DataNotFoundException.class, () -> courtService.findById(1L));
 
         verify(courtRepository, times(1)).findById(1L);
     }
 
     @Test
-    void checkCourtStatus_notFound() {
-        when(courtRepository.findById(1L)).thenReturn(null);
+    void updateCourt() throws DataNotFoundException {
+        when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
+        when(courtRepository.update(any(Court.class))).thenReturn(court);
 
-        assertThrows(DataNotFoundException.class, () -> courtService.checkCourtStatus(1L));
+        Court updatedCourt = courtService.updateCourt(1L, courtDTO);
+
+        assertNotNull(updatedCourt);
+        assertEquals(courtDTO.getLocation(), updatedCourt.getLocation());
+        assertEquals(courtDTO.getStartTime(), updatedCourt.getStartTime());
+        assertEquals(courtDTO.getEndTime(), updatedCourt.getEndTime());
+        assertEquals(courtDTO.getPrice(), updatedCourt.getPrice());
+
+        verify(courtRepository, times(1)).findById(1L);
+        verify(courtRepository, times(1)).update(any(Court.class));
+    }
+
+    @Test
+    void updateCourt_notFound() {
+        when(courtRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(DataNotFoundException.class, () -> courtService.updateCourt(1L, courtDTO));
+
+        verify(courtRepository, times(1)).findById(1L);
+        verify(courtRepository, never()).save(any(Court.class));
+    }
+
+    @Test
+    void deleteCourt() throws DataNotFoundException {
+        when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
+
+        courtService.deleteCourt(1L);
+
+        verify(courtRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void deleteCourt_notFound() {
+        when(courtRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(DataNotFoundException.class, () -> courtService.deleteCourt(1L));
 
         verify(courtRepository, times(1)).findById(1L);
     }

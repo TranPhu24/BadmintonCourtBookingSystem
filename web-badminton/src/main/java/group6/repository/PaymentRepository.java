@@ -19,7 +19,7 @@ public class PaymentRepository implements IPaymentRepository {
 	@Override
 	public List<Payment> findAll() {
 		// TODO Auto-generated method stub
-		return paymentDAO.getCPayments() ;
+		return paymentDAO.getPayments() ;
 	}
 
 	@Override

@@ -8,7 +8,6 @@ public class CustomerDTO {
     private String userId;
     private float timePlay;
     public CustomerDTO() {
-    	
     }
     
 	public CustomerDTO(String customerId, String customerName, String email, String phone,float timePlay, String userId) {
