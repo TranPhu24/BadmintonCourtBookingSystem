@@ -6,7 +6,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home | V Badminton</title>
     <link rel="stylesheet" href="resources/css/style.css"/>
-    <link rel="stylesheet" href="resources/css/thongtin.css">
+    <link rel="stylesheet" href="resources/css/thongtin.css"/>
   </head>
   <body>
     <form action="${pageContext.request.contextPath}/formLoginStaff" method="post">
@@ -26,15 +26,19 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
         </div>
         
       </header>
+      
 <main>
-    <div class="container">
-        <img class="profile-pic" src="manager.jpg" alt="Hình ảnh quản lý">
+    <div class="IF">
+    <div class="status"><strong>THÔNG TIN NHÂN VIÊN</strong></div>
+        <img class="profile-pic" src="resources/images/home/person.png" alt="Hình ảnh quản lý">
+        <div class="info"><strong>Tên:</strong> ${name}</div>
+        <hr>
         <div class="info"><strong>UID:</strong> ${id}</div>
         <div class="info"><strong>Số CCCD:</strong> ${cccd}</div>
-        <div class="info"><strong>Tên:</strong> ${name}</div>
         <div class="position">Chức vụ: ${role}</div>
     </div>
 </main>
+<hr>
 <footer>
   <div class="contact">
     <img src="resources/images/home/logo.png" alt="V Badminton Logo" />
@@ -56,6 +60,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
     </div>
   </div>
 </footer>
+</div>
     <script src="resources/js/Staff.js"></script> 
   </form>
 </body>

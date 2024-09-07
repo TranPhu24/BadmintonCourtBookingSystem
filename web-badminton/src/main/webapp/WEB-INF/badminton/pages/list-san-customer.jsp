@@ -20,8 +20,11 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
           </div>
           <nav>
             <ul class="menu">
+            
+              <li><a href="<c:url value='/Customer_IF' />">Thông tin</a></li>
               <li><a href="<c:url value='/list-san-customer' />">Danh sách sân</a></li>
               <li><a href="<c:url value='/dat-san' />">Đặt Sân</a></li>
+
               <li><a href="<c:url value='/thanh-toan' />">Thanh toán</a></li>
               <li><a href="<c:url value='/index' />">Trang Chủ</a></li>
             </ul>
