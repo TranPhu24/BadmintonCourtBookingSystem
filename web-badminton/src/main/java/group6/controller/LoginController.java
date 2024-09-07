@@ -92,7 +92,7 @@ public class LoginController {
             
             if (user != null&&user.getPassword().equals(password)&& user.getRole().equals("customer") ) {
                 request.getSession().setAttribute("userSession", user);
-        		return "dat-san";
+        		return "redirect:/Customer_IF";
             }else {
             	model.addAttribute("errorMessage", "login-customer-false");
                 return "redirect:/form_login";
@@ -101,6 +101,17 @@ public class LoginController {
         return "form_login";
         
 	}
+	@RequestMapping(value = "/Customer_IF", method = RequestMethod.GET)
+    public String Customer_IF(HttpServletRequest request,Model model) {
+    	User userrSession = (User) request.getSession().getAttribute("userSession");
+		model.addAttribute("id", userrSession.getUserID());
+        model.addAttribute("cccd", userrSession.getCustomer().getCustomerId());
+        model.addAttribute("name", userrSession.getCustomer().getCustomerName());
+        model.addAttribute("email", userrSession.getCustomer().getEmail());
+        model.addAttribute("phone", userrSession.getCustomer().getPhone());
+        model.addAttribute("timeplay", userrSession.getCustomer().getTimeplay());
+    	return "Customer_IF";
+    }
 	/*                                  EMPLOYeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeê*/
 	@RequestMapping(value = "/formLoginStaff", method = RequestMethod.POST)
 	public String formLoginStaff(HttpServletRequest request, Model model) throws IOException {
