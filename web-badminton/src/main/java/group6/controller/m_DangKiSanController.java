@@ -67,34 +67,7 @@ public class m_DangKiSanController {
         return "dang-ky-san";
     }
     
-    @RequestMapping(value = "/editCourt", method = {RequestMethod.GET})
-	public String editCourt(@RequestParam("id") Long courtId,HttpServletRequest request, Model model) {
-		Court court = courtService.findById(courtId);
-        model.addAttribute("courtId", court.getCourtId());
-        model.addAttribute("location", court.getLocation());
-        model.addAttribute("timestart", court.getStartTime());
-        model.addAttribute("timeend", court.getEndTime());
-        model.addAttribute("price", court.getPrice());
-        
-        request.getSession().setAttribute("courtUpdate",court);
-		return "form_suasan";
-	}
-    @RequestMapping(value = "/formsuacourt", method = {RequestMethod.POST})
-    public String formsuacourt(HttpServletRequest request, Model model) {
-    	Court court=(Court)request.getSession().getAttribute("courtUpdate");
-    	String sua = request.getParameter("sua");
-    	if("sua".equals(sua)) {
-        	CourtDTO courtDTO=new CourtDTO();
-        	courtDTO.setLocation(request.getParameter("location"));
-        	courtDTO.setStartTime(Time.valueOf(request.getParameter("timestart")));
-        	courtDTO.setEndTime(Time.valueOf(request.getParameter("timeend")));
-        	courtDTO.setPrice( Float.parseFloat(request.getParameter("price")));
-        	courtDTO.setManagerId(court.getManager().getManagerId());
-        	courtService.updateCourt(court.getCourtId(), courtDTO);
-        	return "redirect:/dang-ky-san";
-        }
-    	return "form_suasan";
-    }
+    
     
     /*----------------------------------------------------------------------*/
     @RequestMapping(value = "/dang-ky-san", method = RequestMethod.GET)

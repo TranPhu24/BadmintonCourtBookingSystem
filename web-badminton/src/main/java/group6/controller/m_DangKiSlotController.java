@@ -58,30 +58,7 @@ public class m_DangKiSlotController {
         return "dang-ky-slot";
     }
     
-    @RequestMapping(value = "/editSlot", method = {RequestMethod.GET})
-	public String editCourt(@RequestParam("id") Long slotId,HttpServletRequest request, Model model) {
-		Slot slot = slotService.getSlot(slotId);
-        model.addAttribute("slotId", slot.getSlotId());
-        model.addAttribute("timestart", slot.getStartTime());
-        model.addAttribute("timeend", slot.getEndTime());
-        
-        request.getSession().setAttribute("slotUpdate",slot);
-		return "form_suaslot";
-	}
-    @RequestMapping(value = "/formsuaslot", method = {RequestMethod.POST})
-    public String formsuacourt(HttpServletRequest request, Model model) {
-    	Slot slot=(Slot)request.getSession().getAttribute("slotUpdate");
-    	String sua = request.getParameter("sua");
-    	if("sua".equals(sua)) {
-        	SlotDTO slotDTO=new SlotDTO();
-        	slotDTO.setStartTime(Time.valueOf(request.getParameter("timestart")));
-        	slotDTO.setEndTime(Time.valueOf(request.getParameter("timeend")));
-        	slotDTO.setManagerId(slot.getManager().getManagerId());
-        	slotService.updateSlot(slot.getSlotId(), slotDTO);
-        	return "redirect:/dang-ky-slot";
-        }
-    	return "form_suaslot";
-    }
+    
     
     /*----------------------------------------------------------------------*/
     @RequestMapping(value = "/dang-ky-slot", method = RequestMethod.GET)
