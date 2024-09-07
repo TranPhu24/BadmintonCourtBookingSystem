@@ -35,9 +35,9 @@ public class SlotService implements ISlotService {
         Manager existingManager = managerRepository.findById(slotDTO.getManagerId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find manager with id " + slotDTO.getManagerId()));
         
-        // Validate Staff
-       Staff existingStaff = staffRepository.findById(slotDTO.getStaffId())
-               .orElseThrow(() -> new DataNotFoundException("Cannot find staff with id " + slotDTO.getStaffId()));
+//        // Validate Staff
+//       Staff existingStaff = staffRepository.findById(slotDTO.getStaffId())
+//               .orElseThrow(() -> new DataNotFoundException("Cannot find staff with id " + slotDTO.getStaffId()));
 
         // Create and Save Slot
         Slot newSlot = new Slot(
@@ -60,13 +60,13 @@ public class SlotService implements ISlotService {
                 .orElseThrow(() -> new DataNotFoundException("Cannot find manager with id " + slotDTO.getManagerId()));
 
         // Validate Staff
-        Staff existingStaff = staffRepository.findById(slotDTO.getStaffId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find staff with id " + slotDTO.getStaffId()));
+//        Staff existingStaff = staffRepository.findById(slotDTO.getStaffId())
+//                .orElseThrow(() -> new DataNotFoundException("Cannot find staff with id " + slotDTO.getStaffId()));
 
         // Update Slot
         existingSlot.setStartTime(slotDTO.getStartTime());
         existingSlot.setEndTime(slotDTO.getEndTime());
-        existingSlot.setStaff(existingStaff);
+        existingSlot.setStaff(null);
         existingSlot.setManager(existingManager);
 
         return slotRepository.update(existingSlot);

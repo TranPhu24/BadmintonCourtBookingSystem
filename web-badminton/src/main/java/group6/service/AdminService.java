@@ -37,7 +37,7 @@ public class AdminService implements IAdminService {
         
         existingAdmin.setAdminName(adminDTO.getAdminName());
         
-        return adminRepository.save(existingAdmin);
+        return adminRepository.update(existingAdmin);
     }
     
     @Override
