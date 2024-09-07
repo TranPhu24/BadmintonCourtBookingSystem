@@ -53,7 +53,7 @@ class AdminServiceTest {
     @Test
     void updateAdmin() throws DataNotFoundException {
         when(adminRepository.findById("1")).thenReturn(Optional.of(admin));
-        when(adminRepository.save(any(Admin.class))).thenReturn(admin);
+        when(adminRepository.update(any(Admin.class))).thenReturn(admin);
 
         Admin updatedAdmin = adminService.updateAdmin("1", adminDTO);
 
@@ -61,7 +61,7 @@ class AdminServiceTest {
         assertEquals(admin, updatedAdmin);
 
         verify(adminRepository, times(1)).findById("1");
-        verify(adminRepository, times(1)).save(any(Admin.class));
+        verify(adminRepository, times(1)).update(any(Admin.class));
     }
 
     @Test

@@ -78,7 +78,7 @@ class StaffServiceTest {
     void updateStaff() throws DataNotFoundException {
         when(staffRepository.findById("1")).thenReturn(Optional.of(staff));
         when(userRepository.findById("1")).thenReturn(Optional.of(user));
-        when(staffRepository.save(any(Staff.class))).thenReturn(staff);
+        when(staffRepository.update(any(Staff.class))).thenReturn(staff);
 
         Staff updatedStaff = staffService.updateStaff("1", staffDTO);
 
@@ -87,7 +87,7 @@ class StaffServiceTest {
 
         verify(staffRepository, times(1)).findById("1");
         verify(userRepository, times(1)).findById("1");
-        verify(staffRepository, times(1)).save(any(Staff.class));
+        verify(staffRepository, times(1)).update(any(Staff.class));
     }
 
     @Test

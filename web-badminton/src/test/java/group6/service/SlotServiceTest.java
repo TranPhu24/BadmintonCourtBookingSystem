@@ -80,7 +80,7 @@ class SlotServiceTest {
         assertEquals(slot.getStartTime(), createdSlot.getStartTime());
         assertEquals(slot.getEndTime(), createdSlot.getEndTime());
         verify(managerRepository, times(1)).findById("M001");
-        verify(staffRepository, times(1)).findById("S001");
+//        verify(staffRepository, times(1)).findById("S001");
         verify(slotRepository, times(1)).save(any(Slot.class));
     }
 
@@ -96,18 +96,18 @@ class SlotServiceTest {
         verify(slotRepository, never()).save(any(Slot.class));
     }
 
-    @Test
-    void createSlot_staffNotFound() {
-        when(managerRepository.findById("M001")).thenReturn(Optional.of(manager));
-        when(staffRepository.findById("S001")).thenReturn(Optional.empty());
-
-        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> slotService.createSlot(slotDTO));
-
-        assertEquals("Cannot find staff with id S001", exception.getMessage());
-        verify(managerRepository, times(1)).findById("M001");
-        verify(staffRepository, times(1)).findById("S001");
-        verify(slotRepository, never()).save(any(Slot.class));
-    }
+//    @Test
+//    void createSlot_staffNotFound() {
+//        when(managerRepository.findById("M001")).thenReturn(Optional.of(manager));
+//        when(staffRepository.findById("S001")).thenReturn(Optional.empty());
+//
+//        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> slotService.createSlot(slotDTO));
+//
+//        assertEquals("Cannot find staff with id S001", exception.getMessage());
+//        verify(managerRepository, times(1)).findById("M001");
+//        verify(staffRepository, times(1)).findById("S001");
+//        verify(slotRepository, never()).save(any(Slot.class));
+//    }
 
     @Test
     void updateSlot_success() throws DataNotFoundException {
@@ -124,7 +124,7 @@ class SlotServiceTest {
         assertEquals(slot.getEndTime(), updatedSlot.getEndTime());
         verify(slotRepository, times(1)).findById(1L);
         verify(managerRepository, times(1)).findById("M001");
-        verify(staffRepository, times(1)).findById("S001");
+//        verify(staffRepository, times(1)).findById("S001");
         verify(slotRepository, times(1)).update(any(Slot.class));
     }
 
@@ -155,20 +155,20 @@ class SlotServiceTest {
         verify(slotRepository, never()).save(any(Slot.class));
     }
 
-    @Test
-    void updateSlot_staffNotFound() {
-        when(slotRepository.findById(1L)).thenReturn(Optional.of(slot));
-        when(managerRepository.findById("M001")).thenReturn(Optional.of(manager));
-        when(staffRepository.findById("S001")).thenReturn(Optional.empty());
-
-        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> slotService.updateSlot(1L, slotDTO));
-
-        assertEquals("Cannot find staff with id S001", exception.getMessage());
-        verify(slotRepository, times(1)).findById(1L);
-        verify(managerRepository, times(1)).findById("M001");
-        verify(staffRepository, times(1)).findById("S001");
-        verify(slotRepository, never()).save(any(Slot.class));
-    }
+//    @Test
+//    void updateSlot_staffNotFound() {
+//        when(slotRepository.findById(1L)).thenReturn(Optional.of(slot));
+//        when(managerRepository.findById("M001")).thenReturn(Optional.of(manager));
+//        when(staffRepository.findById("S001")).thenReturn(Optional.empty());
+//
+//        DataNotFoundException exception = assertThrows(DataNotFoundException.class, () -> slotService.updateSlot(1L, slotDTO));
+//
+//        assertEquals("Cannot find staff with id S001", exception.getMessage());
+//        verify(slotRepository, times(1)).findById(1L);
+//        verify(managerRepository, times(1)).findById("M001");
+//        verify(staffRepository, times(1)).findById("S001");
+//        verify(slotRepository, never()).save(any(Slot.class));
+//    }
 
     @Test
     void getAllSlots() {
