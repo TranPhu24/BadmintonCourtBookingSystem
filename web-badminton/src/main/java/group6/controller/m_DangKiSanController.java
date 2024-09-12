@@ -62,6 +62,7 @@ public class m_DangKiSanController {
     @RequestMapping(value = "/deleteCourt", method = RequestMethod.GET)
     public String deleteCourt(@RequestParam("id") Long courtId, Model model) {
         courtService.deleteCourt(courtId);
+        
         List<Court> courtList = courtService.getCourts();
         model.addAttribute("courtList", courtList);
         return "dang-ky-san";
