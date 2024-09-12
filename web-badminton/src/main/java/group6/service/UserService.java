@@ -60,10 +60,12 @@ public class UserService implements IUserService{
         return userRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("User not found with id " + id));
     }
+    public void deleteUser(String id) throws DataNotFoundException {
+    	userRepository.delete(id);
+    }
 
 	@Override
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
 		return userRepository.findAll();
 	}
 
