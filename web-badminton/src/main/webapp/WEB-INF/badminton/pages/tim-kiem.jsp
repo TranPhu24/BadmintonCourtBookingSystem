@@ -49,10 +49,12 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
               <select id="location" name="location">
               <option value="">Vị trí ------ Giờ hoạt động ------ Giờ có thể vào chơi</option>
                 <c:forEach var="court" items="${listCourt}">
-		                <c:forEach var="slot" items="${listSlot}">		                    
-		                    <option value="${court.courtId}-${slot.slotId}">${court.location}  |  ${court.startTime} - ${court.endTime}  |  ${slot.startTime} - ${slot.endTime}</option>
-		                </c:forEach>
-		            </c:forEach>
+			        <c:forEach var="slot" items="${court.slots}">
+			            <option value="${court.courtId}-${slot.slotId}">
+			                ${court.location} | ${court.startTime} - ${court.endTime} | ${slot.startTime} - ${slot.endTime}
+			            </option>
+			        </c:forEach>
+			    </c:forEach>
               </select>
             </div>
             <!--  <div class="form-group">
