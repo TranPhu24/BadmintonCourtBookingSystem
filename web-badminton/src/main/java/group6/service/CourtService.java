@@ -1,72 +1,112 @@
 package group6.service;
 
-import group6.dto.CourtDTO;
-import group6.exceptions.DataNotFoundException;
-import group6.pojo.Court;
-import group6.pojo.Manager;
-import group6.repository.CourtRepository;
-import group6.repository.ManagerRepository;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import group6.dto.SlotDTO;
+import group6.exceptions.DataNotFoundException;
+import group6.pojo.Slot;
+import group6.pojo.Staff;
+import group6.pojo.Court;
+import group6.pojo.Manager;
+import group6.repository.SlotRepository;
+import group6.repository.StaffRepository;
+import group6.repository.CourtRepository;
+import group6.repository.ManagerRepository;
 
 @Service
-public class CourtService {
+public class SlotService implements ISlotService {
 
-    private final CourtRepository courtRepository;
-
+    private final SlotRepository slotRepository;
+    private final StaffRepository staffRepository;
     private final ManagerRepository managerRepository;
+    private final CourtRepository  courtRepository;
+
     @Autowired
-    public CourtService(CourtRepository courtRepository,ManagerRepository managerRepository) {
-        this.courtRepository = courtRepository;
+    public SlotService(SlotRepository slotRepository, StaffRepository staffRepository, ManagerRepository managerRepository,CourtRepository  courtRepository) {
+        this.slotRepository = slotRepository;
+        this.staffRepository = staffRepository;
         this.managerRepository = managerRepository;
+        this.courtRepository = courtRepository;
     }
 
-    public Court createCourt(CourtDTO courtDTO) {
-    	Manager existingManager = managerRepository.findById(courtDTO.getManagerId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find manager with id " + courtDTO.getManagerId()));
-    	
-        Court court = new Court();
-        court.setLocation(courtDTO.getLocation());
-        court.setStartTime(courtDTO.getStartTime());
-        court.setEndTime(courtDTO.getEndTime());
-        court.setPrice(courtDTO.getPrice());
-        court.setManager(existingManager);
+    @Override
+    public Slot createSlot(SlotDTO slotDTO) throws DataNotFoundException {
+        // Validate Manager
+        Manager existingManager = managerRepository.findById(slotDTO.getManagerId())
+                .orElseThrow(() -> new DataNotFoundException("Cannot find manager with id " + slotDTO.getManagerId()));
         
-        return courtRepository.save(court);
+//        // Validate Staff
+//       Staff existingStaff = staffRepository.findById(slotDTO.getStaffId())
+//               .orElseThrow(() -> new DataNotFoundException("Cannot find staff with id " + slotDTO.getStaffId()));
+
+        // Create and Save Slot
+        List<Court> courts = courtRepository.findCourtsByTime(slotDTO.getStartTime(), slotDTO.getEndTime());
+        Slot newSlot = new Slot(
+                slotDTO.getStartTime(),
+                slotDTO.getEndTime(),
+                existingManager,
+                null
+        );
+        newSlot.setCourts(new HashSet<>(courts));
+        return slotRepository.save(newSlot);
     }
 
-    public List<Court> getCourts() {
-        return courtRepository.findAll();
-    }
-
-    public Court findById(Long courtId) throws DataNotFoundException {
-        return courtRepository.findById(courtId)
-                .orElseThrow(() -> new DataNotFoundException("Court not found with id " + courtId));
-    }
-
-    public Court updateCourt(Long courtId, CourtDTO courtDTO) throws DataNotFoundException {
-        Court existingCourt = courtRepository.findById(courtId)
-                .orElseThrow(() -> new DataNotFoundException("Court not found with id " + courtId));
+    @Override
+    public Slot updateSlot(Long id, SlotDTO slotDTO) throws DataNotFoundException {
+        // Find existing Slot
+        Slot existingSlot = slotRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Slot not found with id " + id));
         
-        Manager existingManager = managerRepository.findById(courtDTO.getManagerId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find manager with id " + courtDTO.getManagerId()));
+        // Validate Manager
+        Manager existingManager = managerRepository.findById(slotDTO.getManagerId())
+                .orElseThrow(() -> new DataNotFoundException("Cannot find manager with id " + slotDTO.getManagerId()));
 
-        existingCourt.setLocation(courtDTO.getLocation());
-        existingCourt.setStartTime(courtDTO.getStartTime());
-        existingCourt.setEndTime(courtDTO.getEndTime());
-        existingCourt.setPrice(courtDTO.getPrice());
-        existingCourt.setManager(existingManager);
+        // Validate Staff
+//        Staff existingStaff = staffRepository.findById(slotDTO.getStaffId())
+//                .orElseThrow(() -> new DataNotFoundException("Cannot find staff with id " + slotDTO.getStaffId()));
 
-        return courtRepository.update(existingCourt);
+        // Update Slot
+        existingSlot.setStartTime(slotDTO.getStartTime());
+        existingSlot.setEndTime(slotDTO.getEndTime());
+        existingSlot.setStaff(null);
+        existingSlot.setManager(existingManager);
+        
+        List<Court> courts = courtRepository.findCourtsByTime(slotDTO.getStartTime(), slotDTO.getEndTime());
+        existingSlot.setCourts(new HashSet<>(courts));
+
+        return slotRepository.update(existingSlot);
     }
 
-    public void deleteCourt(Long courtId) throws DataNotFoundException {
-        Court court = courtRepository.findById(courtId)
-                .orElseThrow(() -> new DataNotFoundException("Court not found with id " + courtId));
-        courtRepository.delete(courtId);
+    @Override
+    public List<Slot> getAllSlots() {
+        return slotRepository.findAll();
+    }
+
+    @Override
+    public Slot getSlot(Long id) throws DataNotFoundException {
+        return slotRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Slot not found with id " + id));
+    }
+
+    @Transactional
+    public void deleteSlot(Long id) throws DataNotFoundException {
+    	Slot slot = slotRepository.findById(id)
+    	        .orElseThrow(() -> new DataNotFoundException("Slot not found with id " + id));
+
+    	Hibernate.initialize(slot.getCourts());
+        for (Court court : slot.getCourts()) {
+            court.getSlots().remove(slot);
+            courtRepository.update(court);
+        }
+        slotRepository.delete(id); 
     }
 }
