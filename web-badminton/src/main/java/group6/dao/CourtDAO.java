@@ -89,9 +89,19 @@ public class CourtDAO {
         try {
             transaction.begin();
             Court court = em.find(Court.class, courtId);
+            
             if (court != null) {
-                court.setAdmin(null);
+            	
+            	List<Booking> bookings = em.createQuery("SELECT b FROM Booking b WHERE b.court.courtId = :courtId", Booking.class)
+                        .setParameter("courtId", courtId)
+                        .getResultList();
+				for (Booking booking : bookings) {
+				 booking.setCourt(null);
+				 em.merge(booking);
+				}
+            	
                 court.setManager(null);
+                court.setAdmin(null);
                 em.remove(court);
                 transaction.commit();
             }
@@ -104,4 +114,4 @@ public class CourtDAO {
             em.close();
         }
     }
-}
+
