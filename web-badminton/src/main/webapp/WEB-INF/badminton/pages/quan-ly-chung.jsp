@@ -40,69 +40,65 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
       <!-- slider 1 -->
       <div class="slider-1">
         <div class="slider-1-container">
-          <h1>Quản lý sân</h1>
+          <h1>Quản lý </h1>
           <div class="slider-1-content">
             <div class="form-group">
-              <label>Danh sách tất cả khách hàng</label>
+              <label>Quản lí thông tin tài khoản</label>
               <table>
                 <thead>
                   <tr>
-                    <th>CCCD</th>
+                    <th>Tài khoản</th>
                     <th>Tên</th>
-                    <th>Email</th>
-                    <th>Số điện thoại</th>
-                    <th>TimePlay</th>
+                    <th>Mật khẩu</th>
+                    <th>Vai trò</th>
                     <th>Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>
-				  <c:forEach var="cusomter" items="${customerList}">
+				  <c:forEach var="user" items="${users}">
 				    <tr>
-				      <td>${cusomter.customerId}</td>
-				      <td>${cusomter.customerName}</td>
-				      <td>${cusomter.email}</td>
-				      <td>${cusomter.phone}</td>
-				      <td>${cusomter.timeplay}</td>
+				      <td>${user.userID}</td>
+					<td>${user.userName}</td>
+					<td>${user.password}</td>
+					<td>${user.role}</td>
 				      <td>
-				        <a href="${pageContext.request.contextPath}/deleteCustomer?id=${cusomter.customerId}" onclick="return confirm('Bạn có chắc chắn muốn xóa sân này?');">Xóa</a>
+				      	<a href="${pageContext.request.contextPath}/editUser?id=${user.userID}">Sửa</a> |
+				        <a href="${pageContext.request.contextPath}/deleteUser?id=${user.userID}" onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?');">Xóa</a>
 				      </td>
 				    </tr>
-				  </c:forEach>
-               
-                </tbody>
+				  </c:forEach>              
+                </tbody>             
               </table>
+              <button>THÊM</button>
             </div>
             <div class="form-group">
-              <label>Danh sách đặt sân cầu lông</label>
+              <label>Quản lí thông tin sân</label>
               <table>
                 <thead>
                   <tr>
-                    <th>Mã sân</th>
-                    <th>Mã đặt sân</th>
-                    <th>Mã thanh toán</th>
-                    <th>Ngày chơi</th>
-                    <th>Giờ chơi</th>
-                    <th>Giá</th>
+                    <th>Vị trí</th>
+                    <th>Thời gian hoạt động</th>
+                    <th>Giá tiền</th>
+                    <th>Thời gian chơi</th>
                   </tr>
                   
                 </thead>
                 <tbody>
-                <c:forEach var="booking" items="${bookingList}">
-				    <tr>
-				      <td>${booking.court.courtId}</td>
-				      <td>${booking.bookingId}</td>
-				      <td>${booking.payment.paymentId}</td>
-				      <td>${booking.bookingDate}</td>
-				      <td>${booking.slot.startTime}h - ${booking.slot.endTime}h</td>
-				      <td>${booking.court.price}VND</td>
-				    </tr>
-				  </c:forEach>
-				  
-                  
+				  <c:forEach var="court" items="${courts}">
+				        <c:if test="${not empty court.slots}">
+				            <c:forEach var="slot" items="${court.slots}">
+				                 <tr>
+			                        <td>${court.location}</td>
+			                        <td>${court.startTime} - ${court.endTime}</td>
+			                        <td>${court.price}VND</td>
+			                        <td>${slot.startTime}- ${slot.endTime}</td>
+			                    </tr>
+				            </c:forEach>
+				        </c:if>
+				    </c:forEach>
                 </tbody>
               </table>
             </div>
-            <button href="#" type="submit">Kiểm tra</button>
           </div>
         </div>
       </div>
