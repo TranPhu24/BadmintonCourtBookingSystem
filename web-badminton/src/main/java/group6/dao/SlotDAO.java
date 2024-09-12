@@ -59,7 +59,7 @@ public class SlotDAO {
         return slot;
     }
 
-    public void delete(Long slotId) {
+public void delete(Long slotId) {
         em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -68,6 +68,15 @@ public class SlotDAO {
             slot.setManager(null);
             slot.setStaff(null);
             if (slot != null) {
+            	List<Booking> bookings = em.createQuery("SELECT b FROM Booking b WHERE b.slot.slotId = :slotId", Booking.class)
+                        .setParameter("slotId", slotId)
+                        .getResultList();
+				for (Booking booking : bookings) {
+				 booking.setSlot(null);
+				 em.merge(booking);
+				}
+            	
+            	
                 em.remove(slot);
                 transaction.commit();
             }
@@ -80,6 +89,7 @@ public class SlotDAO {
             em.close();
         }
     }
+
 
     public void update(Slot slot) {
         em = emf.createEntityManager();
