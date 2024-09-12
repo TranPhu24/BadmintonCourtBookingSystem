@@ -23,25 +23,25 @@ import group6.service.UserService;
 @Controller
 public class m_QuanLiSanController {
 	private final ManagerService managerService;
-	private final BookingService bookingService;
+	private final CourtService courtService;
 	private final UserService userService;
 	private final CustomerService customerService;
 
     @Autowired
-    public m_QuanLiSanController(ManagerService managerService,BookingService bookingService,UserService userService,CustomerService customerService) {
+    public m_QuanLiSanController(ManagerService managerService,CourtService courtService,UserService userService,CustomerService customerService) {
         this.managerService=managerService;
-        this.bookingService=bookingService;
+        this.courtService=courtService;
         this.userService=userService;
         this.customerService=customerService;
     }
     
     @RequestMapping(value = "/quan-ly-chung", method = RequestMethod.GET)
     public String quanlychungHt(HttpServletRequest request, Model model) {
-    	List<Customer> customerList = customerService.getAllCustomers();
-    	model.addAttribute("customerList", customerList);
+    	List<User> users = userService.getAllUsers();
+    	model.addAttribute("users", users);
     	
-    	List<Booking> bookings = bookingService.getAllBookings();
-    	model.addAttribute("bookingList", bookings);
+    	List<Court> courts = courtService.getCourts();
+    	model.addAttribute("courts", courts);
         return "quan-ly-chung";
     }
 }
