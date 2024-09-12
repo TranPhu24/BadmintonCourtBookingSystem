@@ -7,10 +7,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -47,6 +49,14 @@ public class Court {
     @ManyToOne
     @JoinColumn(name = "ManagerId")
     private Manager manager;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "SLOT_COURT",
+        joinColumns = @JoinColumn(name = "court_id"),
+        inverseJoinColumns = @JoinColumn(name = "slot_id")
+    )
+    private Set<Slot> slots = new HashSet<>();
     
 	public Court() {
 		super();
@@ -143,7 +153,13 @@ public class Court {
 		this.courtId = courtId;
 	}
 
-	
+	public Set<Slot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(Set<Slot> slots) {
+        this.slots = slots;
+    }
 
     
 }
