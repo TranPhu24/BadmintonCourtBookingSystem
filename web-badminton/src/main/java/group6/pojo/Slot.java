@@ -3,6 +3,7 @@ package group6.pojo;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,13 +44,13 @@ public class Slot {
     @OneToMany(mappedBy = "court",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Booking> bookings= new HashSet<Booking>();
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "SLOT_COURT",
         joinColumns = @JoinColumn(name = "slot_id"),
         inverseJoinColumns = @JoinColumn(name = "court_id")
     )
-    private Set<Court> courts;
+    private Set<Court> courts=new HashSet<>();
 
     public Slot() {
         super();
