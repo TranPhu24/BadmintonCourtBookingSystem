@@ -11,4 +11,5 @@ public interface IUserService {
     List<User> getAllUsers();
     User getUser(String id) throws DataNotFoundException;
     User updateUser(String id, UserDTO userDTO) throws DataNotFoundException;
+    void deleteUser(String id) throws DataNotFoundException;
 }
