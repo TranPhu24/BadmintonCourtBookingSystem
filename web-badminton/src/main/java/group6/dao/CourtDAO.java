@@ -1,10 +1,13 @@
 package group6.dao;
 
+import java.sql.Time;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+
+import group6.pojo.Booking;
 import group6.pojo.Court;
 
 public class CourtDAO {
@@ -15,6 +18,24 @@ public class CourtDAO {
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
     }
 
+
+    public List<Court> findCourtsByTime(Time startTime, Time endTime) {
+    	EntityManager em = emf.createEntityManager();
+        List<Court> courts = null;
+        try {
+            courts = em.createQuery("SELECT c FROM Court c WHERE c.startTime <= :startTime AND c.endTime >= :endTime", Court.class)
+                    .setParameter("startTime", startTime)
+                    .setParameter("endTime", endTime)
+                    .getResultList();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+        return courts;
+    }
+
+    
     public void createCourt(Court court) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -114,4 +135,4 @@ public class CourtDAO {
             em.close();
         }
     }
-
+}
