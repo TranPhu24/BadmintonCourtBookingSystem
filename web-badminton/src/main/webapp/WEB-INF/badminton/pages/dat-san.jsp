@@ -64,10 +64,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
               <select id="fixed-days" name="slotInfo" >
                
 				<c:forEach var="court" items="${courts}">
-		                <c:forEach var="slot" items="${slots}">		                    
-		                     <option value="${court.courtId}-${slot.slotId}">${court.location}-${slot.startTime} - ${slot.endTime}</option>
-		                </c:forEach>
-		            </c:forEach>
+				        <c:if test="${not empty court.slots}">
+				            <c:forEach var="slot" items="${court.slots}">
+				                <option value="${court.courtId}-${slot.slotId}">
+				                    ${court.location} - ${slot.startTime} - ${slot.endTime}
+				                </option>
+				            </c:forEach>
+				        </c:if>
+				    </c:forEach>
               </select>              
             </div>
             <!-- Đặt lịch ngày -->
@@ -79,13 +83,18 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                 name="daily-date"
               /><br />
               <label for="fixed-days">Chọn Slot</label>
-              <select id="fixed-days" name="slotInfo" >
-              <c:forEach var="court" items="${courts}">
-		                <c:forEach var="slot" items="${slots}">		                    
-		                    <option value="${court.courtId}-${slot.slotId}">${court.location}-${slot.startTime} - ${slot.endTime}</option>
-		                </c:forEach>
-		            </c:forEach>
-              </select>
+				<select id="fixed-days" name="slotInfo">
+				    <c:forEach var="court" items="${courts}">
+				        <c:if test="${not empty court.slots}">
+				            <c:forEach var="slot" items="${court.slots}">
+				                <option value="${court.courtId}-${slot.slotId}">
+				                    ${court.location} - ${slot.startTime} - ${slot.endTime}
+				                </option>
+				            </c:forEach>
+				        </c:if>
+				    </c:forEach>
+				</select>
+
               
             </div>
             <!-- Lịch linh hoạt -->
