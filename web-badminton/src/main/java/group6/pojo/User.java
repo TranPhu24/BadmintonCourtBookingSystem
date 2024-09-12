@@ -27,7 +27,7 @@ public class User {
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Customer customer;
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user" ,cascade = CascadeType.ALL)
     private Manager manager;
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Staff staff;
