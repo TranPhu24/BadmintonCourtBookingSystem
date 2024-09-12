@@ -38,6 +38,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
         </div>
       </header>
       <!-- slider 1 -->
+      <form action="${pageContext.request.contextPath}/addCustomer" method="post">
       <div class="slider-1">
         <div class="slider-1-container">
           <h1>Quản lý </h1>
@@ -69,7 +70,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
 				  </c:forEach>              
                 </tbody>             
               </table>
-              <button>THÊM</button>
+              <button name="add" value="add">THÊM</button>
             </div>
             <div class="form-group">
               <label>Quản lí thông tin sân</label>
@@ -81,7 +82,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                     <th>Giá tiền</th>
                     <th>Thời gian chơi</th>
                   </tr>
-                  
+               
                 </thead>
                 <tbody>
 				  <c:forEach var="court" items="${courts}">
@@ -102,6 +103,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
           </div>
         </div>
       </div>
+      </form>
       <!-- slider 2 -->
       <section class="slider-2">
         <div class="slider-2-container">
