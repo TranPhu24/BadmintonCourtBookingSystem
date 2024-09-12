@@ -47,9 +47,7 @@ public class c_DatSanController {
 	
 	@RequestMapping(value = "/dat-san", method = RequestMethod.GET)
 	public String showListdatsan(HttpServletRequest request, Model model) {
-        List<Slot> slotList = slotService.getAllSlots();
         List<Court> courts = courtService.getCourts();
-        model.addAttribute("slots", slotList);
         model.addAttribute("courts", courts);
 	    return "dat-san";
 	}
@@ -93,7 +91,7 @@ public class c_DatSanController {
 			    request.getSession().setAttribute("bookingSession", booking);
 			    
 			    
-			    return "thanh-toan";
+			    return "redirect:/thanh-toan";
 
 			case "flexible":
 			    Customer customer= customerService.getCustomer(userrSession.getCustomer().getCustomerId());
