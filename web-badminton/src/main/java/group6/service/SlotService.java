@@ -1,8 +1,13 @@
 package group6.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +15,11 @@ import group6.dto.SlotDTO;
 import group6.exceptions.DataNotFoundException;
 import group6.pojo.Slot;
 import group6.pojo.Staff;
+import group6.pojo.Court;
 import group6.pojo.Manager;
 import group6.repository.SlotRepository;
 import group6.repository.StaffRepository;
+import group6.repository.CourtRepository;
 import group6.repository.ManagerRepository;
 
 @Service
@@ -21,12 +28,14 @@ public class SlotService implements ISlotService {
     private final SlotRepository slotRepository;
     private final StaffRepository staffRepository;
     private final ManagerRepository managerRepository;
+    private final CourtRepository  courtRepository;
 
     @Autowired
-    public SlotService(SlotRepository slotRepository, StaffRepository staffRepository, ManagerRepository managerRepository) {
+    public SlotService(SlotRepository slotRepository, StaffRepository staffRepository, ManagerRepository managerRepository,CourtRepository  courtRepository) {
         this.slotRepository = slotRepository;
         this.staffRepository = staffRepository;
         this.managerRepository = managerRepository;
+        this.courtRepository = courtRepository;
     }
 
     @Override
@@ -40,12 +49,14 @@ public class SlotService implements ISlotService {
 //               .orElseThrow(() -> new DataNotFoundException("Cannot find staff with id " + slotDTO.getStaffId()));
 
         // Create and Save Slot
+        List<Court> courts = courtRepository.findCourtsByTime(slotDTO.getStartTime(), slotDTO.getEndTime());
         Slot newSlot = new Slot(
                 slotDTO.getStartTime(),
                 slotDTO.getEndTime(),
                 existingManager,
                 null
         );
+        newSlot.setCourts(new HashSet<>(courts));
         return slotRepository.save(newSlot);
     }
 
@@ -68,6 +79,9 @@ public class SlotService implements ISlotService {
         existingSlot.setEndTime(slotDTO.getEndTime());
         existingSlot.setStaff(null);
         existingSlot.setManager(existingManager);
+        
+        List<Court> courts = courtRepository.findCourtsByTime(slotDTO.getStartTime(), slotDTO.getEndTime());
+        existingSlot.setCourts(new HashSet<>(courts));
 
         return slotRepository.update(existingSlot);
     }
@@ -83,11 +97,15 @@ public class SlotService implements ISlotService {
                 .orElseThrow(() -> new DataNotFoundException("Slot not found with id " + id));
     }
 
-    @Override
+    @Transactional
     public void deleteSlot(Long id) throws DataNotFoundException {
-        // Check if Slot exists before deleting
-        if (!slotRepository.existsById(id)) {
-            throw new DataNotFoundException("Slot not found with id " + id);
+    	Slot slot = slotRepository.findById(id)
+    	        .orElseThrow(() -> new DataNotFoundException("Slot not found with id " + id));
+
+    	Hibernate.initialize(slot.getCourts());
+        for (Court court : slot.getCourts()) {
+            court.getSlots().remove(slot);
+            courtRepository.update(court);
         }
         slotRepository.delete(id); 
     }
