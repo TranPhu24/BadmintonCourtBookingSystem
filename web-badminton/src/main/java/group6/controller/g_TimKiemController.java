@@ -37,20 +37,16 @@ public class g_TimKiemController {
     @RequestMapping(value = "/tim-kiem", method = RequestMethod.GET)
     public String timKiem(HttpServletRequest request,Model model) {
     	List<Court>listCourt=courtService.getCourts();
-    	List<Slot>listSlot=slotService.getAllSlots();
     	
     	model.addAttribute("listCourt",listCourt);
-    	model.addAttribute("listSlot",listSlot);
     	
     	
     	return "tim-kiem";
     }
     @RequestMapping(value = "/timkiemGuest", method = RequestMethod.POST)
     public String timkiemGuest(HttpServletRequest request, Model model) {
-        List<Court> listCourt = courtService.getCourts();
-        List<Slot> listSlot = slotService.getAllSlots();
-        model.addAttribute("listCourt", listCourt);
-        model.addAttribute("listSlot", listSlot);
+    	List<Court>listCourt=courtService.getCourts();
+    	model.addAttribute("listCourt",listCourt);
 
         String location = request.getParameter("location");
 
