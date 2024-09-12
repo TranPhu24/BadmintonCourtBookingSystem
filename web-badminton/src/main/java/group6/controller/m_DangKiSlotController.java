@@ -29,6 +29,7 @@ public class m_DangKiSlotController {
         this.slotService=slotService;
     }
     
+
     @RequestMapping(value = "/dangkiSlotManager", method = RequestMethod.POST)
     public String dangkiSlotManager(HttpServletRequest request, Model model) throws IOException {
 
@@ -45,10 +46,11 @@ public class m_DangKiSlotController {
             slotService.createSlot(slotDTO);
         }
 
-    	List<Slot> slotList = slotService.getAllSlots();
+        List<Slot> slotList = slotService.getAllSlots();
         model.addAttribute("slotList", slotList);
         return "dang-ky-slot";
     }
+
        	
     @RequestMapping(value = "/deleteSlot", method = RequestMethod.GET)
     public String deleteSlot(@RequestParam("id") Long slotId, Model model) {
