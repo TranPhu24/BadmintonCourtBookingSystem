@@ -1,5 +1,6 @@
 package group6.repository;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,12 @@ public class CourtRepository implements ICourtRepository {
     public CourtRepository() {
         courtDAO = new CourtDAO("test-unit");
     }
+    
+
+    public List<Court> findCourtsByTime(Time startTime, Time endTime) {
+        return courtDAO.findCourtsByTime(startTime, endTime);
+    }
+
 
     @Override
     public List<Court> findAll() {
