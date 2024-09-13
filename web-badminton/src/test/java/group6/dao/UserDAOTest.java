@@ -37,8 +37,7 @@ public class UserDAOTest {
 
     @AfterEach
     public void tearDown() {
-//    	userDAO.delete("126");
-//    	userDAO.delete("127");
+    	userDAO.delete(user.getUserID());
         em.close();
         emf.close();
     }
@@ -53,16 +52,16 @@ public class UserDAOTest {
     }
     @Test
     public void testUpdate() {
-        user.setUserName("updatedPhu");
-        user.setPassword("updatedPhu125");
+        user.setUserName("updatedDuyen");
+        user.setPassword("updatedDuyen126");
         user.setRole("updatedManager");
         userDAO.update(user);
 
         User updatedUser = userDAO.findById(user.getUserID());
         assertNotNull(updatedUser);
         assertEquals("126", updatedUser.getUserID());
-        assertEquals("updatedPhu", updatedUser.getUserName());
-        assertEquals("updatedPhu125", updatedUser.getPassword());
+        assertEquals("updatedDuyen", updatedUser.getUserName());
+        assertEquals("updatedDuyen126", updatedUser.getPassword());
         assertEquals("updatedManager", updatedUser.getRole());
     }
 
@@ -74,19 +73,10 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testGetUsers() {
-        User user1 = new User();
-        user1.setUserID("126");
-        user1.setUserName("Tran");
-        user1.setPassword("Tran127");
-        user1.setRole("Staff");
-        userDAO.save(user1);
-        
+    public void testGetUsers() {    
         List<User> users = userDAO.getUsers();
-
         assertNotNull(users);
         assertTrue(users.size() >= 2);
-//        assertTrue(users.stream().anyMatch(u -> u.getUserName().equals("user1")));
-//        assertTrue(users.stream().anyMatch(u -> u.getUserName().equals("user2")));
+
     }
 }
