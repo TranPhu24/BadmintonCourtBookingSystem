@@ -8,7 +8,7 @@ public class BookingDTO {
     private String bookingType;
     private String bookingDay;
     private Date bookingDate;
-    private String customerId;  
+    private String userId;  
     private Long courtId;     
     private Long slotId;      
     private Long paymentId;      
@@ -16,22 +16,22 @@ public class BookingDTO {
     public BookingDTO() {
     }
 
-    public BookingDTO(Long bookingId, String bookingType, String bookingDay, Date bookingDate, String customerId, Long courtId, Long slotId, Long paymentId) {
+    public BookingDTO(Long bookingId, String bookingType, String bookingDay, Date bookingDate, String userId, Long courtId, Long slotId, Long paymentId) {
         this.bookingId = bookingId;
         this.bookingType = bookingType;
         this.bookingDay = bookingDay;
         this.bookingDate = bookingDate;
-        this.customerId = customerId;
+        this.userId = userId;
         this.courtId = courtId;
         this.slotId = slotId;
         this.paymentId = paymentId;
     }
 
-    public BookingDTO(String bookingType, String bookingDay, Date bookingDate, String customerId, Long courtId, Long slotId, Long paymentId) {
+    public BookingDTO(String bookingType, String bookingDay, Date bookingDate, String userId, Long courtId, Long slotId, Long paymentId) {
         this.bookingType = bookingType;
         this.bookingDay = bookingDay;
         this.bookingDate = bookingDate;
-        this.customerId = customerId;
+        this.userId = userId;
         this.courtId = courtId;
         this.slotId = slotId;
         this.paymentId = paymentId;
@@ -69,12 +69,12 @@ public class BookingDTO {
         this.bookingDate = bookingDate;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setUserId(String customerId) {
+        this.userId = customerId;
     }
 
     public Long getCourtId() {
