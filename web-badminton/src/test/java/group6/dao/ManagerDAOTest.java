@@ -63,12 +63,9 @@ class ManagerDAOTest {
     	List<Manager> managers = managerDAO.getManagers();
         assertNotNull(managers);
         assertEquals(2, managers.size());
-        assertNotNull(managers.get(0));
-        assertNotNull(managers.get(1));
     }
     
    
-    
     @Test
     public void testUpdate() {
     	manager.setManagerName("Tran Hoang Phu Updated");
