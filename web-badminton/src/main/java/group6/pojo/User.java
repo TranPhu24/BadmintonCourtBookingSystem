@@ -1,5 +1,8 @@
 package group6.pojo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,6 +36,9 @@ public class User {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Staff staff;
 	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Booking> bookings= new HashSet<Booking>();
+	
 	@ManyToOne
 	@JoinColumn(name = "AdminId")
 	private Admin admin;
@@ -49,7 +56,15 @@ public class User {
 		this.role = role;
 	}
 
-	
+
+
+	public Set<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(Set<Booking> bookings) {
+		this.bookings = bookings;
+	}
 	
 	
 	public Customer getCustomer() {

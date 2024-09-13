@@ -34,8 +34,8 @@ public class Booking {
     private Date bookingDate;
 
     @ManyToOne
-    @JoinColumn(name = "customerId")
-    private Customer customer;
+    @JoinColumn(name = "userId")
+    private User user;
     
     @ManyToOne
     @JoinColumn(name = "courtId")
@@ -55,25 +55,25 @@ public class Booking {
 	public Booking() {
 		super();
 	}
-	public Booking(String bookingType, String bookingDay, Date bookingDate, Customer customer,
+	public Booking(String bookingType, String bookingDay, Date bookingDate, User user,
 			Court court, Slot slot, Payment payment) {
 		super();
 		this.bookingType = bookingType;
 		this.bookingDay = bookingDay;
 		this.bookingDate = bookingDate;
-		this.customer = customer;
+		this.user = user;
 		this.court = court;
 		this.slot = slot;
 		this.payment = payment;
 	}
-	public Booking(Long bookingId, String bookingType, String bookingDay, Date bookingDate, Customer customer,
+	public Booking(Long bookingId, String bookingType, String bookingDay, Date bookingDate, User user,
 			Court court, Slot slot, Payment payment) {
 		super();
 		this.bookingId = bookingId;
 		this.bookingType = bookingType;
 		this.bookingDay = bookingDay;
 		this.bookingDate = bookingDate;
-		this.customer = customer;
+		this.user = user;
 		this.court = court;
 		this.slot = slot;
 		this.payment = payment;
@@ -111,12 +111,12 @@ public class Booking {
 		this.bookingDate = bookingDate;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Court getCourt() {
