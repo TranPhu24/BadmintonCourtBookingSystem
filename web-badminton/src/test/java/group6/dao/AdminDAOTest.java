@@ -1,6 +1,8 @@
 package group6.dao;
 
+
 import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +33,7 @@ public class AdminDAOTest {
 
     @AfterEach
     void tearDown() {
+    	adminDAO.delete(admin.getAdminId());
         em.close();
         emf.close();
     }
@@ -54,23 +57,15 @@ public class AdminDAOTest {
 
     @Test
     void testGetAllAdmins() {
-        Admin admin1 = new Admin("132", "Yen");
-        adminDAO.save(admin1);
         List<Admin> admins = adminDAO.getAdmins();
         assertNotNull(admins);
         assertTrue(admins.size() >= 2);
     }
     @Test
     void testDelete() {
-        Admin admin = new Admin("129", "Tuan");
-        adminDAO.save(admin);
-        adminDAO.delete("129");
-        Admin deletedAdmin = adminDAO.findById("129");
-        assertNull(deletedAdmin);
-        adminDAO.delete("132");
+    	adminDAO.delete(admin.getAdminId());
+    	Admin deletedAdmin = adminDAO.findById(admin.getAdminId());
+    	assertNull(deletedAdmin);
     }
 
-
-	    
-	
 }
