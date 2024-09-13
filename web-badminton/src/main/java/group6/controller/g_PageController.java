@@ -47,6 +47,10 @@ public class g_PageController {
     public String Staff_job() {
     	return "Staff_job";
     }
+    @RequestMapping(value = "/form_admin_login", method = RequestMethod.GET)
+    public String form_admin_login() {
+    	return "form_admin_login";
+    }
     
    
 }

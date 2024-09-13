@@ -16,6 +16,7 @@ import group6.dto.CustomerDTO;
 import group6.dto.ManagerDTO;
 import group6.dto.StaffDTO;
 import group6.dto.UserDTO;
+import group6.pojo.Admin;
 import group6.pojo.Manager;
 import group6.pojo.Staff;
 import group6.pojo.User;
@@ -138,6 +139,19 @@ public class LoginController {
 		return "form_Employe_login";
 		
 	}
+
+	@RequestMapping(value = "/Staff_IF", method = RequestMethod.GET)
+	public String Staff_IF(HttpServletRequest request,Model model) {
+		Staff staffSession = (Staff) request.getSession().getAttribute("staffSession");
+		User userrSession = (User) request.getSession().getAttribute("userSession");
+		model.addAttribute("id", userrSession.getUserID());
+		model.addAttribute("cccd", staffSession.getStaffId());
+		model.addAttribute("name", staffSession.getStaffName());
+		model.addAttribute("role", userrSession.getRole());
+		return "Staff_IF";
+	}
+	
+	
 	@RequestMapping(value = "/formLoginManager", method = RequestMethod.POST)
 	public String formLoginManager(HttpServletRequest request, Model model) throws IOException {
 		String btn = request.getParameter("btnLogin");
@@ -162,6 +176,7 @@ public class LoginController {
 		}
 		return "form_Employe_login";
 	}
+	
 	@RequestMapping(value = "/Manager_IF", method = RequestMethod.GET)
     public String Manager_IF(HttpServletRequest request,Model model) {
     	Manager managerSession = (Manager) request.getSession().getAttribute("managerSession");
@@ -172,14 +187,19 @@ public class LoginController {
         model.addAttribute("role", userrSession.getRole());
     	return "Manager_IF";
     }
-	@RequestMapping(value = "/Staff_IF", method = RequestMethod.GET)
-	public String Staff_IF(HttpServletRequest request,Model model) {
-		Staff staffSession = (Staff) request.getSession().getAttribute("staffSession");
-		User userrSession = (User) request.getSession().getAttribute("userSession");
-		model.addAttribute("id", userrSession.getUserID());
-		model.addAttribute("cccd", staffSession.getStaffId());
-		model.addAttribute("name", staffSession.getStaffName());
-		model.addAttribute("role", userrSession.getRole());
-		return "Staff_IF";
+	
+	@RequestMapping(value = "/formAdminLogin", method = RequestMethod.POST)
+	public String formAdminLogin(HttpServletRequest request, Model model) throws IOException {
+		String btn = request.getParameter("btnLogin");
+		if ("login".equals(btn)) {
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			Admin admin = adminService.getAdmin(username);
+			if (admin != null&&admin.getAdminName().equals(password)) {
+				return "redirect:/quan-ly-chung";
+			}
+			model.addAttribute("errorMessage", "login-admin-false");
+		}
+		return "redirect:/form_admin_login";
 	}
 }
