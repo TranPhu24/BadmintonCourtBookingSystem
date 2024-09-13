@@ -101,6 +101,13 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
           >
             Login as Employee
           </button>
+          
+          <button
+            onclick="window.location.href='<c:url value='/form_admin_login' />'"
+            class="btn"
+          >
+            Login Admin
+          </button>
         </div>
       </div>
     </main>

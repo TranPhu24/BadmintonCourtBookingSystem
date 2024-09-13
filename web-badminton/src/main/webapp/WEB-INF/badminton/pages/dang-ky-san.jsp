@@ -24,11 +24,6 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
               </li>
 	              <li><a href="<c:url value='/dang-ky-san' />">Đăng kí sân</a></li>
 	              <li><a href="<c:url value='/dang-ky-slot' />">Đăng kí slot</a></li>
-              <li>
-                <a href="<c:url value='/quan-ly-chung' />">Quản lí sân</a>
-              </li>
-              
-          <li><a href="<c:url value='/Admin_add' />">Thêm sân mới</a></li>
               <li><a href="<c:url value='/index' />">Trang chủ</a></li>
             </ul>
           </nav>

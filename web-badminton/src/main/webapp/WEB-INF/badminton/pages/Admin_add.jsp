@@ -18,16 +18,10 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
       <nav>
             <ul class="menu">
               <li>
-                <a href="<c:url value='/Manager_IF' />">Thông tin cá nhân</a>
-              </li>
-              <li><a href="<c:url value='/dang-ky-san' />">Đăng kí sân</a></li>
-              
-              <li><a href="<c:url value='/dang-ky-slot' />">Đăng kí slot</a></li>
-              <li>
                 <a href="<c:url value='/quan-ly-chung' />">Quản lí sân</a>
               </li>
               
-          <li><a href="<c:url value='/Admin_add' />">Thêm sân mới</a></li>
+          <li><a href="<c:url value='/Admin_add' />">Cài đặt lịch</a></li>
               <li>
                 <a href="<c:url value='/index' />">Trang chủ</a>
               </li>
@@ -69,7 +63,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
             </table>
         </div>
         <div class="transaction-form" ">
-            <h2>Thêm sân mới </h2>
+            <h2>Cài đặt lịch </h2>
             <form id="transactionForm" action="${pageContext.request.contextPath}/updateBooking" method="post">
 			    <label for="name">Mã đặt:</label>
 			    <input type="text" id="name" name="customerId" value="${booking.bookingId}" >
