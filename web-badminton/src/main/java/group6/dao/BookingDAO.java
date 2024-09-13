@@ -20,7 +20,7 @@ public class BookingDAO {
         EntityManager em = emf.createEntityManager();
         List<Booking> bookings = null;
         try {
-            bookings = em.createQuery("SELECT b FROM Booking b WHERE b.payment IS NULL AND b.customer.customerId = :customerId", Booking.class)
+            bookings = em.createQuery("SELECT b FROM Booking b WHERE b.payment IS NULL AND b.user.customer.customerId = :customerId", Booking.class)
                          .setParameter("customerId", customerId)
                          .getResultList();
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class BookingDAO {
         List<Booking> bookings = null;
         try {
             bookings = em.createQuery(
-                    "SELECT b FROM Booking b WHERE b.customer.customerId = :customerId AND b.payment IS NOT NULL", 
+                    "SELECT b FROM Booking b WHERE b.user.customer.customerId = :customerId AND b.payment IS NOT NULL", 
                     Booking.class)
                 .setParameter("customerId", customerId)
                 .getResultList();
@@ -146,7 +146,7 @@ public class BookingDAO {
                 existingBooking.setBookingType(booking.getBookingType());
                 existingBooking.setBookingDay(booking.getBookingDay());
                 existingBooking.setBookingDate(booking.getBookingDate());
-                existingBooking.setCustomer(booking.getCustomer());
+                existingBooking.setUser(booking.getUser());
                 existingBooking.setCourt(booking.getCourt());
                 existingBooking.setSlot(booking.getSlot());
                 existingBooking.setPayment(booking.getPayment());
@@ -168,7 +168,7 @@ public class BookingDAO {
         try {
             transaction.begin();
             Booking booking = em.find(Booking.class, bookingId);
-            booking.setCustomer(null);
+            booking.setUser(null);
             if (booking != null) {
                 em.remove(booking);
                 transaction.commit();
