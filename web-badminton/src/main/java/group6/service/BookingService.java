@@ -8,11 +8,13 @@ import group6.pojo.Booking;
 import group6.pojo.Customer;
 import group6.pojo.Court;
 import group6.pojo.Slot;
+import group6.pojo.User;
 import group6.pojo.Payment;
 import group6.repository.BookingRepository;
 import group6.repository.CustomerRepository;
 import group6.repository.CourtRepository;
 import group6.repository.SlotRepository;
+import group6.repository.UserRepository;
 import group6.repository.PaymentRepository;
 
 import java.sql.Time;
@@ -23,7 +25,7 @@ import java.util.Optional;
 public class BookingService implements IBookingService{
 
     private final BookingRepository bookingRepository;
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final CourtRepository courtRepository;
     private final SlotRepository slotRepository;
     private final PaymentRepository paymentRepository;
@@ -31,20 +33,20 @@ public class BookingService implements IBookingService{
     @Autowired
     public BookingService(
             BookingRepository bookingRepository,
-            CustomerRepository customerRepository,
+            UserRepository userRepository,
             CourtRepository courtRepository,
             SlotRepository slotRepository,
             PaymentRepository paymentRepository) {
         this.bookingRepository = bookingRepository;
-        this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
         this.courtRepository = courtRepository;
         this.slotRepository = slotRepository;
         this.paymentRepository = paymentRepository;
     }
 
     public Booking createBooking(BookingDTO bookingDTO) throws DataNotFoundException {
-        Customer existingCustomer = customerRepository.findById(bookingDTO.getCustomerId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find customer with id " + bookingDTO.getCustomerId()));
+        User existingUser = userRepository.findById(bookingDTO.getUserId())
+                .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + bookingDTO.getUserId()));
         Court existingCourt = courtRepository.findById(bookingDTO.getCourtId())
         		.orElseThrow(() -> new DataNotFoundException("Cannot find court with id " + bookingDTO.getCourtId()));
 
@@ -58,7 +60,7 @@ public class BookingService implements IBookingService{
         booking.setBookingType(bookingDTO.getBookingType());
         booking.setBookingDay(bookingDTO.getBookingDay());
         booking.setBookingDate(bookingDTO.getBookingDate());
-        booking.setCustomer(existingCustomer);
+        booking.setUser(existingUser);
         booking.setCourt(existingCourt);
         booking.setSlot(existingSlot);
         booking.setPayment(null);
@@ -70,8 +72,8 @@ public class BookingService implements IBookingService{
         Booking existingBooking = bookingRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Booking not found with id " + id));
 
-        Customer existingCustomer = customerRepository.findById(bookingDTO.getCustomerId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find customer with id " + bookingDTO.getCustomerId()));
+        User existingUser = userRepository.findById(bookingDTO.getUserId())
+                .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + bookingDTO.getUserId()));
         Court existingCourt = courtRepository.findById(bookingDTO.getCourtId())
         		.orElseThrow(() -> new DataNotFoundException("Cannot find court with id " + bookingDTO.getCourtId()));
 
@@ -82,7 +84,7 @@ public class BookingService implements IBookingService{
         existingBooking.setBookingType(bookingDTO.getBookingType());
         existingBooking.setBookingDay(bookingDTO.getBookingDay());
         existingBooking.setBookingDate(bookingDTO.getBookingDate());
-        existingBooking.setCustomer(existingCustomer);
+        existingBooking.setUser(existingUser);
         existingBooking.setCourt(existingCourt);
         existingBooking.setSlot(existingSlot);
         existingBooking.setPayment(payment);
@@ -97,21 +99,6 @@ public class BookingService implements IBookingService{
     public Booking getBooking(Long id) throws DataNotFoundException {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Booking not found with id " + id));
-    }
-
-    private Customer findCustomerById(String id) throws DataNotFoundException {
-        return customerRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Customer not found with id " + id));
-    }
-
-    private Court findCourtById(Long id) throws DataNotFoundException {
-        return courtRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Court not found with id " + id));
-    }
-
-    private Slot findSlotById(Long id) throws DataNotFoundException {
-        return slotRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Slot not found with id " + id));
     }
 
     private Payment findPaymentById(Long id) throws DataNotFoundException {
