@@ -59,7 +59,7 @@ public class c_ThanhToanController {
 	    Slot slot=booking.getSlot();
 	    Court court=booking.getCourt();       
 	    
-	    model.addAttribute("customerId",booking.getCustomer().getCustomerId());
+	    model.addAttribute("customerId",booking.getUser().getCustomer().getCustomerId());
 	    model.addAttribute("timeOfBooking",slot.getStartTime()+"-"+slot.getEndTime());
 	    model.addAttribute("amountType",booking.getBookingType());
 	    model.addAttribute("location",court.getLocation());
@@ -73,7 +73,7 @@ public class c_ThanhToanController {
 	    model.addAttribute("price",court.getPrice()*hour);
 	    
 
-    	PaymentDTO paymentDTO=new PaymentDTO(court.getPrice()*hour,LocalDate.now(),LocalTime.now(),"",booking.getCustomer().getCustomerId());
+    	PaymentDTO paymentDTO=new PaymentDTO(court.getPrice()*hour,LocalDate.now(),LocalTime.now(),"",booking.getUser().getCustomer().getCustomerId());
     	request.getSession().setAttribute("paymentDTO", paymentDTO);
     	request.getSession().setAttribute("booking", booking);
     	request.getSession().setAttribute("timePay", hour);
@@ -91,7 +91,7 @@ public class c_ThanhToanController {
 	    String thanhtoan=request.getParameter("thanhtoan");
 	    if("thanhtoan".equals(thanhtoan)) {
 	    	if(method.equals("paypal")) {
-	    		Customer customer = booking.getCustomer();
+	    		Customer customer = booking.getUser().getCustomer();
 			    float hours =  customer.getTimeplay()-(Float)request.getSession().getAttribute("timePay");
 			    CustomerDTO customerDTO=new CustomerDTO();
 			    customerDTO.setCustomerId(customer.getCustomerId());
@@ -109,7 +109,7 @@ public class c_ThanhToanController {
 	    	bookingDTO.setBookingDay(booking.getBookingDay());
 	    	bookingDTO.setBookingType(booking.getBookingType());
 	    	bookingDTO.setCourtId(booking.getCourt().getCourtId());
-	    	bookingDTO.setCustomerId(booking.getCustomer().getCustomerId());
+	    	bookingDTO.setUserId(booking.getUser().getUserID());
 	    	bookingDTO.setPaymentId(payment.getPaymentId());
 	    	bookingDTO.setSlotId(booking.getSlot().getSlotId());
 	    	bookingService.updateBooking(booking.getBookingId(), bookingDTO);

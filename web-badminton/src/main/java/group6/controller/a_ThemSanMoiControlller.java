@@ -52,7 +52,7 @@ public class a_ThemSanMoiControlller {
     	bookingDTO.setBookingType(booking.getBookingType());
     	bookingDTO.setBookingDay(booking.getBookingDay());
     	bookingDTO.setBookingDate(sqlDate);
-    	bookingDTO.setCustomerId(booking.getCustomer().getCustomerId());
+    	bookingDTO.setUserId(booking.getUser().getUserID());
     	bookingDTO.setCourtId(booking.getCourt().getCourtId());
     	bookingDTO.setSlotId(booking.getSlot().getSlotId());
     	bookingDTO.setPaymentId(booking.getPayment().getPaymentId());

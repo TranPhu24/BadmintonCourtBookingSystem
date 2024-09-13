@@ -65,7 +65,7 @@ public class c_DatSanController {
                 String[] parts = slotInfo.split("-");
                 Long courtId = Long.parseLong(parts[0]);
                 Long slotId = Long.parseLong(parts[1]);	    
-			    bookingDTO=new BookingDTO(bookingType,days,null,userrSession.getCustomer().getCustomerId(),courtId,slotId,null);     
+			    bookingDTO=new BookingDTO(bookingType,days,null,userrSession.getUserID(),courtId,slotId,null);     
 				bookingService.createBooking(bookingDTO);
 			    break;
 
@@ -86,7 +86,7 @@ public class c_DatSanController {
                 Long courtId2 = Long.parseLong(parts2[0]);
                 Long slotId2 = Long.parseLong(parts2[1]);	 
                 
-                bookingDTO=new BookingDTO(bookingType,null,sqlDate,userrSession.getCustomer().getCustomerId(),courtId2,slotId2,null);  
+                bookingDTO=new BookingDTO(bookingType,null,sqlDate,userrSession.getUserID(),courtId2,slotId2,null);  
     			Booking booking = bookingService.createBooking(bookingDTO);
 			    request.getSession().setAttribute("bookingSession", booking);
 			    
