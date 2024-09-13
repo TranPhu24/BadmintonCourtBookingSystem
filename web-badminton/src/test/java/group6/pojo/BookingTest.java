@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
 public class BookingTest {
 
     private Booking booking;
-    private Customer customer;
+    private User User;
     private Court court;
     private Slot slot;
     private Payment payment;
 
     @BeforeEach
     public void setUp() {
-        customer = new Customer(); 
+        User = new User(); 
         court = new Court("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"), 100.0f, new Admin(), new Manager());
         slot = new Slot(); 
         payment = new Payment();
@@ -31,7 +31,7 @@ public class BookingTest {
         booking.setBookingType("Badminton");
         booking.setBookingDay("Monday");
         booking.setBookingDate(Date.valueOf("2023-08-01"));
-        booking.setCustomer(customer);
+        booking.setUser(User);
         booking.setCourt(court);
         booking.setSlot(slot);
         booking.setPayment(payment);
@@ -44,17 +44,17 @@ public class BookingTest {
         assertEquals("Badminton", booking.getBookingType());
         assertEquals("Monday", booking.getBookingDay());
         assertEquals(Date.valueOf("2023-08-01"), booking.getBookingDate());
-        assertEquals(customer, booking.getCustomer());
+        assertEquals(User, booking.getUser());
         assertEquals(court, booking.getCourt());
         assertEquals(slot, booking.getSlot());
         assertEquals(payment, booking.getPayment());
     }
 
     @Test
-    public void testSetCustomer() {
-        Customer newCustomer = new Customer();
-        booking.setCustomer(newCustomer);
-        assertEquals(newCustomer, booking.getCustomer());
+    public void testSetUser() {
+        User newUser = new User();
+        booking.setUser(newUser);
+        assertEquals(newUser, booking.getUser());
     }
 
     @Test
