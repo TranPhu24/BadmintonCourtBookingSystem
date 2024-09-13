@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,17 +26,17 @@ import group6.pojo.Manager;
 import group6.pojo.User;
 
 public class BookingDAOTest {
-	 private static EntityManagerFactory emf;
-	 private static EntityManager em;
-     private static BookingDAO bookingDAO;
-     private static ManagerDAO managerDAO;
-     private static CustomerDAO customerDAO;
-     private static List<Booking> bookings;
-     private static Booking booking;
-     private static Booking booking2;
+	 private  EntityManagerFactory emf;
+	 private  EntityManager em;
+     private  BookingDAO bookingDAO;
+     private  ManagerDAO managerDAO;
+     private  CustomerDAO customerDAO;
+     private  List<Booking> bookings;
+     private  Booking booking;
+     private  Booking booking2;
     
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
     	emf = Persistence.createEntityManagerFactory("test-unit");
         em = emf.createEntityManager();
         bookingDAO = new BookingDAO("test-unit");
@@ -55,8 +56,8 @@ public class BookingDAOTest {
         customerDAO.save(customer2);
         
         
-        booking = new Booking("Badminton","2",Date.valueOf("2024-01-01"),customer1,null,null,null);
-        booking2 = new Booking("Badminton2","2",Date.valueOf("2024-02-02"),customer2,null,null,null);
+        booking = new Booking("Badminton","2",Date.valueOf("2024-01-01"),userC1,null,null,null);
+        booking2 = new Booking("Badminton2","2",Date.valueOf("2024-02-02"),userC2,null,null,null);
 
     	bookingDAO.createBooking(booking);
     	bookingDAO.createBooking(booking2);
@@ -65,8 +66,8 @@ public class BookingDAOTest {
     	
         
     }
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
     	if (bookings != null && !bookings.isEmpty()) {
             for (Booking b : bookings) {
             	bookingDAO.deleteBooking(b.getBookingId());
@@ -99,7 +100,8 @@ public class BookingDAOTest {
     }
 
     @Test
-    public void testGetBookings() { 	
+    public void testGetBookings() { 
+    	assertNotNull(bookings);
         assertTrue(bookings.size() >= 2);
     }
 }
