@@ -69,7 +69,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
 			    <input type="text" id="name" name="customerId" value="${booking.bookingId}" >
 			    
 			    <label for="name">Mã khách hàng:</label>
-			    <input type="text" id="name" name="customerId" value="${booking.customer.customerId}" >
+			    <input type="text" id="name" name="customerId" value="${booking.user.customer.customerId}" >
 			
 			    <label for="name">Mã sân:</label>
 			    <input type="text" id="name" name="courtId" value="${booking.court.courtId}" >

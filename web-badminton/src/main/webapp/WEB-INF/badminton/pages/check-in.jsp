@@ -63,7 +63,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
 			        <tbody>
 			            <tr>
 			                <td>${booking.bookingId}</td>
-			                <td>${booking.customer.customerId}</td>
+			                <td>${booking.user.customer.customerId}</td>
 			                <td>${booking.court.location}</td>
 			                <td>${booking.bookingDate}</td>
 			                <td>${booking.slot.startTime}h - ${booking.slot.endTime}h</td>
@@ -89,7 +89,7 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %><!DOCTYPE html>
                   <c:forEach var="booking" items="${bookingList}">
 				    <tr>
 				      <td>${booking.bookingId}</td>
-				      <td>${booking.customer.customerId}</td>
+				      <td>${booking.user.customer.customerId}</td>
 				      <td>${booking.court.location}</td>
 				      <td>${booking.bookingDate}</td>				     
 				      <td>${booking.slot.startTime}h - ${booking.slot.endTime}h</td>
