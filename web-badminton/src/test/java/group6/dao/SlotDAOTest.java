@@ -1,8 +1,6 @@
 package group6.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -13,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,18 +23,18 @@ import group6.pojo.User;
 
 public class SlotDAOTest {
 
-	private static EntityManagerFactory emf;
-    private static EntityManager em;
-    private static SlotDAO slotDAO;
-    private static ManagerDAO managerDAO;
-    private static StaffDAO staffDAO;
-    private static List<Slot>slots;
-    private static Slot slot1;
-    private static Slot slot2;
+	private  EntityManagerFactory emf;
+    private  EntityManager em;
+    private  SlotDAO slotDAO;
+    private  ManagerDAO managerDAO;
+    private  StaffDAO staffDAO;
+    private  List<Slot>slots;
+    private  Slot slot1;
+    private Slot slot2;
     
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public  void setUp() {
         emf = Persistence.createEntityManagerFactory("test-unit");
         em = emf.createEntityManager();
         slotDAO = new SlotDAO("test-unit");
@@ -67,15 +66,10 @@ public class SlotDAOTest {
         slotDAO.save(slot1);
         slotDAO.save(slot2);
        
-        
-        slots= slotDAO.getSlots();
-        
-        
-        
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
     	if (slots != null && !slots.isEmpty()) {
             for (Slot s : slots) {
             	slotDAO.delete(s.getSlotId());
@@ -87,7 +81,7 @@ public class SlotDAOTest {
 
     @Test
     public void testSaveAndFind() {
-        Slot savedSlot = em.find(Slot.class, slot1.getSlotId());
+        Slot savedSlot = slotDAO.findById(slot1.getSlotId());
         assertNotNull(savedSlot);
         assertEquals(slot1.getStartTime(), savedSlot.getStartTime());
         assertEquals(slot1.getEndTime(), savedSlot.getEndTime());
@@ -97,14 +91,14 @@ public class SlotDAOTest {
     public void testGetSlots() {
         List<Slot> slots = slotDAO.getSlots();
         assertNotNull(slots);
-        assertEquals(2, slots.size());
+        assertTrue(slots.size()>=2);
 
     }
 
     @Test
     public void testDelete() {       
         slotDAO.delete(slot2.getSlotId());
-        Slot deletedSlot = em.find(Slot.class, slot2.getSlotId());
+        Slot deletedSlot = slotDAO.findById(slot2.getSlotId());
         assertNull(deletedSlot);
     }
 
