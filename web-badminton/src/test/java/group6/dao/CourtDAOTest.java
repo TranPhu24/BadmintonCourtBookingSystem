@@ -13,7 +13,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import group6.pojo.Admin;
@@ -24,20 +26,20 @@ import group6.pojo.Payment;
 import group6.pojo.User;
 
 public class CourtDAOTest {
-    private static EntityManagerFactory emf;
-    private static EntityManager em;
-    private static CourtDAO courtDAO;
-    private static ManagerDAO managerDAO;
-    private static PaymentDAO paymentDAO;
-    private static UserDAO userDAO;
-    private static AdminDAO adminDAO;
-    private static BookingDAO bookingDAO;
-    private static List<Court> courts;
-    private static Court court;
-    private static Court court2;
+    private  EntityManagerFactory emf;
+    private  EntityManager em;
+    private  CourtDAO courtDAO;
+    private  ManagerDAO managerDAO;
+    private  PaymentDAO paymentDAO;
+    private  UserDAO userDAO;
+    private  AdminDAO adminDAO;
+    private  BookingDAO bookingDAO;
+    private  List<Court> courts;
+    private  Court court;
+    private  Court court2;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         emf = Persistence.createEntityManagerFactory("test-unit");
         em = emf.createEntityManager();
         courtDAO = new CourtDAO("test-unit");
@@ -79,13 +81,24 @@ public class CourtDAOTest {
         courts = courtDAO.getCourts();
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
         for (Court c : courts) {
             courtDAO.deleteCourt(c.getCourtId());
         }
         em.close();
         emf.close();
+    }
+
+    
+    @Test
+    public void testCreateAndFindCourt() {
+        Court savedCourt = courtDAO.findById(court.getCourtId());
+        assertNotNull(savedCourt);
+        assertEquals("Location A", savedCourt.getLocation());
+        assertEquals(Time.valueOf("08:00:00"), savedCourt.getStartTime());
+        assertEquals(Time.valueOf("20:00:00"), savedCourt.getEndTime());
+        assertEquals(100.0, savedCourt.getPrice());
     }
 
     @Test
@@ -104,15 +117,6 @@ public class CourtDAOTest {
         assertEquals(160.0, updatedCourt.getPrice());
     }
 
-    @Test
-    public void testCreateAndFindCourt() {
-        Court savedCourt = courtDAO.findById(court.getCourtId());
-        assertNotNull(savedCourt);
-        assertEquals("Location A", savedCourt.getLocation());
-        assertEquals(Time.valueOf("08:00:00"), savedCourt.getStartTime());
-        assertEquals(Time.valueOf("20:00:00"), savedCourt.getEndTime());
-        assertEquals(100.0, savedCourt.getPrice());
-    }
 
     @Test
     public void testDeleteCourt() {
@@ -123,7 +127,7 @@ public class CourtDAOTest {
 
     @Test
     public void testGetCourts() {
-        List<Court> fetchedCourts = courtDAO.getCourts();
-        assertTrue(fetchedCourts.size() >= 2);
+    	assertNotNull(courts);
+        assertTrue(courts.size() >= 2);
     }
 }
