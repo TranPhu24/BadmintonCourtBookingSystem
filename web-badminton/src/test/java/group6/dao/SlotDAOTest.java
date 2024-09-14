@@ -114,3 +114,15 @@ public class SlotDAOTest {
         assertEquals(Time.valueOf("11:00:00"), updatedSlot.getEndTime());
     }
 }
+
+    @Test
+    public void testCheckSlotAvailable() {
+        boolean isSlotAvailable = slotDAO.checkSlot(Time.valueOf("08:00:00"), Time.valueOf("10:00:00"));
+        assertTrue(isSlotAvailable);  
+    }
+
+    @Test
+    public void testCheckSlotNotAvailable() {
+        boolean isSlotAvailable = slotDAO.checkSlot(Time.valueOf("05:00:00"), Time.valueOf("07:00:00"));
+        assertFalse(isSlotAvailable);  
+    }
