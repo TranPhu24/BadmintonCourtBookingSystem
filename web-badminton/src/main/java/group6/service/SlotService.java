@@ -1,5 +1,6 @@
 package group6.service;
 
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -108,5 +109,8 @@ public class SlotService implements ISlotService {
             courtRepository.update(court);
         }
         slotRepository.delete(id); 
+    }
+    public boolean checkSlot(Time startTime, Time endTime) {
+    	return slotRepository.checkSlot(startTime,endTime);
     }
 }

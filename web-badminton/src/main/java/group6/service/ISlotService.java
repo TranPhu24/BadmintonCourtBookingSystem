@@ -1,5 +1,6 @@
 package group6.service;
 
+import java.sql.Time;
 import java.util.List;
 import group6.dto.SlotDTO;
 import group6.exceptions.DataNotFoundException;
@@ -11,4 +12,5 @@ public interface ISlotService {
     Slot getSlot(Long id) throws DataNotFoundException;
     Slot updateSlot(Long id, SlotDTO slotDTO) throws DataNotFoundException;
     void deleteSlot(Long id) throws DataNotFoundException;
+    boolean checkSlot(Time startTime, Time endTime);
 }
