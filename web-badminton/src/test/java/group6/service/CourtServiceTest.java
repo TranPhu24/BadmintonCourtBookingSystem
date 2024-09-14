@@ -153,4 +153,30 @@ class CourtServiceTest {
 
         verify(courtRepository, times(1)).findById(1L);
     }
+
+        @Test
+    public void CheckCourt_Available() {
+        String location = "Location A";
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("10:00:00");
+        when(courtRepository.checkCourt(location, startTime, endTime)).thenReturn(true);
+
+        boolean isAvailable = courtService.checkCourt(location, startTime, endTime);
+
+        assertTrue(isAvailable);
+        verify(courtRepository, times(1)).checkCourt(location, startTime, endTime); 
+    }
+
+    @Test
+    public void CheckCourt_NotAvailable() {
+        String location = "Location B";
+        Time startTime = Time.valueOf("12:00:00");
+        Time endTime = Time.valueOf("14:00:00");
+
+        when(courtRepository.checkCourt(location, startTime, endTime)).thenReturn(false);
+
+        boolean isAvailable = courtService.checkCourt(location, startTime, endTime);
+        assertFalse(isAvailable);
+        verify(courtRepository, times(1)).checkCourt(location, startTime, endTime); 
+    }
 }
