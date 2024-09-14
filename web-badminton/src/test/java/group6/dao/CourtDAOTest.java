@@ -130,4 +130,16 @@ public class CourtDAOTest {
     	assertNotNull(courts);
         assertTrue(courts.size() >= 2);
     }
+
+    @Test
+    public void testCheckCourtAvailable() {
+        boolean isSlotAvailable = courtDAO.checkCourt("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"));
+        assertTrue(isSlotAvailable);  
+    }
+
+    @Test
+    public void testCheckCourtNotAvailable() {
+        boolean isSlotAvailable = courtDAO.checkCourt("Location C", Time.valueOf("05:00:00"), Time.valueOf("07:00:00"));
+        assertFalse(isSlotAvailable);  
+    }
 }
