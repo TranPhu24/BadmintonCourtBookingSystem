@@ -1,5 +1,6 @@
 package group6.repository;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ public interface IBookingRepository {
     List<Booking> findNoPayment(String customerId);
     List<Booking> listCourtOfCustomer(String customerId);
     List<Booking> findNoDate();
+    List<Booking> findFight();
     List<Booking> guestFind(String courtLocation, Time courtStartTime, Time courtEndTime, Time slotStartTime, Time slotEndTime);
     
     Booking save(Booking booking);
@@ -20,4 +22,5 @@ public interface IBookingRepository {
     Optional<Booking> findById(Long bookingId);
     
     Booking update(Booking booking);
+    boolean checkBooking(Date bookingDate, Long courtId, Long slotId);
 }
