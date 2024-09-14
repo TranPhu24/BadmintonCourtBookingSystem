@@ -133,13 +133,13 @@ public class CourtDAOTest {
 
     @Test
     public void testCheckCourtAvailable() {
-        boolean isSlotAvailable = courtDAO.checkCourt("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"));
-        assertTrue(isSlotAvailable);  
+        boolean isCourtAvailable = courtDAO.checkCourt("Location A", Time.valueOf("08:00:00"), Time.valueOf("20:00:00"));
+        assertTrue(isCourtAvailable);  
     }
 
     @Test
     public void testCheckCourtNotAvailable() {
-        boolean isSlotAvailable = courtDAO.checkCourt("Location C", Time.valueOf("05:00:00"), Time.valueOf("07:00:00"));
-        assertFalse(isSlotAvailable);  
+        boolean isCourtAvailable = courtDAO.checkCourt("Location C", Time.valueOf("05:00:00"), Time.valueOf("07:00:00"));
+        assertFalse(isCourtAvailable);  
     }
 }
