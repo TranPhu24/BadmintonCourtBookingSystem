@@ -1,5 +1,6 @@
 package group6.repository;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,10 @@ public class BookingRepository implements IBookingRepository {
     @Override
     public List<Booking> findAll() {
         return bookingDAO.getBookings();
+    }
+    @Override
+    public List<Booking> findFight() {
+    	return bookingDAO.findFight();
     }
     
     
@@ -68,5 +73,9 @@ public class BookingRepository implements IBookingRepository {
 			Time slotEndTime) {
 		return bookingDAO.guestFind(courtLocation, courtStartTime, courtEndTime, slotStartTime, slotEndTime);
 	}
-
+	
+	@Override
+	 public boolean checkBooking(Date bookingDate, Long courtId, Long slotId) {
+		 return bookingDAO.checkBooking(bookingDate,courtId,slotId);
+	 }
 }
