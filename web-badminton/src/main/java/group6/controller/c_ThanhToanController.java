@@ -118,4 +118,42 @@ public class c_ThanhToanController {
         return "form_thanhtoan";
     }
 	
+	
+	@RequestMapping(value = "/form_thanhtoan_timePlay", method = RequestMethod.GET)
+	public String form_thanhtoan_timePlay(HttpServletRequest request, Model model) {
+		Customer customer = (Customer) request.getSession().getAttribute("paytimeplay");
+		float hours = (float) request.getSession().getAttribute("hours");
+		model.addAttribute("customer", customer);
+		model.addAttribute("timeplay", hours);
+		model.addAttribute("price", hours*100000);
+	    
+		return "form_thanhtoan_timePlay";
+	}
+	@RequestMapping(value = "/formthanhtoanTimePlay", method = RequestMethod.POST)
+	public String formthanhtoanTimePlay(HttpServletRequest request, Model model) {
+		Customer customer = (Customer) request.getSession().getAttribute("paytimeplay");
+		float hours = (float) request.getSession().getAttribute("hours");	
+		String thanhtoan=request.getParameter("thanhtoan");
+		if("thanhtoan".equals(thanhtoan)) {
+			PaymentDTO paymentDTO=new PaymentDTO();
+			paymentDTO.setAmount(hours*100000);
+			paymentDTO.setCustomerId(customer.getCustomerId());
+			paymentDTO.setPaymentDate(LocalDate.now());
+			paymentDTO.setPaymentTime(LocalTime.now());
+			paymentDTO.setStatus("timeplay");
+			paymentService.createPayment(paymentDTO);
+			
+			CustomerDTO customerDTO=new CustomerDTO();
+			customerDTO.setCustomerId(customer.getCustomerId());
+			customerDTO.setCustomerName(customer.getCustomerName());
+			customerDTO.setEmail(customer.getEmail());
+			customerDTO.setPhone(customer.getPhone());
+			customerDTO.setTimePlay(hours+customer.getTimeplay());
+			customerDTO.setUserId(customer.getUser().getUserID());
+			customerService.updateCustomer(customer.getCustomerId(),customerDTO);
+		}
+		
+		return "redirect:/dat-san";
+	}
+	
 }
