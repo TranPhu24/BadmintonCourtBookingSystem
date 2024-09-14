@@ -208,3 +208,30 @@ class SlotServiceTest {
         verify(slotRepository, never()).delete(anyLong());
     }
 }
+
+    @Test
+    void checkSlot_available() {
+        Time startTime = Time.valueOf("09:00:00");
+        Time endTime = Time.valueOf("11:00:00");
+        
+        when(slotRepository.checkSlot(startTime, endTime)).thenReturn(true); 
+
+        boolean isAvailable = slotService.checkSlot(startTime, endTime);
+
+        assertTrue(isAvailable);
+        verify(slotRepository, times(1)).checkSlot(startTime, endTime);
+    }
+
+    @Test
+    void checkSlot_notAvailable() {
+        Time startTime = Time.valueOf("09:00:00");
+        Time endTime = Time.valueOf("11:00:00");
+        
+        when(slotRepository.checkSlot(startTime, endTime)).thenReturn(false); 
+
+        boolean isAvailable = slotService.checkSlot(startTime, endTime);
+
+        assertFalse(isAvailable);
+        verify(slotRepository, times(1)).checkSlot(startTime, endTime);
+    }
+
