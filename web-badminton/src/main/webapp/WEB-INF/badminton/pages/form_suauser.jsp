@@ -46,9 +46,9 @@
               <c:when test="${role == 'customer'}">
                 <div class="form-group">
                   <label for="username">Tên tài khoản</label>
-                  <input type="text" name="c_username" value="${user.userID}" />
+                  <input type="text" name="c_username" value="${user.userID}" readonly />
                   <label for="cccd">CCCD</label>
-                  <input type="text" name="c_cccd" value="${user.customer.customerId}" />
+                  <input type="text" name="c_cccd" value="${user.customer.customerId}" readonly />
                   <label for="fullname">Tên người dùng</label>
                   <input type="text" name="c_fullname" value="${user.customer.customerName}" />
                   <label for="email">Email</label>
@@ -64,9 +64,9 @@
               <c:when test="${role == 'manager'}">
                 <div class="form-group">
                   <label for="username">Tên tài khoản</label>
-                  <input type="text" name="m_username" value="${user.userID}" />
-                  <label for="cccd">Tên manager</label>
-                  <input type="text" name="m_cccd" value="${user.manager.managerId}" />
+                  <input type="text" name="m_username" value="${user.userID}" readonly />
+                  <label for="cccd">CCCD</label>
+                  <input type="text" name="m_cccd" value="${user.manager.managerId}" readonly />
                   <label for="fullname">Tên manager</label>
                   <input type="text" name="m_fullname" value="${user.manager.managerName}" />
                   <label for="password">Mật khẩu</label>
@@ -76,9 +76,9 @@
               <c:when test="${role == 'staff'}">
                 <div class="form-group">
                   <label for="username">Tên tài khoản</label>
-                  <input type="text" name="s_username" value="${user.userID}" />
+                  <input type="text" name="s_username" value="${user.userID}" readonly />
                   <label for="cccd">CCCD</label>
-                  <input type="text" name="s_cccd" value="${user.staff.staffId}" />
+                  <input type="text" name="s_cccd" value="${user.staff.staffId}" readonly  />
                   <label for="fullname">Tên staff</label>
                   <input type="text" name="s_fullname" value="${user.staff.staffName}" />
                   <label for="password">Mật khẩu</label>
