@@ -85,7 +85,7 @@ class BookingServiceTest {
         when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
         when(slotRepository.findById(1L)).thenReturn(Optional.of(slot));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
-
+        
         Booking createdBooking = bookingService.createBooking(bookingDTO);
 
         assertNotNull(createdBooking);
@@ -143,6 +143,7 @@ class BookingServiceTest {
         verify(paymentRepository, never()).findById(any());  // Payment check should not be reached
         verify(bookingRepository, never()).save(any(Booking.class));  // No save should happen
     }
+    
 
 
 
@@ -152,6 +153,7 @@ class BookingServiceTest {
         when(userRepository.findById("C001")).thenReturn(Optional.of(user));
         when(courtRepository.findById(1L)).thenReturn(Optional.of(court));
         when(slotRepository.findById(1L)).thenReturn(Optional.of(slot));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
         when(bookingRepository.update(any(Booking.class))).thenReturn(booking);
 
         Booking updatedBooking = bookingService.updateBooking(1L, bookingDTO);
@@ -163,6 +165,7 @@ class BookingServiceTest {
         verify(userRepository, times(1)).findById("C001");
         verify(courtRepository, times(1)).findById(1L);
         verify(slotRepository, times(1)).findById(1L);
+        verify(paymentRepository, times(1)).findById(1L);
         verify(bookingRepository, times(1)).update(any(Booking.class));
     }
 
