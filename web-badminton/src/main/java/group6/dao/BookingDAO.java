@@ -1,5 +1,6 @@
 package group6.dao;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -62,6 +63,19 @@ public class BookingDAO {
         }
         return bookings;
     }
+    public List<Booking> findFight() {
+    	EntityManager em = emf.createEntityManager();
+    	List<Booking> bookings = null;
+    	try {
+    		bookings = em.createQuery("SELECT b FROM Booking b WHERE b.bookingType = 'fight' ", Booking.class)
+    				.getResultList();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	} finally {
+    		em.close();
+    	}
+    	return bookings;
+    }
 
     public List<Booking> guestFind(String courtLocation, Time courtStartTime, Time courtEndTime, Time slotStartTime, Time slotEndTime) {
         EntityManager em = emf.createEntityManager();
@@ -84,6 +98,28 @@ public class BookingDAO {
             e.printStackTrace();
         }
         return bookings;
+    }
+    
+    public boolean checkBooking(Date bookingDate, Long courtId, Long slotId) {
+        EntityManager em = emf.createEntityManager();
+        boolean check = false;
+        try {
+            Long count = em.createQuery(
+                    "SELECT COUNT(b) FROM Booking b WHERE b.bookingDate = :bookingDate AND b.court.courtId = :courtId AND b.slot.slotId = :slotId", 
+                    Long.class)
+                .setParameter("bookingDate", bookingDate)
+                .setParameter("courtId", courtId)
+                .setParameter("slotId", slotId)
+                .getSingleResult();
+            if (count > 0) {
+            	check = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return check;
     }
 
    
