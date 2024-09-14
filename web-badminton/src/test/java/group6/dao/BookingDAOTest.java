@@ -104,4 +104,16 @@ public class BookingDAOTest {
     	assertNotNull(bookings);
         assertTrue(bookings.size() >= 2);
     }
+
+	@Test
+    public void testCheckBookingAvailable() {
+        boolean isBookingAvailable = bookingDAO.checkBooking(Date.valueOf("2024-01-01"), null, null);
+        assertTrue(isBookingAvailable);  
+    }
+
+    @Test
+    public void testCheckBookingNotAvailable() {
+        boolean isBookingAvailable = bookingDAO.checkBooking(Date.valueOf("2023-01-01"), 2L, 2L);
+        assertFalse(isBookingAvailable);  
+    }
 }
