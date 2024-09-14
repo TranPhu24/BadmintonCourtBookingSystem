@@ -45,6 +45,10 @@ public class SlotRepository implements ISlotRepository {
         return slot;
     }
     
+    public boolean existsById(Long id) {
+		return false;
+	}
+    
     @Override
     public boolean checkSlot(Time startTime, Time endTime) {
     	return slotDAO.checkSlot(startTime,endTime);
