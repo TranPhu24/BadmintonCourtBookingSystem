@@ -1,10 +1,13 @@
 package group6.dao;
 
+import group6.pojo.Booking;
 import group6.pojo.Slot;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+
+import java.sql.Time;
 import java.util.List;
 
 public class SlotDAO {
@@ -14,6 +17,23 @@ public class SlotDAO {
 
     public SlotDAO(String persistenceUnitName) {
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+    }
+    
+    public boolean checkSlot(Time startTime, Time endTime) {
+        EntityManager em = emf.createEntityManager();
+        boolean check = false;
+        try {
+            Long count = em.createQuery("SELECT COUNT(s) FROM Slot s WHERE s.startTime = :startTime AND s.endTime = :endTime", Long.class)
+                    .setParameter("startTime", startTime)
+                    .setParameter("endTime", endTime)
+                    .getSingleResult();
+            check = count > 0;
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+        return check;
     }
 
     public void save(Slot slot) {
@@ -59,7 +79,7 @@ public class SlotDAO {
         return slot;
     }
 
-public void delete(Long slotId) {
+    public void delete(Long slotId) {
         em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -89,7 +109,6 @@ public void delete(Long slotId) {
             em.close();
         }
     }
-
 
     public void update(Slot slot) {
         em = emf.createEntityManager();

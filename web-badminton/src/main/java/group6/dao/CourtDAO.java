@@ -17,7 +17,25 @@ public class CourtDAO {
     public CourtDAO(String persistenceUnitName) {
         emf = Persistence.createEntityManagerFactory(persistenceUnitName);
     }
-
+    
+    public boolean checkCourt(String location, Time startTime, Time endTime) {
+        EntityManager em = emf.createEntityManager();
+        boolean check = false;
+        try {
+            Long count = em.createQuery("SELECT COUNT(c) FROM Court c WHERE c.location = :location AND c.startTime = :startTime AND c.endTime = :endTime", Long.class)
+                    .setParameter("location", location)
+                    .setParameter("startTime", startTime)
+                    .setParameter("endTime", endTime)
+                    .getSingleResult();
+            check = count > 0;
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+        return check;
+    }
+   
 
     public List<Court> findCourtsByTime(Time startTime, Time endTime) {
     	EntityManager em = emf.createEntityManager();
