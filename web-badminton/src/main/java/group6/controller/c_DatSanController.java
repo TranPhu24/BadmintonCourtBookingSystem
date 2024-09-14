@@ -87,11 +87,13 @@ public class c_DatSanController {
                 Long slotId2 = Long.parseLong(parts2[1]);	 
                 
                 bookingDTO=new BookingDTO(bookingType,null,sqlDate,userrSession.getUserID(),courtId2,slotId2,null);  
-    			Booking booking = bookingService.createBooking(bookingDTO);
-			    request.getSession().setAttribute("bookingSession", booking);
-			    
-			    
-			    return "redirect:/thanh-toan";
+    			if(!bookingService.checkBooking(sqlDate, courtId2, slotId2)) {
+    				Booking booking = bookingService.createBooking(bookingDTO);
+    				request.getSession().setAttribute("bookingSession", booking);
+    			    return "redirect:/thanh-toan";
+    			}
+    			model.addAttribute("error", "trung-lap");
+			    break;
 
 			case "flexible":
 			    Customer customer= customerService.getCustomer(userrSession.getCustomer().getCustomerId());
@@ -109,12 +111,12 @@ public class c_DatSanController {
 
 			default:
 			    model.addAttribute("error", "Loại đặt lịch không hợp lệ.");
-			    return "dat-san";
+			    return "redirect:/dat-san";
 			}
 			
 		}
 		
-		return "dat-san";
+		return "redirect:/dat-san";
 	}
 	
 	

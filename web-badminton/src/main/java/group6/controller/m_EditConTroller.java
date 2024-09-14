@@ -1,7 +1,6 @@
 package group6.controller;
 
 import java.sql.Time;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -229,13 +228,13 @@ public class m_EditConTroller {
             bookingDTO.setSlotId(slotId);
             bookingDTO.setUserId(booking.getUser().getUserID());
             bookingDTO.setBookingDate(sqlDate);
-            
-            try {
-            	bookingService.updateBooking(booking.getBookingId(), bookingDTO);
+            if(!bookingService.checkBooking(sqlDate, courtId, slotId)) {
+            	bookingService.m_updateBooking(booking.getBookingId(), bookingDTO);
             	return "redirect:/dang-ky-lich";
-			} catch (Exception e) {
-				return "form_sualich";
-			}
+        	}else {
+        		model.addAttribute("error", "trung-lap");
+        		return "redirect:/";
+        	}	
         	
         }
     	return "redirect:/dang-ky-lich";

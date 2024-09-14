@@ -55,12 +55,16 @@ public class a_ThemSanMoiControlller {
     	bookingDTO.setUserId(booking.getUser().getUserID());
     	bookingDTO.setCourtId(booking.getCourt().getCourtId());
     	bookingDTO.setSlotId(booking.getSlot().getSlotId());
-    	bookingDTO.setPaymentId(booking.getPayment().getPaymentId());
+    	if(booking.getPayment()!=null) {
+        	bookingDTO.setPaymentId(booking.getPayment().getPaymentId());
+    	}
+    	if(!bookingService.checkBooking(sqlDate, booking.getCourt().getCourtId(), booking.getSlot().getSlotId())) {
+    		bookingService.m_updateBooking(booking.getBookingId(),bookingDTO);
+    	}else {
+    		model.addAttribute("error", "trung-lap");
+    	}	
     	
-    	bookingService.updateBooking(booking.getBookingId(),bookingDTO);
-    	
-    	
-    	return "Admin_add";
+    	return "redirect:/Admin_add";
     }
     
 }
