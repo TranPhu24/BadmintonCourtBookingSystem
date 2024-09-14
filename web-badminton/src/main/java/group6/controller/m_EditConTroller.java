@@ -80,7 +80,12 @@ public class m_EditConTroller {
         	courtDTO.setEndTime(Time.valueOf(request.getParameter("timeend")));
         	courtDTO.setPrice( Float.parseFloat(request.getParameter("price")));
         	courtDTO.setManagerId(court.getManager().getManagerId());
-        	courtService.updateCourt(court.getCourtId(), courtDTO);
+        	
+        	if (!courtService.checkCourt(courtDTO.getLocation(), courtDTO.getStartTime(), courtDTO.getEndTime())) {
+        		courtService.updateCourt(court.getCourtId(), courtDTO);
+            }else {
+            	model.addAttribute("error", "trung-lap");
+            }
         	return "redirect:/dang-ky-san";
         }
     	return "form_suasan";
@@ -105,7 +110,12 @@ public class m_EditConTroller {
         	slotDTO.setStartTime(Time.valueOf(request.getParameter("timestart")));
         	slotDTO.setEndTime(Time.valueOf(request.getParameter("timeend")));
         	slotDTO.setManagerId(slot.getManager().getManagerId());
-        	slotService.updateSlot(slot.getSlotId(), slotDTO);
+        	
+        	if (!slotService.checkSlot(slotDTO.getStartTime(), slotDTO.getEndTime())) {
+        		slotService.updateSlot(slot.getSlotId(), slotDTO);
+            }else {
+            	model.addAttribute("error", "trung-lap");
+            }
         	return "redirect:/dang-ky-slot";
         }
     	return "form_suaslot";

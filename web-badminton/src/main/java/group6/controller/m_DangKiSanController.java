@@ -49,14 +49,16 @@ public class m_DangKiSanController {
         Manager managerSession = (Manager) request.getSession().getAttribute("managerSession");
         String btnDangki = request.getParameter("btndangki");
 
-        if (btnDangki.equals("dangki")) {
+        if (btnDangki.equals("dangki")&&!courtService.checkCourt(location, startTime, endTime)) {
             CourtDTO courtDTO = new CourtDTO(location, startTime, endTime, price, null,managerSession.getManagerId());
             courtService.createCourt(courtDTO);
+        }else {
+        	model.addAttribute("error", "trung-lap");
         }
 
     	List<Court> courtList = courtService.getCourts();
         model.addAttribute("courtList", courtList);
-        return "dang-ky-san";
+        return "redirect:/dang-ky-san";
     }
        	
     @RequestMapping(value = "/deleteCourt", method = RequestMethod.GET)

@@ -41,14 +41,16 @@ public class m_DangKiSlotController {
         Manager managerSession = (Manager) request.getSession().getAttribute("managerSession");
         String btnDangki = request.getParameter("btndangki");
 
-        if (btnDangki.equals("dangki")) {
+        if (btnDangki.equals("dangki")&&!slotService.checkSlot(startTime, endTime)) {
             SlotDTO slotDTO = new SlotDTO(startTime, endTime, managerSession.getManagerId(), null);
             slotService.createSlot(slotDTO);
+        }else {
+        	model.addAttribute("error", "trung-lap");
         }
 
         List<Slot> slotList = slotService.getAllSlots();
         model.addAttribute("slotList", slotList);
-        return "dang-ky-slot";
+        return "redirect:/dang-ky-slot";
     }
 
        	
