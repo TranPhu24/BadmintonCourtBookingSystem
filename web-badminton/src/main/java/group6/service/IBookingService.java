@@ -4,6 +4,7 @@ import group6.dto.BookingDTO;
 import group6.exceptions.DataNotFoundException;
 import group6.pojo.Booking;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -14,7 +15,9 @@ public interface IBookingService {
     List<Booking> findNoPayment(String customerId);
     List<Booking> listCourtOfCustomer(String customerId);
     List<Booking> findNoDate();
+    List<Booking> findFight();
     List<Booking> guestFind(String courtLocation, Time courtStartTime, Time courtEndTime, Time slotStartTime, Time slotEndTime);
     Booking getBooking(Long id) throws DataNotFoundException;
+    boolean checkBooking(Date bookingDate, Long courtId, Long slotId);
 
 }
