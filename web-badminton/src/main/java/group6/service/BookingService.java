@@ -17,6 +17,7 @@ import group6.repository.SlotRepository;
 import group6.repository.UserRepository;
 import group6.repository.PaymentRepository;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
@@ -79,7 +80,10 @@ public class BookingService implements IBookingService{
 
         Slot existingSlot = slotRepository.findById(bookingDTO.getSlotId())
 				.orElseThrow(() -> new DataNotFoundException("Cannot find slot with id " + bookingDTO.getSlotId()));
-        Payment payment = findPaymentById(bookingDTO.getPaymentId());
+        
+        Payment existingPayment = paymentRepository.findById(bookingDTO.getPaymentId())
+                .orElseThrow(() -> new DataNotFoundException("Payment not found with id " + bookingDTO.getPaymentId()));
+       
 
         existingBooking.setBookingType(bookingDTO.getBookingType());
         existingBooking.setBookingDay(bookingDTO.getBookingDay());
@@ -87,9 +91,33 @@ public class BookingService implements IBookingService{
         existingBooking.setUser(existingUser);
         existingBooking.setCourt(existingCourt);
         existingBooking.setSlot(existingSlot);
-        existingBooking.setPayment(payment);
+        existingBooking.setPayment(existingPayment);
 
         return bookingRepository.update(existingBooking);
+    }
+    public Booking m_updateBooking(Long id, BookingDTO bookingDTO) throws DataNotFoundException {
+        Booking existingBooking = bookingRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Booking not found with id " + id));
+
+        User existingUser = userRepository.findById(bookingDTO.getUserId())
+                .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + bookingDTO.getUserId()));
+        Court existingCourt = courtRepository.findById(bookingDTO.getCourtId())
+        		.orElseThrow(() -> new DataNotFoundException("Cannot find court with id " + bookingDTO.getCourtId()));
+
+        Slot existingSlot = slotRepository.findById(bookingDTO.getSlotId())
+				.orElseThrow(() -> new DataNotFoundException("Cannot find slot with id " + bookingDTO.getSlotId()));
+       
+        existingBooking.setBookingType(bookingDTO.getBookingType());
+        existingBooking.setBookingDay(bookingDTO.getBookingDay());
+        existingBooking.setBookingDate(bookingDTO.getBookingDate());
+        existingBooking.setUser(existingUser);
+        existingBooking.setCourt(existingCourt);
+        existingBooking.setSlot(existingSlot);
+
+        return bookingRepository.update(existingBooking);
+    }
+    public void delete(Long id) throws DataNotFoundException {
+    	bookingRepository.delete(id);
     }
 
     public List<Booking> getAllBookings() {
@@ -100,16 +128,15 @@ public class BookingService implements IBookingService{
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Booking not found with id " + id));
     }
-
-    private Payment findPaymentById(Long id) throws DataNotFoundException {
-        return paymentRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Payment not found with id " + id));
-    }
+    
     public List<Booking> findNoPayment(String customerId) {
 		return bookingRepository.findNoPayment(customerId);
 	}
 	public List<Booking> findNoDate() {
 		return bookingRepository.findNoDate();
+	}
+	public List<Booking> findFight() {
+		return bookingRepository.findFight();
 	}
 	public List<Booking> guestFind(String courtLocation, Time courtStartTime, Time courtEndTime, Time slotStartTime,
 			Time slotEndTime) {
@@ -119,5 +146,8 @@ public class BookingService implements IBookingService{
 		return bookingRepository.listCourtOfCustomer(customerId);
 	}
 	
+	 public boolean checkBooking(Date bookingDate, Long courtId, Long slotId) {
+		 return bookingRepository.checkBooking(bookingDate,courtId,slotId);
+	 }
 
 }
