@@ -1,5 +1,6 @@
 package group6.repository;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,8 +45,8 @@ public class SlotRepository implements ISlotRepository {
         return slot;
     }
     
-	public boolean existsById(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean checkSlot(Time startTime, Time endTime) {
+    	return slotDAO.checkSlot(startTime,endTime);
+    }
 }

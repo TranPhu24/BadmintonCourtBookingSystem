@@ -1,5 +1,6 @@
 package group6.repository;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,5 @@ public interface ISlotRepository {
     Optional<Slot> findById(Long slotId);
     
     Slot update(Slot slot);
+    boolean checkSlot(Time startTime, Time endTime);
 }

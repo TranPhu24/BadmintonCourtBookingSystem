@@ -50,4 +50,9 @@ public class CourtRepository implements ICourtRepository {
         courtDAO.updateCourt(court);
         return court;
     }
+    
+    @Override
+    public boolean checkCourt(String location, Time startTime, Time endTime) {
+    	return courtDAO.checkCourt(location,startTime,endTime);
+    }
 }

@@ -18,4 +18,5 @@ public interface ICourtRepository {
     Optional<Court> findById(Long bookingId);
     
     Court update(Court booking);
+    boolean checkCourt(String location, Time startTime, Time endTime);
 }
